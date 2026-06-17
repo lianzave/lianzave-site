@@ -1,2 +1,1250 @@
-<h1>Lianzave</h1>
-<p>Sitio en construcción</p>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lilián A. Zamora Vega — UX Researcher & Service Designer</title>
+<style>
+  :root{
+    --bg:#ffffff;--bg-alt:#faf9fd;--tint:#f5f3ff;--tint-2:#ede9fe;
+    --purple:#6d28d9;--purple-deep:#4c1d95;--purple-light:#8b5cf6;
+    --ink:#1e1b2e;--ink-soft:#3b3552;--muted:#6b6580;--line:#ece9f3;
+    --radius:18px;--maxw:1080px;font-synthesis:none;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+
+  .es{display:none}
+  body.lang-es .es{display:inline}
+  body.lang-es .en{display:none}
+  .lang-toggle{display:inline-flex;border:1.5px solid var(--tint-2);border-radius:999px;overflow:hidden}
+  .lang-toggle button{background:transparent;border:none;cursor:pointer;font-size:.78rem;font-weight:700;padding:7px 13px;color:var(--muted);transition:.2s;letter-spacing:.03em}
+  .lang-toggle button.active{background:var(--purple);color:#fff}
+
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:700;letter-spacing:-.02em;font-size:1rem}
+  .brand span{color:var(--purple)}
+  .nav-links{display:flex;align-items:center;gap:24px}
+  .nav-links a{font-size:.92rem;color:var(--ink-soft);font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--purple)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;padding:10px 18px;border-radius:999px;transition:.22s;cursor:pointer;border:none;}
+  .btn-solid{background:var(--purple);color:#fff}
+  .btn-solid:hover{background:var(--purple-deep);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--purple);border:1.5px solid var(--tint-2)}
+  .btn-ghost:hover{background:var(--tint);border-color:var(--purple-light)}
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;transition:.25s}
+  .mobile-menu{display:none;flex-direction:column;gap:4px;padding:8px 0 16px;border-top:1px solid var(--line)}
+  .mobile-menu a{padding:10px 4px;color:var(--ink-soft);font-weight:500}
+
+  .hero{padding:96px 0 84px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-160px;right:-120px;width:480px;height:480px;background:radial-gradient(circle,var(--tint-2),transparent 70%);opacity:.7;z-index:-1;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--purple);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--purple-light)}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.1rem);line-height:1.04;letter-spacing:-.03em;font-weight:800;margin-bottom:18px}
+  .hero h1 em{font-style:normal;color:var(--purple)}
+  .hero .role{font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:600;color:var(--ink-soft);margin-bottom:22px}
+  .hero p.lead{max-width:640px;font-size:1.08rem;color:var(--muted);margin-bottom:34px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .socials{display:flex;gap:10px;margin-left:6px}
+  .social-ic{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);color:var(--ink-soft);transition:.22s}
+  .social-ic:hover{background:var(--purple);color:#fff;border-color:var(--purple);transform:translateY(-2px)}
+  .social-ic svg{width:19px;height:19px}
+
+  section{padding:84px 0}
+  .sec-alt{background:var(--bg-alt)}
+  .sec-head{margin-bottom:48px;max-width:640px}
+  .sec-tag{color:var(--purple);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+  .sec-head h2{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.025em;font-weight:800;margin:10px 0 14px}
+  .sec-head p{color:var(--muted);font-size:1.05rem}
+
+  .about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start}
+  .about-card{background:var(--tint);border:1px solid var(--tint-2);border-radius:var(--radius);padding:30px}
+  .about-card .avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-light));display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;font-weight:700;margin-bottom:18px}
+  .about-card h3{font-size:1.25rem;letter-spacing:-.02em}
+  .about-card .sub{color:var(--purple);font-weight:600;font-size:.92rem;margin:4px 0 16px}
+  .meta-row{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--ink-soft);margin:9px 0}
+  .meta-row svg{width:16px;height:16px;color:var(--purple);flex-shrink:0}
+  .about-bio{font-size:1.05rem;color:var(--ink-soft);margin-bottom:30px}
+  .block-title{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:30px 0 16px}
+
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--tint-2)}
+  .tl-item{position:relative;padding-bottom:8px}
+  .tl-item::before{content:"";position:absolute;left:-26px;top:14px;width:12px;height:12px;border-radius:50%;background:#fff;border:2.5px solid var(--purple-light);z-index:1}
+  .tl-item.hi::before{background:var(--purple);border-color:var(--purple)}
+  .tl-item details{border-bottom:1px solid var(--line);padding:10px 0}
+  .tl-item:last-child details{border-bottom:none}
+  .tl-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+  .tl-item summary::-webkit-details-marker{display:none}
+  .tl-item summary:hover h4{color:var(--purple)}
+  .tl-item h4{font-size:1.02rem;letter-spacing:-.01em;transition:color .2s}
+  .tl-item .org{color:var(--ink-soft);font-size:.92rem}
+  .tl-item .yr{color:var(--muted);font-size:.8rem;font-weight:600;letter-spacing:.02em;margin-top:3px}
+  .chev{flex-shrink:0;color:var(--purple);transition:transform .25s;margin-top:5px}
+  details[open] .chev{transform:rotate(180deg)}
+  .tl-detail{padding:14px 2px 6px}
+  .tl-detail ul{list-style:none;display:grid;gap:9px}
+  .tl-detail li{position:relative;padding-left:18px;color:var(--ink-soft);font-size:.93rem;line-height:1.5}
+  .tl-detail li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--purple-light)}
+  .tl-detail .role-skills{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px}
+  .tl-detail .role-skills .chip{font-size:.78rem;padding:5px 11px}
+
+  .skill-group{margin-bottom:22px}
+  .skill-group .gl{font-weight:700;font-size:.95rem;margin-bottom:10px;color:var(--ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:#fff;border:1px solid var(--line);color:var(--ink-soft);font-size:.84rem;padding:6px 13px;border-radius:999px;font-weight:500}
+  .chip.alt{background:var(--tint);border-color:var(--tint-2);color:var(--purple-deep)}
+
+  /* education prominent + skills contrast card */
+  .edu-skills{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:start;margin-top:14px}
+  .edu-col .edu-item{padding:18px 0}
+  .edu-col .edu-item .nm{font-size:1.04rem}
+  .edu-col .edu-item .ds{font-size:.9rem;margin-top:3px}
+  .skills-panel{background:linear-gradient(165deg,#5b21b6,#7c3aed);border-radius:var(--radius);padding:28px 26px;color:#fff;box-shadow:0 20px 44px -26px rgba(76,29,149,.7)}
+  .skills-panel .panel-title{font-weight:700;font-size:1.08rem;margin-bottom:22px;display:flex;align-items:center;gap:9px}
+  .skills-panel .panel-title svg{width:18px;height:18px}
+  .skills-panel .skill-group{margin-bottom:20px}
+  .skills-panel .skill-group:last-child{margin-bottom:0}
+  .skills-panel .gl{color:#d6ccfb;font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:11px}
+  .skills-panel .chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);color:#fff;font-weight:500}
+  .skills-panel .chip.alt{background:#fff;border-color:transparent;color:var(--purple-deep);font-weight:600}
+
+  .edu-list{display:grid;gap:14px}
+  .edu-item{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .edu-item:last-child{border-bottom:none}
+  .edu-item .nm{font-weight:600;font-size:.96rem}
+  .edu-item .nm a{color:var(--purple);display:inline-flex;align-items:center;gap:5px}
+  .edu-item .nm a:hover{text-decoration:underline}
+  .edu-item .nm a svg{width:13px;height:13px}
+  .edu-item .ds{color:var(--muted);font-size:.86rem}
+  .edu-item .yr{color:var(--purple);font-weight:600;font-size:.82rem;white-space:nowrap}
+  .langs{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
+  .lang-row{font-size:.9rem;color:var(--ink-soft)}
+  .lang-row b{color:var(--purple);font-weight:700}
+
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .case-card{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;cursor:pointer;border:1px solid var(--line)}
+  .case-cover{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--purple);transition:transform .55s ease}
+  .case-cover svg{width:56px;height:56px;opacity:.5}
+  .cover-1{background:linear-gradient(135deg,#ede9fe,#f5f3ff)}
+  .cover-2{background:linear-gradient(135deg,#e7e3fb,#efe9fc)}
+  .cover-3{background:linear-gradient(135deg,#ece7fe,#e6ecfb)}
+  .case-card:hover .case-cover{transform:scale(1.05)}
+  .case-badge{position:absolute;top:14px;left:14px;z-index:2;background:rgba(255,255,255,.92);color:var(--purple-deep);font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:999px;text-transform:uppercase;transition:opacity .3s}
+  .case-card:hover .case-badge{opacity:0}
+  .case-overlay{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;color:#fff;opacity:0;transition:opacity .35s ease;background:linear-gradient(to top,rgba(34,24,58,.95) 0%,rgba(34,24,58,.6) 48%,rgba(34,24,58,0) 100%)}
+  .case-card:hover .case-overlay{opacity:1}
+  .case-overlay .kind{color:#c4b5fd;font-weight:600;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px}
+  .case-overlay h3{font-size:1.22rem;letter-spacing:-.02em;margin-bottom:9px;line-height:1.25}
+  .case-overlay p{font-size:.9rem;color:rgba(255,255,255,.82);margin-bottom:15px}
+  .case-overlay .link{color:#fff;font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:6px}
+
+  /* case study modal */
+  .case-modal{position:fixed;inset:0;z-index:100;background:rgba(20,15,35,.62);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .3s;overflow-y:auto;padding:40px 16px}
+  .case-modal.open{opacity:1;visibility:visible}
+  body.modal-open{overflow:hidden}
+  .cs-inner{max-width:780px;margin:0 auto;background:#fff;border-radius:22px;overflow:hidden;position:relative;box-shadow:0 30px 90px -20px rgba(0,0,0,.55)}
+  .cs-close{position:fixed;top:20px;right:20px;z-index:101;width:46px;height:46px;border-radius:50%;background:#fff;border:none;cursor:pointer;color:var(--ink);box-shadow:0 6px 22px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center}
+  .cs-close svg{width:22px;height:22px}
+  .cs-head{background:linear-gradient(160deg,#4c1d95,#6d28d9);color:#fff;padding:42px 44px}
+  .cs-head .kind{color:#c4b5fd;font-weight:600;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+  .cs-head h2{font-size:clamp(1.5rem,4vw,2.05rem);letter-spacing:-.02em;line-height:1.18;font-weight:800}
+  .cs-head .meta{margin-top:14px;color:rgba(255,255,255,.78);font-size:.9rem}
+  .cs-body{padding:36px 44px 46px}
+  .cs-section{margin-bottom:32px}
+  .cs-section:last-child{margin-bottom:0}
+  .cs-label{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:11px}
+  .cs-section > p{color:var(--ink-soft);margin-bottom:11px}
+  .cs-section ul{list-style:none;display:grid;gap:9px;margin-top:4px}
+  .cs-section li{position:relative;padding-left:18px;color:var(--ink-soft);font-size:.96rem}
+  .cs-section li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--purple-light)}
+  .cs-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 6px}
+  .cs-stat{background:var(--tint);border:1px solid var(--tint-2);border-radius:14px;padding:18px 16px}
+  .cs-stat .n{font-size:1.7rem;font-weight:800;color:var(--purple-deep);line-height:1.05}
+  .cs-stat .l{font-size:.8rem;color:var(--muted);margin-top:6px;line-height:1.3}
+  .cs-stats.big{gap:14px;margin:22px 0 10px}
+  .cs-stats.big .cs-stat{padding:30px 18px;text-align:center;background:linear-gradient(160deg,#f5f3ff,#ece7fe);border-color:#ddd3fb}
+  .cs-stats.big .n{font-size:clamp(2.1rem,6vw,2.8rem);color:var(--purple)}
+  .cs-stats.big .l{font-size:.84rem;margin-top:9px}
+  .cs-verbatims{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:18px 0 6px}
+  .cs-verbatim{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 18px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:13px}
+  .cs-silhouette{width:56px;height:56px;border-radius:50%;background:var(--tint-2);color:var(--purple);display:flex;align-items:center;justify-content:center}
+  .cs-silhouette svg{width:34px;height:34px}
+  .cs-verbatim p{font-style:italic;color:var(--ink-soft);font-size:.92rem;margin:0;line-height:1.45}
+  .cs-decision{position:relative;background:linear-gradient(160deg,#f3efff,#e7dffb);border:1px solid var(--tint-2);border-left:5px solid var(--purple);border-radius:16px;padding:26px 28px;margin:8px 0}
+  .cs-decision .strike{text-decoration:line-through;color:var(--muted);font-weight:600;margin-bottom:5px;font-size:.98rem}
+  .cs-decision .newq{color:var(--purple-deep);font-weight:800;font-size:clamp(1.25rem,3.2vw,1.55rem);margin-bottom:14px;line-height:1.2}
+  .cs-decision p:last-child{margin-bottom:0;color:var(--ink-soft)}
+  .cs-hero-fig{background:linear-gradient(135deg,#ede9fe,#f5f3ff);aspect-ratio:16/6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--purple-deep);text-align:center;padding:20px;border-bottom:1px solid var(--tint-2)}
+  .cs-hero-fig svg{width:34px;height:34px;opacity:.6;color:var(--purple)}
+  .cs-fig-tag{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--purple)}
+  .cs-fig-cap{font-size:.85rem;color:var(--muted);max-width:380px}
+  .cs-figure{aspect-ratio:16/9;border:1.5px dashed var(--purple-light);background:var(--tint);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;padding:20px;margin:14px 0 4px}
+  .cs-figure svg{width:30px;height:30px;color:var(--purple);opacity:.7}
+  /* internal data lock: hidden for viewers, unlock from code */
+  .lockmask{display:none}
+  .lockmask svg{width:13px;height:13px;color:var(--purple-light);vertical-align:-2px;margin-right:3px}
+  body.internal-locked .real{display:none}
+  body.internal-locked .lockmask{display:inline}
+  .cs-stat .n .lockmask{font-size:1.05rem;color:var(--purple-deep);font-weight:800}
+  .cs-stat .n .lockmask svg{width:15px;height:15px;vertical-align:-2px}
+  @media (max-width:720px){
+    .cs-head{padding:32px 24px}
+    .cs-body{padding:28px 24px 34px}
+    .cs-stats{grid-template-columns:1fr 1fr}
+    .cs-hero-fig{aspect-ratio:16/9}
+  }
+
+  /* recommendations carousel */
+  .recs-wrap{position:relative}
+  .recs{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:2px 2px 10px;scrollbar-width:none}
+  .recs::-webkit-scrollbar{display:none}
+  .rec{flex:0 0 calc(50% - 12px);scroll-snap-align:start;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .rec .quote-mark{color:var(--tint-2);font-size:2.6rem;line-height:.6;font-weight:800;font-family:Georgia,serif}
+  .rec p{color:var(--ink-soft);font-size:.97rem;margin:6px 0 20px}
+  .rec-author{display:flex;align-items:center;gap:13px;margin-top:auto}
+  .rec-avatar{width:46px;height:46px;border-radius:50%;background:var(--tint-2);color:var(--purple-deep);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .rec-author .nm{font-weight:700;font-size:.95rem;line-height:1.2}
+  .rec-author .rl{color:var(--muted);font-size:.8rem;line-height:1.35}
+  .rec-author .rel{color:var(--purple);font-size:.74rem;font-weight:600;margin-top:3px}
+  .recs-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+  .recs-nav button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--tint-2);background:#fff;color:var(--purple);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+  .recs-nav button:hover{background:var(--purple);color:#fff;border-color:var(--purple)}
+  .recs-nav button svg{width:20px;height:20px}
+
+  .pubs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .pub{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:.25s;display:flex;flex-direction:column;gap:14px}
+  .pub:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(76,29,149,.35);border-color:var(--tint-2)}
+  .pub .tagrow{display:flex;align-items:center;gap:8px;color:var(--purple);font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .pub h3{font-size:1.12rem;letter-spacing:-.02em;line-height:1.3;flex:1}
+  .pub .read{color:var(--purple);font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:6px}
+  .pub-foot{margin-top:30px;text-align:center}
+
+  .contact{text-align:center;padding:96px 0}
+  .contact h2{font-size:clamp(1.9rem,4.5vw,3rem);letter-spacing:-.03em;font-weight:800;margin-bottom:16px}
+  .contact p{color:var(--muted);font-size:1.08rem;max-width:480px;margin:0 auto 30px}
+  .contact .email{font-size:1.3rem;font-weight:700;color:var(--purple);display:inline-block;margin-bottom:28px}
+  .contact .socials{justify-content:center;margin:0}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--muted);font-size:.85rem}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  #cv-print{display:none}
+  @media print{
+    .site{display:none!important}
+    #cv-print{display:block;font-size:11px;color:#000;line-height:1.45}
+    @page{margin:14mm}
+    .cv-h1{font-size:20px;font-weight:800;letter-spacing:-.4px}
+    .cv-role{font-size:12px;font-weight:700;color:#4c1d95;margin:2px 0 6px}
+    .cv-contact{font-size:10px;color:#333;margin-bottom:12px}
+    .cv-sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#4c1d95;border-bottom:1px solid #ddd;padding-bottom:3px;margin:14px 0 8px}
+    .cv-job{margin-bottom:8px}
+    .cv-job .t{font-weight:700;font-size:11px}
+    .cv-job .o{font-size:10px;color:#444}
+    .cv-job .y{font-size:9px;color:#666;float:right}
+    .cv-row{margin-bottom:5px}
+    .cv-row b{color:#1e1b2e}
+  }
+
+  @media (max-width:880px){
+    .about-grid{grid-template-columns:1fr;gap:30px}
+    .edu-skills{grid-template-columns:1fr;gap:24px}
+    .cases,.pubs{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:720px){
+    .nav-links{display:none}
+    .hamburger{display:block}
+    .cases,.pubs{grid-template-columns:1fr}
+    .case-card{aspect-ratio:16/10}
+    .case-overlay{opacity:1}
+    .case-badge{opacity:0}
+    .rec{flex:0 0 86%}
+    section{padding:64px 0}
+    .hero{padding:64px 0 56px}
+  }
+</style>
+
+<div class="site">
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#inicio" class="brand">Lilián Zamora<span>.</span></a>
+    <nav class="nav-links">
+      <a href="#sobre"><span class="en">About</span><span class="es">Sobre mí</span></a>
+      <a href="#casos"><span class="en">Case studies</span><span class="es">Casos de estudio</span></a>
+      <a href="#recomendaciones"><span class="en">Recommendations</span><span class="es">Recomendaciones</span></a>
+      <a href="#publicaciones"><span class="en">Writing</span><span class="es">Publicaciones</span></a>
+      <a href="#contacto"><span class="en">Contact</span><span class="es">Contacto</span></a>
+      <div class="lang-toggle" aria-label="Language">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="es">ES</button>
+      </div>
+      <button class="btn btn-solid" onclick="downloadCV()"><span class="en">Download CV</span><span class="es">Descargar CV</span></button>
+    </nav>
+    <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="wrap">
+    <div class="mobile-menu" id="mmenu">
+      <a href="#sobre"><span class="en">About</span><span class="es">Sobre mí</span></a>
+      <a href="#casos"><span class="en">Case studies</span><span class="es">Casos de estudio</span></a>
+      <a href="#recomendaciones"><span class="en">Recommendations</span><span class="es">Recomendaciones</span></a>
+      <a href="#publicaciones"><span class="en">Writing</span><span class="es">Publicaciones</span></a>
+      <a href="#contacto"><span class="en">Contact</span><span class="es">Contacto</span></a>
+      <div class="lang-toggle" style="margin:8px 0">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="es">ES</button>
+      </div>
+      <button class="btn btn-solid" onclick="downloadCV()"><span class="en">Download CV</span><span class="es">Descargar CV</span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow">UX Research · Service Design</span>
+      <h1>
+        <span class="en">Hi, I'm Lilián.<br>I turn data into <em>decisions</em>.</span>
+        <span class="es">Hola, soy Lilián.<br>Convierto datos en <em>decisiones</em>.</span>
+      </h1>
+      <p class="role">UX Researcher &amp; Service Designer</p>
+      <p class="lead">
+        <span class="en">8+ years turning qualitative and quantitative research into actionable insights that guide product and strategy. Experience across FinTech and EdTech, operating in Mexico and Colombia.</span>
+        <span class="es">+8 años transformando investigación cualitativa y cuantitativa en insights accionables que guían producto y estrategia. Experiencia en FinTech y EdTech, operando en México y Colombia.</span>
+      </p>
+      <div class="hero-actions">
+        <a href="#casos" class="btn btn-solid"><span class="en">View case studies</span><span class="es">Ver casos de estudio</span></a>
+        <div class="socials">
+          <a class="social-ic" href="https://www.linkedin.com/in/lianzave/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 18.34v-8.2H5.67v8.2h2.67zM7 8.86a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1zm11.34 9.48v-4.5c0-2.4-1.28-3.52-2.99-3.52-1.38 0-2 .76-2.34 1.29v-1.11h-2.67c.04.75 0 8.2 0 8.2h2.67v-4.58c0-.24.02-.48.09-.65.19-.48.63-.98 1.37-.98.97 0 1.36.74 1.36 1.82v4.39h2.51z"/></svg>
+          </a>
+          <a class="social-ic" href="https://medium.com/@lianzave" target="_blank" rel="noopener" aria-label="Medium">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42S20.96 8.46 20.96 12zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec-alt" id="sobre">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag"><span class="en">About</span><span class="es">Sobre mí</span></span>
+      <h2><span class="en">Research with strategic purpose</span><span class="es">Investigación con propósito estratégico</span></h2>
+      <p><span class="en">The details of my experience, skills, and education.</span><span class="es">El detalle de mi experiencia, habilidades y formación.</span></p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <div class="avatar">LZ</div>
+        <h3>Lilián A. Zamora Vega</h3>
+        <div class="sub">UX Researcher &amp; Service Designer</div>
+        <div class="meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="en">Mexico City</span><span class="es">Ciudad de México</span></div>
+        <div class="meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>lianzave@gmail.com</div>
+        <div class="meta-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+52 55-27-56-33-05</div>
+        <button class="btn btn-solid" style="width:100%;margin-top:18px;justify-content:center" onclick="downloadCV()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span class="en">Download CV (PDF)</span><span class="es">Descargar CV (PDF)</span>
+        </button>
+        <div class="langs" style="margin-top:24px">
+          <span class="lang-row"><b><span class="en">Spanish</span><span class="es">Español</span></b> <span class="en">Native</span><span class="es">Nativo</span></span>
+          <span class="lang-row"><b><span class="en">English</span><span class="es">Inglés</span></b> C1</span>
+          <span class="lang-row"><b><span class="en">French</span><span class="es">Francés</span></b> <span class="en">Basic</span><span class="es">Básico</span></span>
+          <span class="lang-row"><b><span class="en">Italian</span><span class="es">Italiano</span></b> <span class="en">Basic</span><span class="es">Básico</span></span>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <p class="about-bio">
+          <span class="en">Specialized in turning data and findings into actionable recommendations that support strategic decision-making. I built the Research practice from scratch at a leading EdTech platform in Latin America, and today I lead end-to-end research in FinTech, integrating qualitative and quantitative methods to reduce risk and reach the goal.</span>
+          <span class="es">Especializada en transformar datos y hallazgos en recomendaciones accionables que apoyan la toma de decisiones estratégicas. Construí la práctica de Research desde cero en una plataforma EdTech líder en América Latina, y hoy lidero investigación end-to-end en FinTech, integrando lo cualitativo y lo cuantitativo para reducir riesgos y llegar al objetivo.</span>
+        </p>
+
+        <div class="block-title"><span class="en">Professional experience</span><span class="es">Experiencia profesional</span></div>
+        <div class="tl">
+
+          <div class="tl-item hi">
+            <details open>
+              <summary>
+                <div>
+                  <h4>Senior UX Researcher · Product Team MX</h4>
+                  <div class="org">Rappicard México · FinTech</div>
+                  <div class="yr"><span class="en">Jul. 2023 — Present</span><span class="es">jul. 2023 — Actualidad</span></div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Lead end-to-end research projects combining qualitative and quantitative methods to understand users' financial behaviors, preferences, and pain points within the platform.</span><span class="es">Lidero proyectos de research end-to-end combinando métodos cualitativos y cuantitativos para entender comportamientos financieros, preferencias y puntos de dolor de los usuarios en la plataforma.</span></li>
+                  <li><span class="en">Design and implement research tools and frameworks that capture user sentiment and context, enabling data-driven strategic decisions within the product interface.</span><span class="es">Diseño e implemento herramientas y frameworks de investigación que capturan el sentimiento y contexto del usuario, habilitando decisiones estratégicas basadas en datos dentro de la interfaz de producto.</span></li>
+                  <li><span class="en">Collaborate cross-functionally with product, design, and business teams to translate research findings into actionable improvements and roadmap priorities.</span><span class="es">Colaboro de forma transversal con producto, diseño y negocio para traducir hallazgos en mejoras accionables y prioridades de roadmap.</span></li>
+                </ul>
+                <div class="role-skills">
+                  <span class="chip alt"><span class="en">Strategic analysis</span><span class="es">Análisis estratégico</span></span>
+                  <span class="chip alt"><span class="en">Project management</span><span class="es">Gestión de proyectos</span></span>
+                  <span class="chip alt"><span class="en">Mixed-methods research</span><span class="es">Research mixto</span></span>
+                  <span class="chip alt"><span class="en">+6 skills</span><span class="es">+6 aptitudes</span></span>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="tl-item hi">
+            <details>
+              <summary>
+                <div>
+                  <h4>Mid UX Researcher · Global Team</h4>
+                  <div class="org">Rappicard México · FinTech</div>
+                  <div class="yr"><span class="en">Jan. 2023 — Jul. 2023</span><span class="es">ene. 2023 — jul. 2023</span></div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Contributed to the global research practice, supporting international product teams with user insights and experience benchmarks across markets.</span><span class="es">Contribuí a la práctica global de research, apoyando a equipos de producto internacionales con insights de usuario y benchmarks de experiencia entre mercados.</span></li>
+                </ul>
+                <div class="role-skills">
+                  <span class="chip alt"><span class="en">Qualitative research</span><span class="es">Investigación cualitativa</span></span>
+                  <span class="chip alt">Research Ops</span>
+                  <span class="chip alt"><span class="en">+3 skills</span><span class="es">+3 aptitudes</span></span>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="tl-item hi">
+            <details>
+              <summary>
+                <div>
+                  <h4>User Experience Researcher</h4>
+                  <div class="org">Platzi · EdTech</div>
+                  <div class="yr">2022 — 2023</div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Built the Research practice from scratch at a leading EdTech platform in Latin America, integrating market and consumer research into the product workflow.</span><span class="es">Construí la práctica de Research desde cero en una plataforma EdTech líder en América Latina, integrando investigación de mercado y de consumidor al flujo de trabajo de producto.</span></li>
+                  <li><span class="en">Ran primary research methods (in-depth interviews, surveys, behavioral analysis) to understand the habits and needs of professionals and students.</span><span class="es">Ejecuté metodologías de investigación primaria (entrevistas a profundidad, encuestas, análisis de comportamiento) para comprender usos y hábitos de profesionistas y estudiantes.</span></li>
+                  <li><span class="en">Analyzed internal databases and platform metrics to identify patterns, demand trends, and growth opportunities.</span><span class="es">Analicé bases de datos internas y métricas de plataforma para identificar patrones, tendencias de demanda y oportunidades de crecimiento.</span></li>
+                  <li><span class="en">Defined research priorities based on data, user feedback, and competitive context; presented findings to stakeholders to inform strategic direction.</span><span class="es">Definí prioridades de investigación basadas en datos, feedback de usuarios y contexto competitivo; presenté hallazgos a stakeholders para informar la dirección estratégica.</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="tl-item">
+            <details>
+              <summary>
+                <div>
+                  <h4>Industrial &amp; Experience Designer</h4>
+                  <div class="org">Kung Fu Klan</div>
+                  <div class="yr">2019 — 2022</div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Conducted qualitative research to define audience profiles and experience requirements for brand installations.</span><span class="es">Conduje investigación cualitativa para definir perfiles de audiencia y requerimientos de experiencia para instalaciones de marca.</span></li>
+                  <li><span class="en">Facilitated co-creation sessions with strategy and creative teams, translating insights into actionable deliverables.</span><span class="es">Facilité sesiones de co-creación con equipos de estrategia y creatividad, traduciendo insights en entregables accionables.</span></li>
+                  <li><span class="en">Led project cycles from ideation to delivery, collaborating with multidisciplinary teams.</span><span class="es">Lideré ciclos de proyecto de ideación a entrega, colaborando con equipos multidisciplinarios.</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="tl-item">
+            <details>
+              <summary>
+                <div>
+                  <h4>Lead Industrial Designer</h4>
+                  <div class="org"><span class="en">Preludio Lab · Independent studio</span><span class="es">Preludio Lab · Estudio independiente</span></div>
+                  <div class="yr">2017 — 2022</div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Led research phases — persona development, design sprint facilitation, and requirements definition — to inform the design of products and services for multiple clients.</span><span class="es">Lideré fases de investigación — desarrollo de personas, facilitación de design sprints y definición de requerimientos — para informar el diseño de productos y servicios para múltiples clientes.</span></li>
+                  <li><span class="en">Designed digital products and interfaces grounded in user needs, applying an iterative methodology.</span><span class="es">Diseñé productos e interfaces digitales fundamentados en necesidades del usuario, aplicando una metodología iterativa.</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="tl-item">
+            <details>
+              <summary>
+                <div>
+                  <h4>Industrial Designer &amp; Digital Manufacturing Specialist</h4>
+                  <div class="org">FabLab DF</div>
+                  <div class="yr">2017 — 2019</div>
+                </div>
+                <svg class="chev" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="tl-detail">
+                <ul>
+                  <li><span class="en">Developed projects combining user-needs research with technical feasibility; applied rapid prototyping to validate solutions.</span><span class="es">Desarrollé proyectos combinando investigación de necesidades del usuario con viabilidad técnica; apliqué prototipado rápido para validar soluciones.</span></li>
+                </ul>
+              </div>
+            </details>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-skills reveal">
+      <div class="edu-col">
+        <div class="block-title"><span class="en">Education &amp; certifications</span><span class="es">Educación &amp; certificaciones</span></div>
+        <div class="edu-list">
+          <div class="edu-item">
+            <div>
+              <div class="nm"><span class="en">B.A. in Industrial Design</span><span class="es">Lic. en Diseño Industrial</span></div>
+              <div class="ds">Universidad Nacional Autónoma de México</div>
+            </div>
+            <div class="yr">2012–2017</div>
+          </div>
+          <div class="edu-item">
+            <div>
+              <div class="nm"><a href="https://www.credly.com/badges/503b6c28-100d-4e7b-89ad-3917f3a1051a/linked_in_profile" target="_blank" rel="noopener">Generative AI Leader Certification<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div>
+              <div class="ds">Google Cloud</div>
+            </div>
+            <div class="yr">2026</div>
+          </div>
+          <div class="edu-item">
+            <div>
+              <div class="nm"><a href="https://www.acreditta.com/credential/095eb641-bafa-460e-ba3e-2ade7a829b51" target="_blank" rel="noopener"><span class="en">Artificial Intelligence &amp; Machine Learning</span><span class="es">Inteligencia Artificial y Machine Learning</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div>
+              <div class="ds"><span class="en">Specialization program</span><span class="es">Programa de especialización</span></div>
+            </div>
+            <div class="yr">2024</div>
+          </div>
+          <div class="edu-item">
+            <div>
+              <div class="nm">Product Psychology Masterclass</div>
+              <div class="ds"><span class="en">Specialization · in progress</span><span class="es">Especialización · en curso</span></div>
+            </div>
+            <div class="yr">2025</div>
+          </div>
+          <div class="edu-item">
+            <div>
+              <div class="nm"><span class="en">Tools for Social Analysis</span><span class="es">Herramientas para el Análisis Social</span></div>
+              <div class="ds"><span class="en">Diploma · in progress</span><span class="es">Diplomado · en curso</span></div>
+            </div>
+            <div class="yr">2025</div>
+          </div>
+          <div class="edu-item">
+            <div>
+              <div class="nm">Global Service Jam · Revolution Jam</div>
+              <div class="ds"><span class="en">Service Design México · Best service built in 48 hrs</span><span class="es">Service Design México · Mejor servicio desarrollado en 48 hrs</span></div>
+            </div>
+            <div class="yr">2019</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="skills-col">
+        <div class="skills-panel">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3z"/></svg>
+            <span class="en">Skills &amp; tools</span><span class="es">Habilidades &amp; herramientas</span>
+          </div>
+          <div class="skill-group">
+            <div class="gl"><span class="en">Research</span><span class="es">Investigación</span></div>
+            <div class="chips">
+              <span class="chip"><span class="en">Qualitative &amp; quantitative</span><span class="es">Cualitativa &amp; cuantitativa</span></span>
+              <span class="chip"><span class="en">In-depth interviews</span><span class="es">Entrevistas a profundidad</span></span>
+              <span class="chip"><span class="en">Surveys</span><span class="es">Encuestas</span></span>
+              <span class="chip">Focus groups</span>
+              <span class="chip"><span class="en">Desk research</span><span class="es">Investigación de escritorio</span></span>
+              <span class="chip"><span class="en">Database analysis</span><span class="es">Análisis de bases de datos</span></span>
+              <span class="chip">Jobs-to-be-Done</span>
+              <span class="chip">NPS / CSAT</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="gl"><span class="en">Strategy &amp; synthesis</span><span class="es">Estrategia &amp; síntesis</span></div>
+            <div class="chips">
+              <span class="chip alt"><span class="en">Actionable insights</span><span class="es">Insights accionables</span></span>
+              <span class="chip alt">Service Design</span>
+              <span class="chip alt">Design Thinking</span>
+              <span class="chip alt">Journey Mapping</span>
+              <span class="chip alt">Personas</span>
+              <span class="chip alt"><span class="en">Executive reporting</span><span class="es">Reportes ejecutivos</span></span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="gl"><span class="en">Tools</span><span class="es">Herramientas</span></div>
+            <div class="chips">
+              <span class="chip">Dovetail</span>
+              <span class="chip">Maze</span>
+              <span class="chip">Hotjar</span>
+              <span class="chip">Figma</span>
+              <span class="chip">Miro</span>
+              <span class="chip">Excel</span>
+              <span class="chip">PowerPoint</span>
+              <span class="chip"><span class="en">AI-assisted research</span><span class="es">Research con IA</span></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="casos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag"><span class="en">Work</span><span class="es">Trabajo</span></span>
+      <h2><span class="en">Case studies</span><span class="es">Casos de estudio</span></h2>
+      <p><span class="en">Two end-to-end research projects where research changed the decision — not just the design.</span><span class="es">Dos proyectos de investigación end-to-end donde la research cambió la decisión, no solo el diseño.</span></p>
+    </div>
+    <div class="cases">
+      <article class="case-card reveal" onclick="openCase('reestructura')">
+        <div class="case-cover cover-3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/><path d="M6 15h5"/></svg>
+        </div>
+        <span class="case-badge">FinTech · 2025</span>
+        <div class="case-overlay">
+          <div class="kind">FinTech · UX Research</div>
+          <h3><span class="en">It's not a lifesaver — it's how they regain control</span><span class="es">No es un salvavidas: es cómo recuperan el control</span></h3>
+          <p><span class="en">Mixed-methods research on a debt-restructuring product for financially fragile users.</span><span class="es">Investigación mixta sobre un producto de reestructura de deuda para usuarios financieramente frágiles.</span></p>
+          <span class="link"><span class="en">View case →</span><span class="es">Ver caso →</span></span>
+        </div>
+      </article>
+      <article class="case-card reveal" onclick="openCase('community')">
+        <div class="case-cover cover-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <span class="case-badge">FinTech · 2023</span>
+        <div class="case-overlay">
+          <div class="kind">FinTech · UX Research</div>
+          <h3><span class="en">Should we build an official community?</span><span class="es">¿Deberíamos construir una comunidad oficial?</span></h3>
+          <p><span class="en">Research that questioned whether a community was the fix — and redirected effort to the root.</span><span class="es">Investigación que cuestionó si la comunidad era el arreglo — y redirigió el esfuerzo a la raíz.</span></p>
+          <span class="link"><span class="en">View case →</span><span class="es">Ver caso →</span></span>
+        </div>
+      </article>
+      <article class="case-card reveal" onclick="openCase('profile')">
+        <div class="case-cover cover-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 9h3M15 13h3M6 16c.5-1.5 2-2 3-2s2.5.5 3 2"/></svg>
+        </div>
+        <span class="case-badge">EdTech · 2022</span>
+        <div class="case-overlay">
+          <div class="kind">EdTech · UX Research</div>
+          <h3><span class="en">Architecture changes, not a new coat of paint</span><span class="es">Cambios de arquitectura, no una capa de pintura</span></h3>
+          <p><span class="en">Reframing a redesign brief into an information-architecture problem at 5M-user scale.</span><span class="es">Convertir un brief de rediseño en un problema de arquitectura de información a escala de 5M.</span></p>
+          <span class="link"><span class="en">View case →</span><span class="es">Ver caso →</span></span>
+        </div>
+      </article>
+      <article class="case-card reveal" onclick="openCase('reembolso')">
+        <div class="case-cover cover-3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2.5"/><path d="M2 10h20"/><path d="m8 15-2-2 2-2"/><path d="M6 13h6a3 3 0 0 1 3 3"/></svg>
+        </div>
+        <span class="case-badge">FinTech · 2023</span>
+        <div class="case-overlay">
+          <div class="kind">FinTech · UX Research</div>
+          <h3><span class="en">A name people don't know, but instantly understand</span><span class="es">Un nombre que no conocen, pero entienden al instante</span></h3>
+          <p><span class="en">Cross-market survey that de-risked a naming &amp; comms decision in fraud disputes.</span><span class="es">Encuesta cross-market que de-riesgó una decisión de naming y comunicación en disputas por fraude.</span></p>
+          <span class="link"><span class="en">View case →</span><span class="es">Ver caso →</span></span>
+        </div>
+      </article>
+    </div>
+
+    <!-- CASE MODAL: COMMUNITY -->
+    <div class="case-modal" id="modal-community">
+      <button class="cs-close" onclick="closeCase()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="cs-inner">
+        <div class="cs-head">
+          <div class="kind">FinTech · UX Research</div>
+          <h2><span class="en">Should we build an official community?</span><span class="es">¿Deberíamos construir una comunidad oficial?</span></h2>
+          <div class="meta">Rappicard · <span class="en">UX Researcher (CX) · Mexico &amp; Colombia · 2023</span><span class="es">UX Researcher (CX) · México &amp; Colombia · 2023</span></div>
+        </div>
+        <div class="cs-hero-fig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+          <div class="cs-fig-tag"><span class="en">Cover visual</span><span class="es">Imagen de portada</span></div>
+          <div class="cs-fig-cap"><span class="en">Unofficial groups vs. official channels</span><span class="es">Grupos no oficiales vs. canales oficiales</span></div>
+        </div>
+        <div class="cs-body">
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Context</span><span class="es">Contexto</span></div>
+            <p><span class="en">Part of Rappicard's users weren't going to official support (FAQs or their Personal Banker) to resolve doubts. Prior research had shown that experience with banking support is perceived as negative — directly or indirectly — so people turned to other places: unofficial Facebook groups and private Telegram chats, where the answers aren't always correct. The CX tribe's working fix was to build an official community to centralize and validate answers.</span><span class="es">Una parte de los usuarios de Rappicard no acudía al soporte oficial (FAQs o su Personal Banker) para resolver dudas. Research previo mostraba que la experiencia con el soporte en la banca se percibe como negativa — directa o indirectamente — así que la gente recurría a otros lugares: grupos no oficiales de Facebook y chats privados de Telegram, donde las respuestas no siempre son correctas. La solución de trabajo de la tribu de CX era construir una comunidad oficial para centralizar y validar respuestas.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The problem to test</span><span class="es">El problema a validar</span></div>
+            <p><span class="en">Before committing engineering and community-management resources, the real question wasn't "what should the community look like?" — it was "is a community even the right answer?" Our job was to test the organization's assumption, not to decorate it.</span><span class="es">Antes de comprometer recursos de ingeniería y de gestión de comunidad, la verdadera pregunta no era "¿cómo debería ser la comunidad?", sino "¿es siquiera una comunidad la respuesta correcta?". Nuestro trabajo era validar el supuesto de la organización, no decorarlo.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Risk</span><span class="es">Riesgo</span></div>
+            <p><span class="en">Building a community nobody would rely on — sinking resources into a new surface while the underlying reasons people left (broken trust, weak self-service, and dependence on the Personal Banker) stayed untouched.</span><span class="es">Construir una comunidad en la que nadie se apoyaría — hundir recursos en una nueva superficie mientras las razones de fondo por las que la gente se iba (la confianza rota, el autoservicio débil y la dependencia del Personal Banker) seguían intactas.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Research strategy</span><span class="es">Estrategia de investigación</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">5</div><div class="l"><span class="en">in-depth interviews (1:1, 60 min)</span><span class="es">entrevistas a profundidad (1:1, 60 min)</span></div></div>
+              <div class="cs-stat"><div class="n">2</div><div class="l"><span class="en">phases: desk research + interviews</span><span class="es">fases: desk research + entrevistas</span></div></div>
+              <div class="cs-stat"><div class="n">CO</div><div class="l"><span class="en">fieldwork (program scope: MX &amp; CO)</span><span class="es">trabajo de campo (alcance: MX &amp; CO)</span></div></div>
+            </div>
+            <p><span class="en">Two phases: desk research across public Facebook groups and private Telegram channels, and qualitative interviews with members screened by tenure and activity — users who had held RappiCard for 6–12 months, made weekly purchases, had contacted their PB or raised a ticket, and belonged to an unofficial group. Four guiding questions ran through it: What did people need to resolve? Did they look inside the app first? Why did they go elsewhere? Did they actually resolve it?</span><span class="es">Dos fases: desk research en grupos públicos de Facebook y canales privados de Telegram, y entrevistas cualitativas a miembros filtrados por antigüedad y actividad — usuarios con RappiCard de 6 a 12 meses, compra semanal, contacto con su PB o ticket levantado, y parte de un grupo no oficial. Cuatro preguntas guía la atravesaron: ¿Qué necesitaban resolver? ¿Buscaron primero dentro de la app? ¿Por qué fueron a otro lado? ¿Lo resolvieron realmente?</span></p>
+            <ul>
+              <li><span class="en">New users asked basic questions already covered in the FAQs.</span><span class="es">Usuarios nuevos preguntaban cosas básicas ya cubiertas en las FAQs.</span></li>
+              <li><span class="en">Heavy product, benefit and offer comparisons.</span><span class="es">Muchas comparaciones de productos, beneficios y ofertas.</span></li>
+              <li><span class="en">Immediate spread of issues — and information that was often incorrect or misleading.</span><span class="es">Difusión inmediata de incidencias — e información a menudo incorrecta o engañosa.</span></li>
+            </ul>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Screenshots of questions in Telegram / Facebook groups</span><span class="es">Capturas de preguntas en grupos de Telegram / Facebook</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Who they are</span><span class="es">Quiénes son</span></div>
+            <div class="cs-stats">
+              <div class="cs-stat"><div class="n">29</div><div class="l"><span class="en">average age</span><span class="es">edad promedio</span></div></div>
+              <div class="cs-stat"><div class="n">80/20</div><div class="l"><span class="en">employed / independent</span><span class="es">empleados / independientes</span></div></div>
+              <div class="cs-stat"><div class="n">2.8y</div><div class="l"><span class="en">avg. time with RappiCard</span><span class="es">tiempo promedio con RappiCard</span></div></div>
+            </div>
+            <p><span class="en">Work-focused early adopters who joined through the waitlist and want "everything in order" to reach bigger goals — a home, traveling — which is why they keep upskilling. They look for organization and control of their finances. RappiCard is no longer their only card; the live benefits are what keep it among their main ones.</span><span class="es">Early adopters enfocados en el trabajo que entraron por la lista de espera y quieren "tener todo en orden" para cumplir metas más grandes — una casa, viajar — razón por la cual siguen formándose. Buscan organización y control de sus finanzas. RappiCard ya no es su única tarjeta; los beneficios vigentes son lo que la mantiene entre las principales.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The insight</span><span class="es">El insight</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">80%</div><div class="l"><span class="en">go to the app first when they need help</span><span class="es">acude primero a la app cuando necesita ayuda</span></div></div>
+              <div class="cs-stat"><div class="n">40%</div><div class="l"><span class="en">find only basic / novice questions in groups</span><span class="es">solo halla preguntas básicas en grupos</span></div></div>
+              <div class="cs-stat"><div class="n">80%</div><div class="l"><span class="en">don't interact — they only observe</span><span class="es">no interactúa — solo observa</span></div></div>
+            </div>
+            <p><span class="en">People weren't avoiding the app — 80% tried it first and prioritized self-service. They left when they didn't find the answer or the bot didn't understand them, and then turned to a person (their PB) or to the groups. Inside the groups, only ~40% found genuinely useful, experience-based answers; the rest was basic, subjective, or unreliable. And 80% only observed — they read but rarely posted, partly out of fear of exposing a lack of knowledge and partly aware of the misinformation risk. When help is the goal they want the expert; for general curiosity they value a social space and people like them.</span><span class="es">La gente no evitaba la app — el 80% la intentó primero y priorizó el autoservicio. Se iban cuando no encontraban la respuesta o el bot no los entendía, y entonces recurrían a una persona (su PB) o a los grupos. Dentro de los grupos, solo ~40% halló respuestas realmente útiles, basadas en la experiencia; el resto era básico, subjetivo o poco confiable. Y el 80% solo observaba — leía pero rara vez publicaba, en parte por miedo a exponer desconocimiento y en parte consciente del riesgo de desinformación. Cuando el objetivo es ayuda quieren al experto; para la curiosidad general valoran un espacio social y a personas como ellos.</span></p>
+            <div class="cs-verbatims">
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"I did it there and not in the app because I couldn't find the info in the app anyway."</span><span class="es">"Lo hacía ahí y no en la app porque igual no encontraba la info en la app."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"I'm not one to ask — I wait for someone else to have asked already."</span><span class="es">"No soy de los que preguntan; espero a que alguien ya lo haya preguntado."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"If it's app info, I see no point going somewhere else."</span><span class="es">"Si es info de la app, no le veo sentido a ir a otro lado."</span></p></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-decision">
+              <div class="cs-label"><span class="en">The decision</span><span class="es">La decisión</span></div>
+              <p class="strike"><span class="en">What should the official community look like?</span><span class="es">¿Cómo debería ser la comunidad oficial?</span></p>
+              <p class="newq"><span class="en">Is a community even the right fix for the trust problem?</span><span class="es">¿Es siquiera una comunidad el arreglo correcto al problema de confianza?</span></p>
+              <p><span class="en">The evidence reframed the brief. The pull toward outside groups wasn't love of community — it was a gap in trust and in getting the right kind of help at the right moment. Validated answers are what build trust; what users actually wanted was to understand the product, find the solution immediately, and be understood. A community could live as a secondary space (a repository of resolved doubts + benefits and launches), but it would not fix the upstream problem: onboarding, Help Center content, and over-dependence on the Personal Banker.</span><span class="es">La evidencia replanteó el brief. La atracción hacia los grupos externos no era amor por la comunidad — era una brecha de confianza y de recibir el tipo de ayuda correcto en el momento correcto. Las respuestas validadas son las que construyen confianza; lo que los usuarios de verdad querían era entender el producto, encontrar la solución de inmediato y sentirse comprendidos. Una comunidad podía existir como espacio secundario (un repositorio de dudas resueltas + beneficios y lanzamientos), pero no resolvería el problema de raíz: onboarding, contenido del Help Center y dependencia excesiva del Personal Banker.</span></p>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Recommendations &amp; impact</span><span class="es">Recomendaciones e impacto</span></div>
+            <p><span class="en">Rather than greenlighting a new community as the answer to trust, the recommendation redirected effort to where the experience was actually failing:</span><span class="es">En lugar de aprobar una nueva comunidad como respuesta a la confianza, la recomendación redirigió el esfuerzo hacia donde la experiencia realmente fallaba:</span></p>
+            <ul>
+              <li><span class="en">Fix onboarding, so new users aren't pushed into the Help Center from day one.</span><span class="es">Arreglar el onboarding, para que los usuarios nuevos no sean empujados al Help Center desde el día uno.</span></li>
+              <li><span class="en">Surface and optimize existing Help Center content and its tone (inside and outside the app), to break the bias that "the app won't have my answer."</span><span class="es">Visibilizar y optimizar el contenido del Help Center y su tono (dentro y fuera de la app), para romper el sesgo de que "la app no tendrá mi respuesta".</span></li>
+              <li><span class="en">Reduce PB dependence by decentralizing help at key moments — and explore whether the FAQ could behave more like a validated, forum-style space.</span><span class="es">Reducir la dependencia del PB descentralizando la ayuda en momentos clave — y explorar si las FAQs podrían comportarse más como un espacio validado tipo foro.</span></li>
+            </ul>
+            <p><span class="en">No direct metrics were captured at the time. Years later, the home redesign integrated a first-time value experience (FTV) for new users along with broader communication improvements — the same direction this research pointed to.</span><span class="es">En su momento no se capturaron métricas directas. Años después, el rediseño de la home integró una experiencia de primer valor (FTV) para usuarios nuevos junto con mejoras generales de comunicación — la misma dirección que esta investigación había señalado.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Reflection</span><span class="es">Reflexión</span></div>
+            <p><span class="en">The most valuable outcome wasn't a spec for a community — it was reframing whether to build one, and pointing investment upstream to where trust actually breaks. The work also named its own limits honestly: no post-hoc metrics, real constraints. Naming that mattered more than presenting a tidy success story.</span><span class="es">El resultado más valioso no fue un spec de comunidad — fue replantear si construirla, y apuntar la inversión a la raíz, donde de verdad se rompe la confianza. El trabajo también nombró sus propios límites con honestidad: sin métricas posteriores, restricciones reales. Nombrarlo importó más que presentar una historia de éxito impecable.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE MODAL: PROFILE -->
+    <div class="case-modal" id="modal-profile">
+      <button class="cs-close" onclick="closeCase()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="cs-inner">
+        <div class="cs-head">
+          <div class="kind">EdTech · UX Research</div>
+          <h2><span class="en">Architecture changes, not a new coat of paint</span><span class="es">Cambios de arquitectura, no una nueva capa de pintura</span></h2>
+          <div class="meta">Platzi · <span class="en">UX Researcher, Success Team · 2022</span><span class="es">UX Researcher, Success Team · 2022</span></div>
+        </div>
+        <div class="cs-hero-fig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+          <div class="cs-fig-tag"><span class="en">Cover visual</span><span class="es">Imagen de portada</span></div>
+          <div class="cs-fig-cap"><span class="en">The student profile as a CV</span><span class="es">El perfil del estudiante como un CV</span></div>
+        </div>
+        <div class="cs-body">
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Context</span><span class="es">Contexto</span></div>
+            <p><span class="en">Platzi, one of Latin America's largest EdTech platforms (≈5M users). The Success team owned the student Profile and arrived with a redesign brief: what aesthetic should it have, what's missing in the section.</span><span class="es">Platzi, una de las plataformas EdTech más grandes de América Latina (≈5M de usuarios). El equipo de Success era dueño del Perfil del estudiante y llegó con un brief de rediseño: qué estética debería tener, qué le falta a la sección.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Reframing the brief</span><span class="es">Replantear el brief</span></div>
+            <p><span class="en">A "make it look better" request hides a more important question. Instead of starting from aesthetics, I reframed it around meaning and behavior: What does this space represent for students? Do they know it, use it, and why? What expectations and pain points already exist?</span><span class="es">Un encargo de "que se vea mejor" esconde una pregunta más importante. En vez de partir de la estética, lo replanteé desde el significado y el comportamiento: ¿Qué representa este espacio para los estudiantes? ¿Lo conocen, lo usan, y para qué? ¿Qué expectativas y dolores ya existen?</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Current state</span><span class="es">Estado actual</span></div>
+            <p><span class="en">A "low-engagement" surface (bio, social links, projects, learning path). The data set the stakes:</span><span class="es">Una superficie de "bajo engagement" (bio, redes, proyectos, ruta de aprendizaje). Los datos pusieron el contexto:</span></p>
+            <div class="cs-stats">
+              <div class="cs-stat"><div class="n">0.7%</div><div class="l"><span class="en">with a complete profile (of 5M)</span><span class="es">con perfil completo (de 5M)</span></div></div>
+              <div class="cs-stat"><div class="n">2/mes</div><div class="l"><span class="en">visits per user (5× during competitions)</span><span class="es">visitas por usuario (5× en competencias)</span></div></div>
+              <div class="cs-stat"><div class="n">240</div><div class="l"><span class="en">recruiter contacts verifying profiles</span><span class="es">contactos de reclutadores verificando perfiles</span></div></div>
+              <div class="cs-stat"><div class="n">6,720</div><div class="l"><span class="en">clarifications about projects</span><span class="es">aclaraciones sobre proyectos</span></div></div>
+              <div class="cs-stat"><div class="n">336</div><div class="l"><span class="en">badge inquiries / changes</span><span class="es">consultas / cambios de insignias</span></div></div>
+            </div>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Annotated profile: bio, social links, projects, learning path</span><span class="es">Perfil anotado: bio, redes, proyectos, ruta de aprendizaje</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Approach</span><span class="es">Enfoque</span></div>
+            <p><span class="en">A mixed approach building on prior knowledge (usability tests showed appetite for easier profile ordering; support tickets framed projects as portfolio/networking material). Qualitative: awareness, use, expectations, pain points, co-creation. Quantitative: sizing awareness, use and pain. Sample: general users · complete-profile users · users with a support ticket in the last 3 months.</span><span class="es">Un enfoque mixto apoyado en conocimiento previo (pruebas de usabilidad mostraban interés en ordenar el perfil más fácil; los tickets de soporte enmarcaban los proyectos como material de portafolio/networking). Cualitativo: awareness, uso, expectativas, dolores, co-creación. Cuantitativo: dimensionar awareness, uso y dolores. Muestra: usuarios generales · con perfil completo · con ticket de soporte en los últimos 3 meses.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The insight</span><span class="es">El insight</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">73%</div><div class="l"><span class="en">are aware of it</span><span class="es">lo conocen</span></div></div>
+              <div class="cs-stat"><div class="n">85%</div><div class="l"><span class="en">consult it monthly or more</span><span class="es">lo consultan al menos cada mes</span></div></div>
+              <div class="cs-stat"><div class="n">36%</div><div class="l"><span class="en">have shared it at least once</span><span class="es">lo han compartido al menos una vez</span></div></div>
+            </div>
+            <p><span class="en">The profile is a repository of achievements and knowledge students actively share — closer to a CV than a settings page. Sharing the profile is easier than sharing each certificate, and it signals "I keep training."</span><span class="es">El perfil es un repositorio de logros y conocimiento que los estudiantes comparten activamente — más cercano a un CV que a una página de ajustes. Compartir el perfil es más fácil que compartir cada certificado, y comunica "sigo formándome".</span></p>
+            <div class="cs-verbatims">
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"Sharing the profile is easier than sharing each certificate."</span><span class="es">"Compartir el perfil es más fácil que compartir cada certificado."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"It shows that I keep training or specializing."</span><span class="es">"Demuestra que sigo capacitándome o especializándome."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"Platzi is recognized in the tech world."</span><span class="es">"Platzi es reconocida en el mundo tech."</span></p></div>
+            </div>
+            <p><span class="en">It's the most organic path to review projects, but not ideal during editing (built lesson by lesson, +3 extra clicks). Badges generate value, curiosity and belonging for top users and motivate the highest-engagement group — yet there's no way to spark that curiosity in everyone else.</span><span class="es">Es el camino más orgánico para revisar proyectos, pero no es ideal durante la edición (se construye lección a lección, +3 clics extra). Las insignias generan valor, curiosidad y pertenencia en los top users y motivan al grupo de mayor engagement — pero no hay forma de despertar esa curiosidad en los demás.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-decision">
+              <div class="cs-label"><span class="en">The decision</span><span class="es">La decisión</span></div>
+              <p class="newq"><span class="en">Architecture changes are needed more than UI changes.</span><span class="es">Se necesitan cambios de arquitectura más que de UI.</span></p>
+              <p><span class="en">The profile behaves like a CV, so that value had to be consolidated, not just restyled. Recommendations: separate and organize by learning area (completed, in progress, portfolio by area), and make badges interactive — how was it earned, and what do I need to earn it too.</span><span class="es">El perfil se comporta como un CV, así que ese valor había que consolidarlo, no solo maquillarlo. Recomendaciones: separar y organizar por áreas de aprendizaje (completado, en curso, portafolio por área), y hacer las insignias interactivas — cómo se obtuvo y qué necesito para obtenerla yo también.</span></p>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Opportunity surfaced</span><span class="es">Oportunidad detectada</span></div>
+            <p><span class="en">The research also surfaced PlatziConnect, a pilot connecting offers and students that lived disconnected from the Profile — missing vital student info and duplicating user effort. Linking them would create coherent connections and avoid information fragmentation. An open thread for next steps: the recruiter's own context — which elements are most relevant, which are noise, and which add credibility.</span><span class="es">La investigación también sacó a la luz PlatziConnect, un piloto que conectaba ofertas y estudiantes pero vivía desconectado del Perfil — sin información vital del estudiante y duplicando el esfuerzo del usuario. Vincularlos daría conexiones coherentes y evitaría la fragmentación de información. Un hilo abierto para los siguientes pasos: el contexto del reclutador — qué elementos son más relevantes, cuáles son ruido y cuáles aportan credibilidad.</span></p>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">PlatziConnect pilot — disconnected from the profile</span><span class="es">Piloto PlatziConnect — desconectado del perfil</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Reflection</span><span class="es">Reflexión</span></div>
+            <p><span class="en">The deliverable wasn't a prettier screen; it was a shift in the conversation — from UI to information architecture — backed by behavioral data at scale. Reframing a cosmetic brief into a systems problem is the difference between executing a request and changing what gets built.</span><span class="es">El entregable no fue una pantalla más bonita; fue mover la conversación — de UI a arquitectura de información — respaldada por datos de comportamiento a escala. Replantear un brief cosmético como un problema de sistemas es la diferencia entre ejecutar un pedido y cambiar lo que se construye.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE MODAL: REESTRUCTURA -->
+    <div class="case-modal" id="modal-reestructura">
+      <button class="cs-close" onclick="closeCase()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="cs-inner">
+        <div class="cs-head">
+          <div class="kind">FinTech · UX Research</div>
+          <h2><span class="en">It's not a lifesaver — it's how they regain control</span><span class="es">No es un salvavidas: es cómo recuperan el control</span></h2>
+          <div class="meta">Rappicard · <span class="en">Senior UX Researcher, Debt Recovery · 2025</span><span class="es">Senior UX Researcher, Debt Recovery · 2025</span></div>
+        </div>
+        <div class="cs-hero-fig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+          <div class="cs-fig-tag"><span class="en">Cover visual</span><span class="es">Imagen de portada</span></div>
+          <div class="cs-fig-cap"><span class="en">RappiCard — Reestructura PV0 debt-restructuring flow</span><span class="es">RappiCard — flujo de Reestructura PV0</span></div>
+        </div>
+        <div class="cs-body">
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Context</span><span class="es">Contexto</span></div>
+            <p><span class="en">Rappicard launched Reestructura PV0 in early 2025: a way for cardholders flagged as at-risk of default — but not yet delinquent — to restructure their debt. Eligibility runs on a risk model built from at least 8 months of behavior. Conversion looked encouraging — <span class="real">better than the existing Saldo Diferido product</span><span class="lockmask">stronger than a comparable existing product</span> — but the team didn't actually know who these users were or what drove them to accept or reject the offer.</span><span class="es">Rappicard lanzó Reestructura PV0 a inicios de 2025: una forma de que tarjetahabientes marcados como propensos a caer en mora — pero aún no morosos — reestructuren su deuda. La elegibilidad corre sobre un modelo de riesgo construido con al menos 8 meses de comportamiento. La conversión lucía alentadora — <span class="real">mejor que la del producto Saldo Diferido</span><span class="lockmask">mejor que la de un producto comparable</span> — pero el equipo no sabía realmente quiénes eran estos usuarios ni qué los llevaba a aceptar o rechazar la oferta.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The hypotheses to test</span><span class="es">Las hipótesis a validar</span></div>
+            <p><span class="en">I came in to test two organizational assumptions, not to confirm them: (1) that users treat the product as a "lifesaver" to refinance all their debt, and (2) that people aren't certain what they're signing up for — specifically around card blocks and credit-bureau records.</span><span class="es">Entré a validar dos supuestos de la organización, no a confirmarlos: (1) que los usuarios usan el producto como un "salvavidas" para refinanciar toda su deuda, y (2) que las personas no tienen certeza de qué están contratando — en especial sobre bloqueos de tarjeta y registros en buró de crédito.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Risk</span><span class="es">Riesgo</span></div>
+            <p><span class="en">This product targets financially fragile people at a stressful moment. If the flow is unclear — or framed for the wrong mental model — users can feel deceived, distrust the brand, or commit without understanding the consequences (like a credit-bureau impact). The stakes were conversion and trust at the same time.</span><span class="es">Este producto se dirige a personas financieramente frágiles en un momento de estrés. Si el flujo no es claro — o se enmarca para el modelo mental equivocado — los usuarios pueden sentirse engañados, desconfiar de la marca o comprometerse sin entender las consecuencias (como el impacto en buró de crédito). Lo que estaba en juego era, a la vez, la conversión y la confianza.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Research strategy</span><span class="es">Estrategia de investigación</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">6</div><div class="l"><span class="en">in-depth interviews</span><span class="es">entrevistas a profundidad</span></div></div>
+              <div class="cs-stat"><div class="n">106</div><div class="l"><span class="en">survey responses</span><span class="es">respuestas de encuesta</span></div></div>
+              <div class="cs-stat"><div class="n"><span class="real">1,385</span><span class="lockmask"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="en">Limited</span><span class="es">Limitada</span></span></div><div class="l"><span class="en">eligible-user base</span><span class="es">base de usuarios elegibles</span></div></div>
+            </div>
+            <p><span class="en">A mixed-methods approach to capture both depth and scale, plus a Maze evaluation of the flow. Interviews ran with users who had accepted and users who had rejected the offer; the survey (8% margin of error) sized the patterns seen in the conversations.</span><span class="es">Un enfoque mixto para capturar profundidad y escala, más una evaluación del flujo en Maze. Las entrevistas incluyeron a usuarios que aceptaron y a usuarios que rechazaron la oferta; la encuesta (8% de margen de error) dimensionó los patrones vistos en las conversaciones.</span></p>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Synthesis board: interview coding & survey cross-analysis</span><span class="es">Tablero de síntesis: codificación de entrevistas y cruce con encuesta</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Who they are</span><span class="es">Quiénes son</span></div>
+            <div class="cs-stats">
+              <div class="cs-stat"><div class="n">5/6</div><div class="l"><span class="en">are entrepreneurs with fluctuating income</span><span class="es">son emprendedores con ingresos fluctuantes</span></div></div>
+              <div class="cs-stat"><div class="n">34</div><div class="l"><span class="en">average age (half are 35+)</span><span class="es">edad promedio (la mitad, 35+)</span></div></div>
+              <div class="cs-stat"><div class="n">3/6</div><div class="l"><span class="en">have financial dependents</span><span class="es">tienen dependientes económicos</span></div></div>
+            </div>
+            <p><span class="en">These aren't careless spenders. They're planners who use credit cards to smooth income dips and buy time. The reframe that mattered: their willingness to pay doesn't fail — their context doesn't forgive. A low-income week, a big unavoidable expense, or an emergency (a divorce, a death) breaks the system that otherwise works for them.</span><span class="es">No son gastadores descuidados. Son planificadores que usan la tarjeta para suavizar los altibajos y ganar tiempo. El replanteamiento que importó: su voluntad de pago no falla — su contexto no perdona. Una semana de bajos ingresos, un gasto fuerte inevitable o un imprevisto (un divorcio, un fallecimiento) rompe el sistema que normalmente les funciona.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The insight</span><span class="es">El insight</span></div>
+            <div class="cs-stats">
+              <div class="cs-stat"><div class="n">29%</div><div class="l"><span class="en">to stop their debt from growing</span><span class="es">para evitar que su deuda crezca</span></div></div>
+              <div class="cs-stat"><div class="n">26%</div><div class="l"><span class="en">to fit debt to what they can pay</span><span class="es">para adaptar la deuda a lo que pueden pagar</span></div></div>
+              <div class="cs-stat"><div class="n">13%</div><div class="l"><span class="en">to keep a clean credit history</span><span class="es">para mantener un historial limpio</span></div></div>
+            </div>
+            <p><span class="en">The product's value is emotional as much as financial: immediate relief, a sense of organization and control, even a way to "force themselves not to spend." Users who took it weren't just complying with a payment — they were trying to regain control of their money and protect something they valued (their card, their record). Restructuring works best when it speaks to personal control, not just financial duty.</span><span class="es">El valor del producto es tan emocional como financiero: alivio inmediato, sensación de organización y control, incluso una forma de "obligarse a no gastar". Quienes lo tomaron no solo cumplían con un pago — buscaban recuperar el control de su dinero y proteger algo que valoran (su tarjeta, su historial). La reestructura funciona mejor cuando apela al control personal, no solo al deber financiero.</span></p>
+            <div class="cs-verbatims">
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"It gave me peace to know I wouldn't fall into default."</span><span class="es">"Me dio paz saber que no iba a caer en mora."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"I needed to bring my monthly payment down."</span><span class="es">"Necesitaba bajar mi mensualidad."</span></p></div>
+              <div class="cs-verbatim"><div class="cs-silhouette"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-5 0-9 2.5-9 6v2h18v-2c0-3.5-4-6-9-6z"/></svg></div><p><span class="en">"I trusted it because it was inside the app."</span><span class="es">"Confié porque estaba dentro de la app."</span></p></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The friction</span><span class="es">La fricción</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">78%</div><div class="l"><span class="en">know the activation payment is required…</span><span class="es">saben que el pago de activación es requisito…</span></div></div>
+              <div class="cs-stat"><div class="n">52%</div><div class="l"><span class="en">…but think it's "part of the debt"</span><span class="es">…pero creen que es "parte de la deuda"</span></div></div>
+              <div class="cs-stat"><div class="n">4/6</div><div class="l"><span class="en">couldn't cover it in the moment</span><span class="es">no podían cubrirlo en el momento</span></div></div>
+            </div>
+            <p><span class="en">The journey was smooth until Terms & the activation payment, where the emotional curve dipped into confusion and surprise. The amount felt high and unexpected, and its ambiguity (the first installment? an advance? an extra charge?) bred distrust — and for several, a liquidity wall. The card block was also unanticipated (13% of survey respondents were uncomfortable with it), though most interviewees ultimately read it as a guardrail against their debt spiraling.</span><span class="es">El recorrido fue fluido hasta Términos y el pago de activación, donde la curva emocional cayó en confusión y sorpresa. El monto se sintió alto e inesperado, y su ambigüedad (¿el primer plazo? ¿un adelanto? ¿un cobro extra?) generó desconfianza — y para varios, un muro de liquidez. El bloqueo de tarjeta tampoco se anticipaba (al 13% de encuestados le incomodó), aunque la mayoría de entrevistados terminó leyéndolo como un freno para que su deuda no se descontrolara.</span></p>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Emotional journey map of the flow (with Maze heatmaps)</span><span class="es">Mapa emocional del journey (con heatmaps de Maze)</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-decision">
+              <div class="cs-label"><span class="en">The decision</span><span class="es">La decisión</span></div>
+              <p class="strike"><span class="en">The information is clear enough — 83% said so.</span><span class="es">La información es suficientemente clara — el 83% lo dijo.</span></p>
+              <p class="newq"><span class="en">Yet the activation payment is where trust, and conversion, break.</span><span class="es">Y aun así, el pago de activación es donde se rompen la confianza y la conversión.</span></p>
+              <p><span class="en">Taken at face value, the flow worked. But digging into the one moment that loses users told a different story — so the recommendation wasn't a new screen, it was redesigning the activation moment across four layers.</span><span class="es">A primera vista, el flujo funcionaba. Pero indagar en el único momento que pierde usuarios contó otra historia — así que la recomendación no fue una pantalla nueva, sino rediseñar el momento de activación en cuatro capas.</span></p>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Recommendations by layer</span><span class="es">Recomendaciones por capa</span></div>
+            <ul>
+              <li><span class="en"><b>Copy:</b> rename and reframe the activation payment and make its purpose explicit — today it reads as a charge.</span><span class="es"><b>Copy:</b> renombrar y reformular el pago de activación y explicitar su destino — hoy se lee como un cobro.</span></li>
+              <li><span class="en"><b>Visual:</b> surface it earlier, in onboarding, so it isn't a late surprise.</span><span class="es"><b>Visual:</b> mostrarlo antes, en el onboarding, para que no sea una sorpresa tardía.</span></li>
+              <li><span class="en"><b>Experience:</b> an "I'm interested, but not now" option to save intent and return; frame the card block as a "controlled pause" with support — "We're freezing your credit to help you stabilize" — not an arbitrary closure.</span><span class="es"><b>Experiencia:</b> un botón "Me interesa, pero no ahora" para guardar la intención y retomar; enmarcar el bloqueo como una "pausa controlada" con acompañamiento — "Estamos congelando tu crédito para ayudarte a estabilizarte" — no como un cierre arbitrario.</span></li>
+              <li><span class="en"><b>Process:</b> empathetic, async communication (56% prefer WhatsApp, 0% want calls) and a restructure tracker so people can follow progress and see when the card unblocks.</span><span class="es"><b>Proceso:</b> comunicación empática y asíncrona (56% prefiere WhatsApp, 0% quiere llamadas) y un administrador de reestructura para seguir el avance y ver cuándo se desbloquea la tarjeta.</span></li>
+            </ul>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Impact</span><span class="es">Impacto</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">83%</div><div class="l"><span class="en">found the info sufficient to decide</span><span class="es">consideró la info suficiente para decidir</span></div></div>
+              <div class="cs-stat"><div class="n">79%</div><div class="l"><span class="en">satisfied after contracting</span><span class="es">satisfecho tras contratar</span></div></div>
+              <div class="cs-stat"><div class="n">89%</div><div class="l"><span class="en">would use it again</span><span class="es">volvería a usarlo</span></div></div>
+            </div>
+            <p><span class="en">The study delivered a friction-and-clarity map of the flow, decision profiles (how different users face the offer), and a layered set of recommendations handed to product and design. Satisfaction and reuse intent were high — but the work also flagged a quieter risk: few people understood the credit-bureau implications of restructuring, a gap worth closing for trust and ethical reasons, not just UX ones.</span><span class="es">El estudio entregó un mapa de fricción y claridad del flujo, perfiles de decisión (cómo distintos usuarios enfrentan la oferta) y un set de recomendaciones por capa entregado a producto y diseño. La satisfacción y la intención de re-uso fueron altas — pero el trabajo también señaló un riesgo silencioso: pocas personas entendían las implicaciones en buró de crédito de reestructurar, una brecha que vale la pena cerrar por confianza y ética, no solo por UX.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Reflection</span><span class="es">Reflexión</span></div>
+            <p><span class="en">Two senior moves anchored this study. First, refusing to rubber-stamp the "lifesaver" hypothesis: the evidence reframed it into something more precise — for these users it's less a lifesaver and more a way to reorder their finances and regain calm. Second, not stopping at the comforting 83% "it's clear" number, and instead naming the one moment that actually costs trust and conversion. The most useful output wasn't validation — it was a sharper definition of who these users are and where the experience has to earn their trust.</span><span class="es">Dos decisiones senior anclaron este estudio. Primero, negarme a aprobar sin más la hipótesis del "salvavidas": la evidencia la replanteó en algo más preciso — para estos usuarios es menos un salvavidas y más una forma de reordenar sus finanzas y recuperar la calma. Segundo, no quedarme en el cómodo 83% de "es claro", sino nombrar el único momento que de verdad cuesta confianza y conversión. El resultado más útil no fue validar — fue definir con mayor nitidez quiénes son estos usuarios y dónde la experiencia tiene que ganarse su confianza.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- CASE MODAL: REEMBOLSO -->
+    <div class="case-modal" id="modal-reembolso">
+      <button class="cs-close" onclick="closeCase()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="cs-inner">
+        <div class="cs-head">
+          <div class="kind">FinTech · UX Research</div>
+          <h2><span class="en">A name people don't know, but instantly understand</span><span class="es">Un nombre que no conocen, pero entienden al instante</span></h2>
+          <div class="meta">Rappicard · <span class="en">UX Researcher (CX) · Colombia · 2023</span><span class="es">UX Researcher (CX) · Colombia · 2023</span></div>
+        </div>
+        <div class="cs-hero-fig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="2.5"/><path d="M2 10h20"/><path d="m8 15-2-2 2-2"/><path d="M6 13h6a3 3 0 0 1 3 3"/></svg>
+          <div class="cs-fig-tag"><span class="en">Cover visual</span><span class="es">Imagen de portada</span></div>
+          <div class="cs-fig-cap"><span class="en">Conditional refund — naming &amp; comms across MX/CO</span><span class="es">Reembolso condicionado — naming y comunicación MX/CO</span></div>
+        </div>
+        <div class="cs-body">
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Context</span><span class="es">Contexto</span></div>
+            <p><span class="en">When a cardholder reports an unrecognized transaction, the company can temporarily credit the amount back while the dispute with the merchant is resolved. The term "Reembolso Condicionado" had already been validated in Mexico, but Colombia ran the same mechanism under a different name — "Abono temporal" — communicated only by email and only for merchant disputes. The open question: does that terminology actually land in Colombia, and how do users want to be kept informed while their case is open?</span><span class="es">Cuando un tarjetahabiente reporta una transacción no reconocida, la empresa puede abonar temporalmente el monto mientras se resuelve la disputa con el comercio. El término "Reembolso Condicionado" ya se había validado en México, pero Colombia corría el mismo mecanismo con otro nombre — "Abono temporal" — comunicado solo por correo y solo para disputas con el comercio. La pregunta abierta: ¿esa terminología de verdad aterriza en Colombia, y cómo quieren los usuarios mantenerse informados mientras su caso está abierto?</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The problem to test</span><span class="es">El problema a validar</span></div>
+            <p><span class="en">Two organizational assumptions, not to confirm but to test: (1) that the business terminology matches how users actually understand the process, and (2) that email — the existing Colombian standard — is the right channel for a fraud moment. The job wasn't to pick the prettiest label; it was to find out where the experience actually breaks.</span><span class="es">Dos supuestos de la organización, no para confirmar sino para validar: (1) que la terminología del negocio coincide con cómo los usuarios realmente entienden el proceso, y (2) que el correo — el estándar vigente en Colombia — es el canal correcto para un momento de fraude. El trabajo no era elegir la etiqueta más bonita; era encontrar dónde se rompe de verdad la experiencia.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Risk</span><span class="es">Riesgo</span></div>
+            <p><span class="en">This sits at a fraud moment — high anxiety, low patience. A name that doesn't land, or the wrong channel, erodes trust precisely when the user feels most vulnerable. And a process named one way in Mexico and another in Colombia adds friction across markets and to the support lines that handle both.</span><span class="es">Esto ocurre en un momento de fraude — alta ansiedad, poca paciencia. Un nombre que no aterriza, o el canal equivocado, erosiona la confianza justo cuando el usuario se siente más vulnerable. Y un proceso que se llama de una forma en México y de otra en Colombia suma fricción entre mercados y a las líneas de soporte que atienden ambos.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Research strategy</span><span class="es">Estrategia de investigación</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">178</div><div class="l"><span class="en">survey responses (Colombia)</span><span class="es">respuestas de encuesta (Colombia)</span></div></div>
+              <div class="cs-stat"><div class="n">2</div><div class="l"><span class="en">user profiles, by experience &amp; outcome</span><span class="es">perfiles de usuario, por experiencia y dictamen</span></div></div>
+              <div class="cs-stat"><div class="n">6+</div><div class="l"><span class="en">months tenure (screening)</span><span class="es">meses de antigüedad (screening)</span></div></div>
+            </div>
+            <p><span class="en">A quantitative survey contrasting two profiles, both with 6+ months of tenure and a transaction clarification in the last 6 months: Profile 1 — no experience with the provisional refund (their prior clarification was ruled against them); Profile 2 — direct experience (ruled in their favor). The instrument combined a free naming exercise, a forced choice among candidate terms, familiarity and comprehension checks, channel preference, and a desirability rating.</span><span class="es">Una encuesta cuantitativa que contrastó dos perfiles, ambos con 6+ meses de antigüedad y una aclaración de transacción en los últimos 6 meses: Perfil 1 — sin experiencia con el abono provisional (su aclaración previa resultó en contra); Perfil 2 — con experiencia directa (resultó a favor). El instrumento combinó un ejercicio de naming libre, una elección forzada entre términos candidatos, medición de familiaridad y comprensión, preferencia de canal y una calificación de deseabilidad.</span></p>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Term-choice comparison: Profile 1 vs Profile 2</span><span class="es">Comparativo de elección de término: Perfil 1 vs Perfil 2</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">The insight</span><span class="es">El insight</span></div>
+            <div class="cs-stats big">
+              <div class="cs-stat"><div class="n">72–80%</div><div class="l"><span class="en">had never heard "Reembolso Condicionado"</span><span class="es">nunca había oído "Reembolso Condicionado"</span></div></div>
+              <div class="cs-stat"><div class="n">86%+</div><div class="l"><span class="en">still understood what it meant</span><span class="es">aun así entendió qué significaba</span></div></div>
+              <div class="cs-stat"><div class="n">44–48%</div><div class="l"><span class="en">prefer WhatsApp for updates</span><span class="es">prefiere WhatsApp para avisos</span></div></div>
+            </div>
+            <p><span class="en">Low familiarity, high comprehension. Most people had never heard the formal term, yet ~86% correctly inferred it meant "a refund under certain conditions" — so the learning curve is short and no single label dominated. In the free naming exercise, "Devolución" surfaced organically as the favored root (~25%); in the forced choice, Profile 1 leaned to "Devolución temporal" (30.9%) and Profile 2 to "Reembolso condicionado" (28.6%), with the options clustered close together. For staying informed during a case, users overwhelmingly preferred WhatsApp over the old email-only standard. And the process itself was wanted: desirability scored 5★ (Profile 1) and 4.4★ (Profile 2) — people see it as something that simply "should exist."</span><span class="es">Baja familiaridad, alta comprensión. La mayoría nunca había oído el término formal, pero ~86% dedujo correctamente que significaba "una devolución bajo ciertas condiciones" — así que la curva de aprendizaje es corta y ningún término dominó. En el naming libre, "Devolución" surgió de forma orgánica como la raíz favorita (~25%); en la elección forzada, el Perfil 1 se inclinó a "Devolución temporal" (30.9%) y el Perfil 2 a "Reembolso condicionado" (28.6%), con las opciones muy parejas. Para mantenerse informados durante un caso, los usuarios prefirieron WhatsApp por mucho sobre el estándar de solo correo. Y el proceso en sí se desea: la deseabilidad calificó 5★ (Perfil 1) y 4.4★ (Perfil 2) — lo ven como algo que simplemente "debe existir".</span></p>
+            <div class="cs-figure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
+              <div class="cs-fig-cap"><span class="en">Channel preference &amp; comprehension by profile</span><span class="es">Preferencia de canal y comprensión por perfil</span></div>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-decision">
+              <div class="cs-label"><span class="en">The decision</span><span class="es">La decisión</span></div>
+              <p class="strike"><span class="en">Which exact label tests best?</span><span class="es">¿Qué etiqueta exacta funciona mejor?</span></p>
+              <p class="newq"><span class="en">The label barely matters — the channel and the moment do.</span><span class="es">La etiqueta casi no importa — lo que importa es el canal y el momento.</span></p>
+              <p><span class="en">The naming data was close across options and even the unfamiliar term was understood instantly — so over-optimizing the word was the wrong place to spend energy. The real leverage was twofold: align the terminology so the same process reads the same in Mexico and Colombia, and move the fraud-moment communication off email-only and onto the channels users actually check (WhatsApp / in-app), so nobody is left in anxious silence while their case is open.</span><span class="es">Los datos de naming estaban parejos entre opciones y hasta el término desconocido se entendía al instante — así que sobre-optimizar la palabra era el lugar equivocado para gastar energía. La palanca real era doble: alinear la terminología para que el mismo proceso se lea igual en México y Colombia, y sacar la comunicación del momento de fraude del solo-correo hacia los canales que los usuarios sí revisan (WhatsApp / in-app), para que nadie quede en silencio ansioso mientras su caso está abierto.</span></p>
+            </div>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Recommendations</span><span class="es">Recomendaciones</span></div>
+            <ul>
+              <li><span class="en"><b>Standardize the term across markets:</b> the concept is understood regardless of label, so pick one and apply it in both MX and CO to remove regional ambiguity.</span><span class="es"><b>Estandarizar el término entre mercados:</b> el concepto se entiende sin importar la etiqueta, así que elegir uno y aplicarlo en MX y CO para eliminar la ambigüedad regional.</span></li>
+              <li><span class="en"><b>Shift status communication to WhatsApp + in-app:</b> the channels users prefer at the fraud moment, instead of email-only.</span><span class="es"><b>Mover la comunicación de estado a WhatsApp + in-app:</b> los canales que los usuarios prefieren en el momento de fraude, en lugar de solo correo.</span></li>
+              <li><span class="en"><b>Make the process visible and trackable:</b> it's valued — surface and follow it, rather than a silent email after the fact.</span><span class="es"><b>Hacer el proceso visible y rastreable:</b> se valora — mostrarlo y darle seguimiento, en vez de un correo silencioso a posteriori.</span></li>
+            </ul>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Opportunity surfaced</span><span class="es">Oportunidad detectada</span></div>
+            <p><span class="en">Beyond the naming decision, the study pointed to a larger play: unifying the regional dispute flow (one terminology, user-preferred channels) as a way to reduce transactional anxiety after a fraud event — with a plausible downstream effect on support load and post-fraud retention. This is framed as a hypothesis, not a result: it would need success and satisfaction metrics measured after rollout (vs. the email baseline) to be validated. Naming what wasn't yet measured was part of the recommendation.</span><span class="es">Más allá de la decisión de naming, el estudio apuntó a una jugada mayor: unificar el flujo regional de disputas (una terminología, canales preferidos por el usuario) como vía para reducir la ansiedad transaccional tras un evento de fraude — con un efecto plausible en la carga de soporte y la retención post-fraude. Se plantea como hipótesis, no como resultado: requeriría medir métricas de éxito y satisfacción tras el lanzamiento (vs. el baseline de correo) para validarse. Nombrar lo que aún no se medía fue parte de la recomendación.</span></p>
+          </div>
+          <div class="cs-section">
+            <div class="cs-label"><span class="en">Reflection</span><span class="es">Reflexión</span></div>
+            <p><span class="en">The senior move was refusing to over-rotate on "the perfect name." The data said the word was nearly interchangeable and easily understood, so the leverage lived elsewhere — regional consistency and the right channel at the most fragile moment. Being explicit about what the study did not measure (operational load, churn) is what kept the strategic framing honest instead of inflated.</span><span class="es">La decisión senior fue negarme a sobre-girar sobre "el nombre perfecto". Los datos decían que la palabra era casi intercambiable y fácil de entender, así que la palanca vivía en otro lado — la consistencia regional y el canal correcto en el momento más frágil. Ser explícita sobre lo que el estudio no midió (carga operativa, churn) es lo que mantuvo el encuadre estratégico honesto en vez de inflado.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section class="sec-alt" id="recomendaciones">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag"><span class="en">What people say</span><span class="es">Lo que dicen de mí</span></span>
+      <h2><span class="en">Recommendations</span><span class="es">Recomendaciones</span></h2>
+      <p><span class="en">Words from colleagues and leaders I've worked with, via LinkedIn.</span><span class="es">Palabras de colegas y líderes con quienes he trabajado, vía LinkedIn.</span></p>
+    </div>
+    <div class="recs-wrap reveal">
+      <div class="recs" id="recsTrack">
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">Working with Lil has always meant hitting goals. I had the chance to work hand in hand on projects tied to very ambitious OKRs; designing based on the insights Lil uncovered always meant reducing risk but, above all, making sure we reached the goal on products like installments &amp; loans. It's worth highlighting the soft skills: how could anyone interview so many people without them? Lil is a great example of this.</span><span class="es">Trabajar con Lil siempre ha sido lograr objetivos. Tuve la oportunidad de trabajar mano a mano en proyectos que le pegaban a OKRs muy ambiciosos; diseñar en base a los insights que Lil encontraba siempre era reducir riesgos pero sobre todo asegurarnos de llegar al objetivo en productos como installments &amp; loans. Siempre es bueno destacar las habilidades blandas: ¿cómo podría alguien entrevistar a tantas personas si no las tiene? Lil es un gran ejemplo de esto.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">MP</div>
+            <div><div class="nm">María Pía Jesús Durand</div><div class="rl">Product Designer · Fintech UX · ex-Rappi</div><div class="rel"><span class="en">Worked with Lilián on the same team</span><span class="es">Trabajó con Lilián en el mismo equipo</span></div></div>
+          </div>
+        </div>
+
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">Lilian is one of the most detail-oriented researchers I've had in my career. Not only that, she has the empathy and depth to ask the team the right questions, bring order to the chaos, and guide us toward insights that truly carry the level of impact we need — especially amid uncertainty. On top of that, she's an exceptional human being.</span><span class="es">Lilian es una de las researchers con mayor atención al detalle que he tenido en mi carrera. No solo eso, sino que tiene el nivel de empatía y profundidad para hacer las preguntas correctas al equipo, ordenar el caos y así guiarnos a insights que realmente tengan el nivel de impacto que necesitamos, sobre todo en incertidumbre. Aparte, su calidad humana es excepcional.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">LY</div>
+            <div><div class="nm">Lucia Yap</div><div class="rl">Lead Product Designer · Design Systems Lead @ Cashea</div><div class="rel"><span class="en">Worked with Lilián on the same team</span><span class="es">Trabajó con Lilián en el mismo equipo</span></div></div>
+          </div>
+        </div>
+
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">I had the opportunity to mentor Lilián during her onboarding at Platzi, where she stood out for her strong initiative, quick learning, and remarkable ability to proactively identify user experience issues across the platform. As a UX designer with a focus on CX, she distinguished herself through excellent teamwork, organization, and adaptability—seamlessly integrating company processes with her personal approach. Her organizational methods allowed her to deliver more complete and detailed results. Lilián has outstanding empathy and active listening skills, which enrich her findings.</span><span class="es">Tuve la oportunidad de mentorear a Lilián durante su onboarding en Platzi, donde destacó por su gran iniciativa, rápido aprendizaje y notable capacidad para identificar proactivamente problemas de experiencia de usuario en toda la plataforma. Como diseñadora UX con enfoque en CX, se distinguió por su excelente trabajo en equipo, organización y adaptabilidad, integrando sin fricciones los procesos de la empresa con su enfoque personal. Sus métodos de organización le permitieron entregar resultados más completos y detallados. Lilián tiene una empatía y una escucha activa sobresalientes, que enriquecen sus hallazgos.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">VP</div>
+            <div><div class="nm">Valerie De la Peña Estrada</div><div class="rl">Notion Setup Calls Consultant · Community &amp; Wellbeing</div><div class="rel"><span class="en">Worked with Lilián on the same team</span><span class="es">Trabajó con Lilián en el mismo equipo</span></div></div>
+          </div>
+        </div>
+
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">I had the opportunity to supervise Lilián Zamora for 5 months at Platzi. During that time, Lilián showed excellent teamwork skills, conducting user interviews focused on User Research, quick learning, and commitment to the company and the team. In addition, she is an excellent person who cares and contributes to the culture of the organization. I definitely recommend her for any initiative or project.</span><span class="es">Tuve la oportunidad de supervisar a Lilián Zamora durante 5 meses en Platzi. En ese tiempo, Lilián demostró excelentes habilidades de trabajo en equipo, conduciendo entrevistas de usuario enfocadas en User Research, rápido aprendizaje y compromiso con la empresa y el equipo. Además, es una excelente persona que se preocupa y contribuye a la cultura de la organización. Sin duda la recomiendo para cualquier iniciativa o proyecto.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">YR</div>
+            <div><div class="nm">Yuliana Rodríguez Portilla</div><div class="rl">Customer Experience Manager · Ex Platzi (YC W15)</div><div class="rel"><span class="en">Directly supervised Lilián</span><span class="es">Supervisó directamente a Lilián</span></div></div>
+          </div>
+        </div>
+
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">Had the opportunity to work with Lilian back in 2022 at Platzi performing research and subsequent analysis of results oriented to services, support, experience and usability investigation. She's a creative and resolute person with the capacity for teamwork, empathy, and knows how to communicate properly with users to better understand their needs in order to guarantee a higher success rate for the product/service. I'm sure she will give the best of herself in any future challenge.</span><span class="es">Tuve la oportunidad de trabajar con Lilian en 2022 en Platzi, realizando investigación y el posterior análisis de resultados orientados a servicios, soporte, experiencia e investigación de usabilidad. Es una persona creativa y resolutiva, con capacidad para el trabajo en equipo, empatía, y sabe comunicarse adecuadamente con los usuarios para comprender mejor sus necesidades y así garantizar una mayor tasa de éxito del producto/servicio. Estoy seguro de que dará lo mejor de sí en cualquier reto futuro.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">HL</div>
+            <div><div class="nm">Hendrik Leal</div><div class="rl">Customer Success &amp; Experience · Support Expert @ MetaMap</div><div class="rel"><span class="en">Directly supervised Lilián</span><span class="es">Supervisó directamente a Lilián</span></div></div>
+          </div>
+        </div>
+
+        <div class="rec">
+          <div class="quote-mark">“</div>
+          <p><span class="en">Lilian is a great team player, always oriented to people and the users' experience. The qualities of Lilian that stand out are empathy, companionship, and openness to feedback, not to mention her elegant way of expressing herself.</span><span class="es">Lilian es una gran compañera de equipo, siempre orientada a las personas y a la experiencia de los usuarios. Las cualidades de Lilian que destacan son la empatía, el compañerismo y la apertura al feedback, sin mencionar su elegante forma de expresarse.</span></p>
+          <div class="rec-author">
+            <div class="rec-avatar">LM</div>
+            <div><div class="nm">Luis Francisco Montero</div><div class="rl">Deep Conceptual Thinker / Systemic Strategist</div><div class="rel"><span class="en">Worked with Lilián on the same team</span><span class="es">Trabajó con Lilián en el mismo equipo</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="recs-nav">
+        <button onclick="scrollRecs(-1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button onclick="scrollRecs(1)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publicaciones">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag"><span class="en">Writing</span><span class="es">Escritura</span></span>
+      <h2><span class="en">Articles on Medium</span><span class="es">Publicaciones en Medium</span></h2>
+      <p><span class="en">Essays on research, systems, and the place of research within organizations.</span><span class="es">Ensayos sobre research, sistemas y el lugar de la investigación dentro de las organizaciones.</span></p>
+    </div>
+    <div class="pubs">
+      <a class="pub reveal" href="https://medium.com/@lianzave/cuando-el-sistema-no-quiere-escuchar-el-research-b88c2f58045c" target="_blank" rel="noopener">
+        <div class="tagrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42S20.96 8.46 20.96 12zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>Medium</div>
+        <h3>Cuando el sistema no quiere escuchar el research</h3>
+        <span class="read"><span class="en">Read article →</span><span class="es">Leer artículo →</span></span>
+      </a>
+      <a class="pub reveal" href="https://medium.com/@lianzave/nadie-te-pidió-hacer-research-hazlo-igual-94e54a60def0" target="_blank" rel="noopener">
+        <div class="tagrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42S20.96 8.46 20.96 12zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>Medium</div>
+        <h3>Nadie te pidió hacer research. Hazlo igual.</h3>
+        <span class="read"><span class="en">Read article →</span><span class="es">Leer artículo →</span></span>
+      </a>
+      <a class="pub reveal" href="https://medium.com/@lianzave/no-todos-pueden-jugar-5c5f945fc5f1" target="_blank" rel="noopener">
+        <div class="tagrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42S20.96 8.46 20.96 12zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>Medium</div>
+        <h3>No todos pueden jugar</h3>
+        <span class="read"><span class="en">Read article →</span><span class="es">Leer artículo →</span></span>
+      </a>
+    </div>
+    <div class="pub-foot reveal">
+      <a class="btn btn-ghost" href="https://medium.com/@lianzave" target="_blank" rel="noopener"><span class="en">See all on Medium →</span><span class="es">Ver todo en Medium →</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact sec-alt" id="contacto">
+  <div class="wrap reveal">
+    <h2><span class="en">Let's talk</span><span class="es">Conversemos</span></h2>
+    <p><span class="en">Have a research or service design challenge? I'd love to hear about it.</span><span class="es">¿Tienes un reto de investigación o diseño de servicios? Me encantaría escucharlo.</span></p>
+    <a class="email" href="mailto:lianzave@gmail.com">lianzave@gmail.com</a>
+    <div class="socials">
+      <a class="social-ic" href="https://www.linkedin.com/in/lianzave/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 18.34v-8.2H5.67v8.2h2.67zM7 8.86a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1zm11.34 9.48v-4.5c0-2.4-1.28-3.52-2.99-3.52-1.38 0-2 .76-2.34 1.29v-1.11h-2.67c.04.75 0 8.2 0 8.2h2.67v-4.58c0-.24.02-.48.09-.65.19-.48.63-.98 1.37-.98.97 0 1.36.74 1.36 1.82v4.39h2.51z"/></svg>
+      </a>
+      <a class="social-ic" href="https://medium.com/@lianzave" target="_blank" rel="noopener" aria-label="Medium">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42S20.96 8.46 20.96 12zM24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © <span id="yr"></span> Lilián A. Zamora Vega · UX Researcher &amp; Service Designer · <span class="en">Mexico City</span><span class="es">Ciudad de México</span>
+</footer>
+</div>
+
+<!-- PRINTABLE CV -->
+<div id="cv-print">
+  <div class="cv-h1">Lilián A. Zamora Vega</div>
+  <div class="cv-role">UX Researcher &amp; Service Designer · Market Research Analyst</div>
+  <div class="cv-contact">Ciudad de México · +52 55-27-56-33-05 · lianzave@gmail.com · linkedin.com/in/lianzave</div>
+
+  <div class="cv-row"><span class="en">8+ years in qualitative and quantitative research, specialized in turning data and findings into actionable recommendations that support strategic decision-making. Direct experience across FinTech and EdTech, in the markets of Mexico and Colombia.</span><span class="es">+8 años en investigación cualitativa y cuantitativa, especializada en transformar datos y hallazgos en recomendaciones accionables que apoyan la toma de decisiones estratégicas. Experiencia directa en FinTech y EdTech, en los mercados de México y Colombia.</span></div>
+
+  <div class="cv-sec"><span class="en">Professional experience</span><span class="es">Experiencia profesional</span></div>
+  <div class="cv-job"><span class="y"><span class="en">Jul. 2023 — Present</span><span class="es">jul. 2023 — Actualidad</span></span><div class="t">Senior UX Researcher · Product Team MX</div><div class="o">Rappicard México · FinTech</div></div>
+  <div class="cv-job"><span class="y"><span class="en">Jan. 2023 — Jul. 2023</span><span class="es">ene. 2023 — jul. 2023</span></span><div class="t">Mid UX Researcher · Global Team</div><div class="o">Rappicard México · FinTech</div></div>
+  <div class="cv-job"><span class="y">2022 — 2023</span><div class="t">User Experience Researcher</div><div class="o">Platzi · EdTech</div></div>
+  <div class="cv-job"><span class="y">2019 — 2022</span><div class="t">Industrial &amp; Experience Designer</div><div class="o">Kung Fu Klan</div></div>
+  <div class="cv-job"><span class="y">2017 — 2022</span><div class="t">Lead Industrial Designer</div><div class="o">Preludio Lab</div></div>
+  <div class="cv-job"><span class="y">2017 — 2019</span><div class="t">Industrial Designer &amp; Digital Manufacturing Specialist</div><div class="o">FabLab DF</div></div>
+
+  <div class="cv-sec"><span class="en">Skills &amp; tools</span><span class="es">Habilidades &amp; herramientas</span></div>
+  <div class="cv-row"><b><span class="en">Research:</span><span class="es">Investigación:</span></b> <span class="en">Qualitative and quantitative, interviews, surveys, focus groups, desk research, database analysis, Jobs-to-be-Done, NPS/CSAT.</span><span class="es">Cualitativa y cuantitativa, entrevistas, encuestas, focus groups, investigación de escritorio, análisis de bases de datos, Jobs-to-be-Done, NPS/CSAT.</span></div>
+  <div class="cv-row"><b><span class="en">Strategy &amp; synthesis:</span><span class="es">Estrategia &amp; síntesis:</span></b> <span class="en">Actionable insights, Service Design, Design Thinking, Journey Mapping, Personas, executive reporting.</span><span class="es">Insights accionables, Service Design, Design Thinking, Journey Mapping, Personas, reportes ejecutivos.</span></div>
+  <div class="cv-row"><b><span class="en">Tools:</span><span class="es">Herramientas:</span></b> Dovetail, Maze, Hotjar, Figma, Miro, Excel, PowerPoint, <span class="en">AI-assisted research.</span><span class="es">research con IA.</span></div>
+
+  <div class="cv-sec"><span class="en">Education &amp; certifications</span><span class="es">Educación &amp; certificaciones</span></div>
+  <div class="cv-row"><b><span class="en">B.A. in Industrial Design</span><span class="es">Lic. en Diseño Industrial</span></b> — Universidad Nacional Autónoma de México (2012–2017)</div>
+  <div class="cv-row"><b>Generative AI Leader Certification</b> — Google Cloud (2026)</div>
+  <div class="cv-row"><b><span class="en">AI &amp; Machine Learning</span><span class="es">IA y Machine Learning</span></b> — <span class="en">Specialization program</span><span class="es">Programa de especialización</span> (2024)</div>
+  <div class="cv-row"><b>Product Psychology Masterclass</b> · <b><span class="en">Tools for Social Analysis</span><span class="es">Herramientas para el Análisis Social</span></b> <span class="en">(in progress)</span><span class="es">(en curso)</span></div>
+  <div class="cv-row"><b>Global Service Jam · Revolution Jam</b> — <span class="en">Service Design México, best service built in 48 hrs (2019)</span><span class="es">Service Design México, mejor servicio desarrollado en 48 hrs (2019)</span></div>
+
+  <div class="cv-sec"><span class="en">Languages</span><span class="es">Idiomas</span></div>
+  <div class="cv-row"><span class="en">Spanish (Native) · English (C1) · French (Basic) · Italian (Basic)</span><span class="es">Español (Nativo) · Inglés (C1) · Francés (Básico) · Italiano (Básico)</span></div>
+
+  <div class="cv-sec"><span class="en">Activities</span><span class="es">Actividades</span></div>
+  <div class="cv-row"><span class="en">Medium — Writer of articles and essays (2017–present) · Technolatinas (2022–present) · More Women in STEAM — Mentor (2020–2022)</span><span class="es">Medium — Escritora de artículos y ensayos (2017–presente) · Technolatinas (2022–presente) · Más Mujeres en STEAM — Mentora (2020–2022)</span></div>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // ── Internal data lock ──────────────────────────────────────────────
+  // Confidential figures are hidden by default. To share an "all-access"
+  // version, append ?access=YOUR-KEY to the URL you send (e.g. to recruiters).
+  const ACCESS_KEY = 'all-access-2026';   // ← change this to your own secret key
+  const FORCE_SHOW = false;                // ← set true to always reveal (e.g. while editing)
+  const _params = new URLSearchParams(location.search);
+  const showInternal = FORCE_SHOW || _params.get('access') === ACCESS_KEY;
+  if (!showInternal) document.body.classList.add('internal-locked');
+  // ────────────────────────────────────────────────────────────────────
+
+  const ham = document.getElementById('ham');
+  const mmenu = document.getElementById('mmenu');
+  ham.addEventListener('click', () => {
+    mmenu.style.display = mmenu.style.display === 'flex' ? 'none' : 'flex';
+  });
+  mmenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mmenu.style.display='none'));
+
+  function setLang(l){
+    document.body.classList.remove('lang-en','lang-es');
+    document.body.classList.add('lang-'+l);
+    document.documentElement.lang = l;
+    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang===l));
+  }
+  document.querySelectorAll('.lang-toggle button').forEach(b => {
+    b.addEventListener('click', () => setLang(b.dataset.lang));
+  });
+  setLang('en');
+
+  function scrollRecs(dir){
+    const t = document.getElementById('recsTrack');
+    const card = t.querySelector('.rec');
+    const step = card ? card.offsetWidth + 24 : t.clientWidth * 0.5;
+    t.scrollBy({left: dir*step, behavior:'smooth'});
+  }
+
+  function openCase(id){
+    document.getElementById('modal-'+id).classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+  function closeCase(){
+    document.querySelectorAll('.case-modal').forEach(m => m.classList.remove('open'));
+    document.body.classList.remove('modal-open');
+  }
+  document.querySelectorAll('.case-modal').forEach(m => {
+    m.addEventListener('click', e => { if(e.target === m) closeCase(); });
+  });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCase(); });
+
+  function downloadCV(){ window.print(); }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
