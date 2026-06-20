@@ -237,11 +237,35 @@
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
 
+
   #cv-print{display:none}
+
   @media print{
-    .site{display:none!important}
-    #cv-print{display:block;font-size:11px;color:#000;line-height:1.45}
-    @page{margin:14mm}
+    /* nada debe recortar ni colapsar el CV al imprimir */
+    html, body{
+      height:auto !important;
+      overflow:visible !important;
+      background:#fff !important;
+    }
+    /* por si quedó un modal abierto (bloquea el scroll del body) */
+    body.modal-open{ overflow:visible !important; }
+
+    /* oculta toda la web... */
+    .site{ display:none !important; }
+
+    /* ...y muestra solo el CV, anclado arriba */
+    #cv-print{
+      display:block !important;
+      position:static !important;
+      width:100%;
+      font-size:11px;
+      color:#000;
+      line-height:1.45;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+
+    @page{ margin:14mm }
     .cv-h1{font-size:20px;font-weight:800;letter-spacing:-.4px}
     .cv-role{font-size:12px;font-weight:700;color:#4c1d95;margin:2px 0 6px}
     .cv-contact{font-size:10px;color:#333;margin-bottom:12px}
@@ -254,22 +278,6 @@
     .cv-row b{color:#1e1b2e}
   }
 
-  @media (max-width:880px){
-    .about-grid{grid-template-columns:1fr;gap:30px}
-    .edu-skills{grid-template-columns:1fr;gap:24px}
-    .cases,.pubs{grid-template-columns:1fr 1fr}
-  }
-  @media (max-width:720px){
-    .nav-links{display:none}
-    .hamburger{display:block}
-    .cases,.pubs{grid-template-columns:1fr}
-    .case-card{aspect-ratio:16/10}
-    .case-overlay{opacity:1}
-    .case-badge{opacity:0}
-    .rec{flex:0 0 86%}
-    section{padding:64px 0}
-    .hero{padding:64px 0 56px}
-  }
 </style>
 </head>
 <body>
@@ -1414,50 +1422,41 @@
 </footer>
 </div>
 
-/* Reemplaza tu bloque actual:
-       #cv-print{display:none}  +  @media print{ ... }
-     por TODO esto. */
+<!-- PRINTABLE CV -->
+<div id="cv-print">
+  <div class="cv-h1">Lilián A. Zamora Vega</div>
+  <div class="cv-role">UX Researcher &amp; Service Designer · Market Research Analyst</div>
+  <div class="cv-contact">Ciudad de México · +52 55-27-56-33-05 · lianzave@gmail.com · linkedin.com/in/lianzave</div>
 
-  #cv-print{display:none}
+  <div class="cv-row"><span class="en">8+ years in qualitative and quantitative research, specialized in turning data and findings into actionable recommendations that support strategic decision-making. Direct experience across FinTech and EdTech, in the markets of Mexico and Colombia.</span><span class="es">+8 años en investigación cualitativa y cuantitativa, especializada en transformar datos y hallazgos en recomendaciones accionables que apoyan la toma de decisiones estratégicas. Experiencia directa en FinTech y EdTech, en los mercados de México y Colombia.</span></div>
 
-  @media print{
-    /* nada debe recortar ni colapsar el CV al imprimir */
-    html, body{
-      height:auto !important;
-      overflow:visible !important;
-      background:#fff !important;
-    }
-    /* por si quedó un modal abierto (bloquea el scroll del body) */
-    body.modal-open{ overflow:visible !important; }
+  <div class="cv-sec"><span class="en">Professional experience</span><span class="es">Experiencia profesional</span></div>
+  <div class="cv-job"><span class="y"><span class="en">Jul. 2023 — Present</span><span class="es">jul. 2023 — Actualidad</span></span><div class="t">Senior UX Researcher · Product Team MX</div><div class="o">Rappicard México · FinTech</div></div>
+  <div class="cv-job"><span class="y"><span class="en">Jan. 2023 — Jul. 2023</span><span class="es">ene. 2023 — jul. 2023</span></span><div class="t">Mid UX Researcher · Global Team</div><div class="o">Rappicard México · FinTech</div></div>
+  <div class="cv-job"><span class="y">2022 — 2023</span><div class="t">User Experience Researcher</div><div class="o">Platzi · EdTech</div></div>
+  <div class="cv-job"><span class="y">2019 — 2022</span><div class="t">Industrial &amp; Experience Designer</div><div class="o">Kung Fu Klan</div></div>
+  <div class="cv-job"><span class="y">2017 — 2022</span><div class="t">Lead Industrial Designer</div><div class="o">Preludio Lab</div></div>
+  <div class="cv-job"><span class="y">2017 — 2019</span><div class="t">Industrial Designer &amp; Digital Manufacturing Specialist</div><div class="o">FabLab DF</div></div>
 
-    /* oculta toda la web... */
-    .site{ display:none !important; }
+  <div class="cv-sec"><span class="en">Skills &amp; tools</span><span class="es">Habilidades &amp; herramientas</span></div>
+  <div class="cv-row"><b><span class="en">Research:</span><span class="es">Investigación:</span></b> <span class="en">Qualitative and quantitative, interviews, surveys, focus groups, desk research, database analysis, Jobs-to-be-Done, NPS/CSAT.</span><span class="es">Cualitativa y cuantitativa, entrevistas, encuestas, focus groups, investigación de escritorio, análisis de bases de datos, Jobs-to-be-Done, NPS/CSAT.</span></div>
+  <div class="cv-row"><b><span class="en">Strategy &amp; synthesis:</span><span class="es">Estrategia &amp; síntesis:</span></b> <span class="en">Actionable insights, Service Design, Design Thinking, Journey Mapping, Personas, executive reporting.</span><span class="es">Insights accionables, Service Design, Design Thinking, Journey Mapping, Personas, reportes ejecutivos.</span></div>
+  <div class="cv-row"><b><span class="en">Tools:</span><span class="es">Herramientas:</span></b> Dovetail, Maze, Hotjar, Figma, Miro, Excel, PowerPoint, <span class="en">AI-assisted research.</span><span class="es">research con IA.</span></div>
 
-    /* ...y muestra solo el CV, anclado arriba */
-    #cv-print{
-      display:block !important;
-      position:static !important;
-      width:100%;
-      font-size:11px;
-      color:#000;
-      line-height:1.45;
-      -webkit-print-color-adjust:exact;
-      print-color-adjust:exact;
-    }
+  <div class="cv-sec"><span class="en">Education &amp; certifications</span><span class="es">Educación &amp; certificaciones</span></div>
+  <div class="cv-row"><b><span class="en">B.A. in Industrial Design</span><span class="es">Lic. en Diseño Industrial</span></b> — Universidad Nacional Autónoma de México (2012–2017)</div>
+  <div class="cv-row"><b>Generative AI Leader Certification</b> — Google Cloud (2026)</div>
+  <div class="cv-row"><b><span class="en">AI &amp; Machine Learning</span><span class="es">IA y Machine Learning</span></b> — <span class="en">Specialization program</span><span class="es">Programa de especialización</span> (2024)</div>
+  <div class="cv-row"><b>Product Psychology Masterclass</b> · <b><span class="en">Tools for Social Analysis</span><span class="es">Herramientas para el Análisis Social</span></b> <span class="en">(in progress)</span><span class="es">(en curso)</span></div>
+  <div class="cv-row"><b>Global Service Jam · Revolution Jam</b> — <span class="en">Service Design México, best service built in 48 hrs (2019)</span><span class="es">Service Design México, mejor servicio desarrollado en 48 hrs (2019)</span></div>
 
-    @page{ margin:14mm }
-    .cv-h1{font-size:20px;font-weight:800;letter-spacing:-.4px}
-    .cv-role{font-size:12px;font-weight:700;color:#4c1d95;margin:2px 0 6px}
-    .cv-contact{font-size:10px;color:#333;margin-bottom:12px}
-    .cv-sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#4c1d95;border-bottom:1px solid #ddd;padding-bottom:3px;margin:14px 0 8px}
-    .cv-job{margin-bottom:8px}
-    .cv-job .t{font-weight:700;font-size:11px}
-    .cv-job .o{font-size:10px;color:#444}
-    .cv-job .y{font-size:9px;color:#666;float:right}
-    .cv-row{margin-bottom:5px}
-    .cv-row b{color:#1e1b2e}
-  }
+  <div class="cv-sec"><span class="en">Languages</span><span class="es">Idiomas</span></div>
+  <div class="cv-row"><span class="en">Spanish (Native) · English (C1) · French (Basic) · Italian (Basic)</span><span class="es">Español (Nativo) · Inglés (C1) · Francés (Básico) · Italiano (Básico)</span></div>
 
+  <div class="cv-sec"><span class="en">Activities</span><span class="es">Actividades</span></div>
+  <div class="cv-row"><span class="en">Medium — Writer of articles and essays (2017–present) · Technolatinas (2022–present) · More Women in STEAM — Mentor (2020–2022)</span><span class="es">Medium — Escritora de artículos y ensayos (2017–presente) · Technolatinas (2022–presente) · Más Mujeres en STEAM — Mentora (2020–2022)</span></div>
+</div>
+  
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
