@@ -1508,14 +1508,53 @@
   });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCase(); });
 
-function downloadCV(){
-  if(typeof closeCase === 'function') closeCase();   // cierra modales abiertos
-  if(!document.body.classList.contains('lang-en') &&
-     !document.body.classList.contains('lang-es')){
-    setLang('en');                                   // asegura un idioma activo
+// Reemplaza TODA tu función downloadCV() por esta.
+  // Imprime el CV en una ventana nueva con solo su contenido y estilos,
+  // así nada de la página principal puede ocultarlo.
+  function downloadCV(){
+    var src = document.getElementById('cv-print');
+    if(!src){ window.print(); return; }
+
+    // idioma actualmente activo (EN por defecto)
+    var lang = document.body.classList.contains('lang-es') ? 'es' : 'en';
+    var hide = (lang === 'es') ? 'en' : 'es';   // oculta el idioma contrario
+
+    var win = window.open('', '_blank', 'width=900,height=1200');
+    if(!win){
+      alert('Permite las ventanas emergentes (pop-ups) para descargar el CV.');
+      return;
+    }
+
+    var styles =
+      '*{margin:0;padding:0;box-sizing:border-box}' +
+      'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#000;line-height:1.45;font-size:11px}' +
+      '.' + hide + '{display:none}' +
+      '.cv-h1{font-size:20px;font-weight:800;letter-spacing:-.4px}' +
+      '.cv-role{font-size:12px;font-weight:700;color:#4c1d95;margin:2px 0 6px}' +
+      '.cv-contact{font-size:10px;color:#333;margin-bottom:12px}' +
+      '.cv-sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#4c1d95;border-bottom:1px solid #ddd;padding-bottom:3px;margin:14px 0 8px}' +
+      '.cv-job{margin-bottom:8px}' +
+      '.cv-job .t{font-weight:700;font-size:11px}' +
+      '.cv-job .o{font-size:10px;color:#444}' +
+      '.cv-job .y{font-size:9px;color:#666;float:right}' +
+      '.cv-row{margin-bottom:5px}' +
+      '.cv-row b{color:#1e1b2e}' +
+      '@page{margin:14mm}';
+
+    win.document.write(
+      '<!DOCTYPE html><html lang="' + lang + '"><head><meta charset="utf-8">' +
+      '<title>CV — Lilián A. Zamora Vega</title><style>' + styles + '</style></head>' +
+      '<body>' + src.innerHTML + '</body></html>'
+    );
+    win.document.close();
+    win.focus();
+
+    // dale un momento a la ventana para pintar antes de imprimir
+    setTimeout(function(){ win.print(); }, 300);
+
+    // cierra la ventana al terminar (si el navegador lo soporta)
+    win.onafterprint = function(){ win.close(); };
   }
-  setTimeout(function(){ window.print(); }, 50);
-}
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
