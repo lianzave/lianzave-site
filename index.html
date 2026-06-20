@@ -1508,7 +1508,14 @@
   });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeCase(); });
 
-  function downloadCV(){ window.print(); }
+function downloadCV(){
+  if(typeof closeCase === 'function') closeCase();   // cierra modales abiertos
+  if(!document.body.classList.contains('lang-en') &&
+     !document.body.classList.contains('lang-es')){
+    setLang('en');                                   // asegura un idioma activo
+  }
+  setTimeout(function(){ window.print(); }, 50);
+}
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
