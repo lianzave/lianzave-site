@@ -4,31 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilián A. Zamora Vega — UX Researcher & Service Designer</title>
-
-/* ════════════════════════════════════════════════════════════
-     MODO "SOLO CASOS"  ·  se activa con ?view=casos en la URL
-     Oculta todo menos los casos y muestra un mini-encabezado.
-     ════════════════════════════════════════════════════════════ */
-
-  /* el mini-encabezado vive oculto por defecto */
+<style>
+  :root{
+    --bg:#ffffff;--bg-alt:#faf9fd;--tint:#f5f3ff;--tint-2:#ede9fe;
+    --purple:#6d28d9;--purple-deep:#4c1d95;--purple-light:#8b5cf6;
+    --ink:#1e1b2e;--ink-soft:#3b3552;--muted:#6b6580;--line:#ece9f3;
+    --radius:18px;--maxw:1080px;font-synthesis:none;
+  }
+     
+/* ── MODO "SOLO CASOS" · se activa con ?view=casos ───────────── */
   #casos-header{ display:none; }
-
   body.view-casos header.nav,
   body.view-casos #inicio,
   body.view-casos #sobre,
   body.view-casos #recomendaciones,
   body.view-casos #publicaciones,
   body.view-casos #contacto,
-  body.view-casos footer{
-    display:none !important;
-  }
-
+  body.view-casos footer{ display:none !important; }
   body.view-casos #casos-header{ display:block; }
-
-  /* un poco de aire arriba ya que no hay nav sticky */
   body.view-casos #casos{ padding-top:0; }
-
-  /* estilos del mini-encabezado */
   .casos-header-inner{
     padding:48px 0 8px;
     border-bottom:1px solid var(--line);
@@ -45,14 +39,7 @@
   .casos-id .ct{ color:var(--muted); font-size:.9rem; margin-top:8px; }
   .casos-id .ct a{ color:var(--purple); font-weight:600; }
   .casos-header-inner .lang-toggle{ flex-shrink:0; }
-  
-<style>
-  :root{
-    --bg:#ffffff;--bg-alt:#faf9fd;--tint:#f5f3ff;--tint-2:#ede9fe;
-    --purple:#6d28d9;--purple-deep:#4c1d95;--purple-light:#8b5cf6;
-    --ink:#1e1b2e;--ink-soft:#3b3552;--muted:#6b6580;--line:#ece9f3;
-    --radius:18px;--maxw:1080px;font-synthesis:none;
-  }
+     
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;scroll-padding-top:80px}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
