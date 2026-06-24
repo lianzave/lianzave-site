@@ -4,6 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilián A. Zamora Vega — UX Researcher & Service Designer</title>
+
+/* ════════════════════════════════════════════════════════════
+     MODO "SOLO CASOS"  ·  se activa con ?view=casos en la URL
+     Oculta todo menos los casos y muestra un mini-encabezado.
+     ════════════════════════════════════════════════════════════ */
+
+  /* el mini-encabezado vive oculto por defecto */
+  #casos-header{ display:none; }
+
+  body.view-casos header.nav,
+  body.view-casos #inicio,
+  body.view-casos #sobre,
+  body.view-casos #recomendaciones,
+  body.view-casos #publicaciones,
+  body.view-casos #contacto,
+  body.view-casos footer{
+    display:none !important;
+  }
+
+  body.view-casos #casos-header{ display:block; }
+
+  /* un poco de aire arriba ya que no hay nav sticky */
+  body.view-casos #casos{ padding-top:0; }
+
+  /* estilos del mini-encabezado */
+  .casos-header-inner{
+    padding:48px 0 8px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .casos-id .nm{ font-size:1.5rem; font-weight:800; letter-spacing:-.02em; }
+  .casos-id .nm span{ color:var(--purple); }
+  .casos-id .rl{ color:var(--ink-soft); font-weight:600; font-size:1rem; margin-top:2px; }
+  .casos-id .ct{ color:var(--muted); font-size:.9rem; margin-top:8px; }
+  .casos-id .ct a{ color:var(--purple); font-weight:600; }
+  .casos-header-inner .lang-toggle{ flex-shrink:0; }
+  
 <style>
   :root{
     --bg:#ffffff;--bg-alt:#faf9fd;--tint:#f5f3ff;--tint-2:#ede9fe;
@@ -613,6 +655,22 @@
 
 <!-- CASE STUDIES -->
 <section id="casos">
+  <!-- MINI-HEADER (solo visible en modo ?view=casos) -->
+  <div id="casos-header">
+    <div class="wrap">
+      <div class="casos-header-inner">
+        <div class="casos-id">
+          <div class="nm">Lilián A. Zamora Vega<span>.</span></div>
+          <div class="rl">UX Researcher &amp; Service Designer</div>
+          <div class="ct">Ciudad de México · <a href="mailto:lianzave@gmail.com">lianzave@gmail.com</a> · <a href="https://www.linkedin.com/in/lianzave/" target="_blank" rel="noopener">LinkedIn</a></div>
+        </div>
+        <div class="lang-toggle" aria-label="Language">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="es">ES</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="sec-tag"><span class="en">Work</span><span class="es">Trabajo</span></span>
@@ -1471,6 +1529,11 @@
   const showInternal = FORCE_SHOW || _params.get('access') === ACCESS_KEY;
   if (!showInternal) document.body.classList.add('internal-locked');
   // ────────────────────────────────────────────────────────────────────
+
+  // ── Modo "solo casos" ───────────────────────────────────────
+  // Link para reclutadores: lianzave.com/?view=casos
+  if (_params.get('view') === 'casos') document.body.classList.add('view-casos');
+  // ────────────────────────────────────────────────────────────
 
   const ham = document.getElementById('ham');
   const mmenu = document.getElementById('mmenu');
