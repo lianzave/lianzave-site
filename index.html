@@ -266,7 +266,56 @@
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
 
+/* ── IMÁGENES REALES en casos ────────────────────────────────
+     Se activan al ponerle la clase "has-img" a un cs-hero-fig o
+     cs-figure y meterle un <img>. No borra nada existente. */
 
+  /* Portada del caso (banner ancho de arriba del modal) */
+  .cs-hero-fig.has-img{
+    padding:0;
+    background:none;
+    display:block;            /* anula el centrado flex del placeholder */
+  }
+  .cs-hero-fig.has-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;         /* llena el banner; recorta orillas si sobra */
+    display:block;
+  }
+
+  /* Gráfico interno (journey maps, tableros, charts) */
+  .cs-figure.has-img{
+    display:block;
+    aspect-ratio:auto;        /* la imagen conserva su proporción real */
+    height:auto;
+    border:1px solid var(--line);   /* quita el borde punteado */
+    background:var(--tint);
+    padding:6px;
+  }
+  .cs-figure.has-img img{
+    width:100%;
+    height:auto;              /* nunca recorta: muestra el gráfico completo */
+    display:block;
+    border-radius:9px;
+  }
+
+  /* Pie de imagen para usar debajo de un gráfico */
+  .cs-cap{
+    font-size:.82rem;
+    color:var(--muted);
+    text-align:center;
+    margin:8px 2px 0;
+  }
+
+  /* Foto real en lugar de las iniciales "LZ" (about-card) */
+  .about-card .avatar{ overflow:hidden; }
+  .about-card .avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  
   #cv-print{display:none}
 
   @media print{
