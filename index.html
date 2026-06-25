@@ -315,6 +315,43 @@
     object-fit:cover;
     display:block;
   }
+
+  /* Portada partida: video/mockup vertical + contexto al lado */
+  .cs-hero-split{
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    background:linear-gradient(135deg,#ede9fe,#f5f3ff);
+    border-bottom:1px solid var(--tint-2);
+  }
+  .cs-hero-split .media{
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .cs-hero-split .media video,
+  .cs-hero-split .media img{
+    width:100%;
+    max-width:240px;
+    height:auto;
+    border-radius:18px;
+    display:block;
+    box-shadow:0 18px 50px -16px rgba(0,0,0,.5);
+  }
+  .cs-hero-split .ctx{
+    padding:40px 38px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .cs-hero-split .ctx .cs-label{ margin-bottom:10px; }
+  .cs-hero-split .ctx p{ color:var(--ink-soft); margin:0; font-size:.98rem; line-height:1.6; }
+  @media (max-width:720px){
+    .cs-hero-split{ grid-template-columns:1fr; }
+    .cs-hero-split .media video,
+    .cs-hero-split .media img{ max-width:200px; }
+  }
   
   #cv-print{display:none}
 
