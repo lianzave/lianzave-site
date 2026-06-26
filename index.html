@@ -11,6 +11,15 @@
     --ink:#1e1b2e;--ink-soft:#3b3552;--muted:#6b6580;--line:#ece9f3;
     --radius:18px;--maxw:1080px;font-synthesis:none;
   }
+
+  /* Imagen de preview en la tarjeta de la grilla */
+  .case-cover.has-img{ padding:0; }
+  .case-cover.has-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
      
 /* ── MODO "SOLO CASOS" · se activa con ?view=casos ───────────── */
   #casos-header{ display:none; }
@@ -801,8 +810,8 @@
         </div>
       </article>
       <article class="case-card reveal" onclick="openCase('admin')">
-        <div class="case-cover cover-1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15a8 8 0 0 1 16 0"/><path d="M12 15l4-3"/><circle cx="12" cy="15" r="1"/><path d="M3 19h18"/></svg>
+        <div class="case-cover cover-1 has-img">
+          <img src="assets/casos/admin/preview.jpg" alt="">
         </div>
         <span class="case-badge">FinTech · 2024</span>
         <div class="case-overlay">
@@ -813,8 +822,8 @@
         </div>
       </article>
       <article class="case-card reveal" onclick="openCase('community')">
-        <div class="case-cover cover-1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <div class="case-cover cover-1 has-img">
+          <img src="assets/casos/comunidad/preview.jpg" alt="">
         </div>
         <span class="case-badge">FinTech · 2023</span>
         <div class="case-overlay">
@@ -825,8 +834,8 @@
         </div>
       </article>
       <article class="case-card reveal" onclick="openCase('profile')">
-        <div class="case-cover cover-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 9h3M15 13h3M6 16c.5-1.5 2-2 3-2s2.5.5 3 2"/></svg>
+        <div class="case-cover cover-2 has-img">
+          <img src="assets/casos/profile/preview.jpg" alt="">
         </div>
         <span class="case-badge">EdTech · 2022</span>
         <div class="case-overlay">
@@ -837,8 +846,8 @@
         </div>
       </article>
       <article class="case-card reveal" onclick="openCase('reembolso')">
-        <div class="case-cover cover-3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2.5"/><path d="M2 10h20"/><path d="m8 15-2-2 2-2"/><path d="M6 13h6a3 3 0 0 1 3 3"/></svg>
+        <div class="case-cover cover-3 has-img">
+          <img src="assets/casos/reembolso/preview.jpg" alt="">
         </div>
         <span class="case-badge">FinTech · 2023</span>
         <div class="case-overlay">
@@ -849,8 +858,8 @@
         </div>
       </article>
       <article class="case-card reveal" onclick="openCase('actionflows')">
-        <div class="case-cover cover-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 8h18"/><path d="M9 21h6"/><path d="M12 17v4"/><path d="M7 13h4"/></svg>
+       <div class="case-cover cover-2 has-img">
+          <img src="assets/casos/actionflows/preview.jpg" alt="">
         </div>
         <span class="case-badge">FinTech · 2023</span>
         <div class="case-overlay">
