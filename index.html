@@ -359,6 +359,36 @@
     margin-left:auto;
     margin-right:auto;
   }
+
+  /* Fila de fase: imagen + texto en dos columnas */
+  .cs-phase{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;   /* imagen | texto */
+    gap:24px;
+    align-items:center;
+    margin:18px 0;
+  }
+  .cs-phase img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:12px;
+    border:1px solid var(--line);
+  }
+  .cs-phase.is-vertical{ grid-template-columns:.7fr 1fr; }   /* imagen vertical más angosta */
+  .cs-phase.is-vertical img{ max-width:260px; }
+  .cs-phase .cs-phase-txt .tag{
+    font-size:.74rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--purple); font-weight:700; margin-bottom:6px;
+  }
+  .cs-phase .cs-phase-txt p{ color:var(--ink-soft); margin:0; font-size:.95rem; line-height:1.55; }
+  /* alterna el lado: fase 2 con imagen a la derecha (opcional, da ritmo) */
+  .cs-phase.flip img{ order:2; }
+  @media (max-width:720px){
+    .cs-phase, .cs-phase.is-vertical{ grid-template-columns:1fr; }
+    .cs-phase.flip img{ order:0; }
+    .cs-phase.is-vertical img{ max-width:220px; margin:0 auto; }
+  }
   
   #cv-print{display:none}
 
@@ -1353,22 +1383,29 @@
               <div class="cs-stat"><div class="n">20</div><div class="l"><span class="en">in-depth interviews (8 + 6 + 6)</span><span class="es">entrevistas a profundidad (8 + 6 + 6)</span></div></div>
               <div class="cs-stat"><div class="n">1,127</div><div class="l"><span class="en">survey &amp; usability responses (717 + 311 + 99)</span><span class="es">respuestas de encuesta y usabilidad (717 + 311 + 99)</span></div></div>
             </div>
-            <p><span class="en"><b>Phase 1 — Exploration:</b> a competitive benchmark (11 banks &amp; fintechs), the cross-functional workshop, 8 in-depth interviews across 4 user profiles, and 717 Maze survey responses — to test whether centralizing made sense and map the real need. <b>Phase 2 — Evaluation:</b> 6 in-depth interviews across 3 profiles and 311 unmoderated Maze usability responses on a clickable prototype — first-click and success on the entry points, comprehension, and desirability. <b>Phase 3 — Post-launch validation (Nov 2024):</b> after the module shipped, 6 in-depth interviews and 99 survey responses with real early adopters of the live feature, split into low-frequency users (1–2×/day) and high-frequency users (up to 12×/day).</span><span class="es"><b>Fase 1 — Exploración:</b> un benchmark competitivo (11 bancos y fintechs), el workshop transversal, 8 entrevistas a profundidad en 4 perfiles de usuario y 717 respuestas en Maze — para validar si centralizar tenía sentido y mapear la necesidad real. <b>Fase 2 — Evaluación:</b> 6 entrevistas a profundidad en 3 perfiles y 311 respuestas de usabilidad no moderada en Maze sobre un prototipo clickeable — primer clic y éxito en los entry points, comprensión y deseabilidad. <b>Fase 3 — Validación post-lanzamiento (nov. 2024):</b> tras el lanzamiento del módulo, 6 entrevistas a profundidad y 99 respuestas de encuesta con early adopters reales de la función en vivo, divididos en usuarios de baja frecuencia (1–2×/día) y de alta frecuencia (hasta 12×/día).</span></p>
-         <figure class="cs-figure has-img">
-              <img src="assets/casos/admin/fase1.jpg" alt="Phase 1 — competitive benchmark and exploration">
-            </figure>
-            <div class="cs-cap"><span class="en"><b>Phase 1 · Exploration</b> — competitive benchmark &amp; workshop</span><span class="es"><b>Fase 1 · Exploración</b> — benchmark competitivo y workshop</span></div>
+       <div class="cs-phase">
+              <img src="assets/casos/admin/fase1.gif" alt="Phase 1 — competitive benchmark and exploration">
+              <div class="cs-phase-txt">
+                <div class="tag"><span class="en">Phase 1 · Exploration</span><span class="es">Fase 1 · Exploración</span></div>
+                <p><span class="en">Competitive benchmark (11 banks &amp; fintechs), a cross-functional workshop I facilitated, 8 in-depth interviews and 717 Maze responses — to test whether centralizing even made sense.</span><span class="es">Benchmark competitivo (11 bancos y fintechs), un workshop transversal que facilité, 8 entrevistas a profundidad y 717 respuestas en Maze — para validar si centralizar siquiera tenía sentido.</span></p>
+              </div>
+            </div>
 
-            <figure class="cs-figure has-img is-vertical">
-              <img src="assets/casos/admin/fase2.jpg" alt="Phase 2 — prototype evaluation in Maze">
-            </figure>
-            <div class="cs-cap"><span class="en"><b>Phase 2 · Evaluation</b> — clickable prototype tested in Maze</span><span class="es"><b>Fase 2 · Evaluación</b> — prototipo clickeable evaluado en Maze</span></div>
+            <div class="cs-phase is-vertical flip">
+              <img src="assets/casos/admin/fase2.gif" alt="Phase 2 — prototype evaluation in Maze">
+              <div class="cs-phase-txt">
+                <div class="tag"><span class="en">Phase 2 · Evaluation</span><span class="es">Fase 2 · Evaluación</span></div>
+                <p><span class="en">6 in-depth interviews and 311 unmoderated Maze responses on a clickable prototype — first-click and success on the entry points, comprehension, and desirability.</span><span class="es">6 entrevistas a profundidad y 311 respuestas no moderadas en Maze sobre un prototipo clickeable — primer clic y éxito en los entry points, comprensión y deseabilidad.</span></p>
+              </div>
+            </div>
 
-            <figure class="cs-figure has-img">
-              <img src="assets/casos/admin/fase3.jpg" alt="Phase 3 — post-launch validation synthesis">
-            </figure>
-            <div class="cs-cap"><span class="en"><b>Phase 3 · Post-launch</b> — validation with real early adopters</span><span class="es"><b>Fase 3 · Post-lanzamiento</b> — validación con early adopters reales</span></div>
-          </div>
+            <div class="cs-phase">
+              <img src="assets/casos/admin/fase3.gif" alt="Phase 3 — post-launch validation synthesis">
+              <div class="cs-phase-txt">
+                <div class="tag"><span class="en">Phase 3 · Post-launch</span><span class="es">Fase 3 · Post-lanzamiento</span></div>
+                <p><span class="en">After launch, 6 in-depth interviews and 99 survey responses with real early adopters of the live feature — split into low- and high-frequency users.</span><span class="es">Tras el lanzamiento, 6 entrevistas a profundidad y 99 respuestas de encuesta con early adopters reales de la función en vivo — divididos en usuarios de baja y alta frecuencia.</span></p>
+              </div>
+            </div>
 
           <div class="cs-section">
             <div class="cs-label"><span class="en">Who they are</span><span class="es">Quiénes son</span></div>
