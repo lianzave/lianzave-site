@@ -352,6 +352,13 @@
     .cs-hero-split .media video,
     .cs-hero-split .media img{ max-width:200px; }
   }
+
+/* Imagen vertical dentro de un caso (no a todo lo ancho) */
+  .cs-figure.has-img.is-vertical{
+    max-width:300px;
+    margin-left:auto;
+    margin-right:auto;
+  }
   
   #cv-print{display:none}
 
@@ -1313,10 +1320,14 @@
           <h2><span class="en">They budget by the month; the module spoke in totals</span><span class="es">Presupuestan por mes; el módulo hablaba en totales</span></h2>
           <div class="meta">Rappicard · <span class="en">UX Researcher · CX · Mexico · 2023–2024 · three-phase study (incl. post-launch)</span><span class="es">UX Researcher · CX · México · 2023–2024 · estudio en tres fases (incl. post-lanzamiento)</span></div>
         </div>
-        <div class="cs-hero-fig">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 15a8 8 0 0 1 16 0"/><path d="M12 15l4-3"/><circle cx="12" cy="15" r="1"/><path d="M3 19h18"/></svg>
-          <div class="cs-fig-tag"><span class="en">Cover visual</span><span class="es">Imagen de portada</span></div>
-          <div class="cs-fig-cap"><span class="en">Credit-line manager — dynamic line + financing tools by block</span><span class="es">Administrador de línea de crédito — línea dinámica + herramientas por bloque</span></div>
+       <div class="cs-hero-split">
+          <div class="media">
+            <video src="assets/casos/admin/portada.gif" autoplay loop muted playsinline></video>
+          </div>
+          <div class="ctx">
+            <div class="cs-label"><span class="en">In a nutshell</span><span class="es">En breve</span></div>
+            <p><span class="en">RappiCard's financing tools lived scattered across the app. A three-phase study — exploration, prototype evaluation, and post-launch validation with real early adopters — reframed a "centralize it" brief into the real problem: a global module colliding with a monthly mental model. Post-launch research later confirmed the call.</span><span class="es">Las herramientas de financiamiento de RappiCard vivían dispersas en la app. Un estudio en tres fases — exploración, evaluación de prototipo y validación post-lanzamiento con early adopters reales — replanteó un brief de "centralizar" hacia el problema real: un módulo global que chocaba con un modelo mental mensual. El research post-lanzamiento lo confirmó después.</span></p>
+          </div>
         </div>
         <div class="cs-body">
 
@@ -1343,11 +1354,20 @@
               <div class="cs-stat"><div class="n">1,127</div><div class="l"><span class="en">survey &amp; usability responses (717 + 311 + 99)</span><span class="es">respuestas de encuesta y usabilidad (717 + 311 + 99)</span></div></div>
             </div>
             <p><span class="en"><b>Phase 1 — Exploration:</b> a competitive benchmark (11 banks &amp; fintechs), the cross-functional workshop, 8 in-depth interviews across 4 user profiles, and 717 Maze survey responses — to test whether centralizing made sense and map the real need. <b>Phase 2 — Evaluation:</b> 6 in-depth interviews across 3 profiles and 311 unmoderated Maze usability responses on a clickable prototype — first-click and success on the entry points, comprehension, and desirability. <b>Phase 3 — Post-launch validation (Nov 2024):</b> after the module shipped, 6 in-depth interviews and 99 survey responses with real early adopters of the live feature, split into low-frequency users (1–2×/day) and high-frequency users (up to 12×/day).</span><span class="es"><b>Fase 1 — Exploración:</b> un benchmark competitivo (11 bancos y fintechs), el workshop transversal, 8 entrevistas a profundidad en 4 perfiles de usuario y 717 respuestas en Maze — para validar si centralizar tenía sentido y mapear la necesidad real. <b>Fase 2 — Evaluación:</b> 6 entrevistas a profundidad en 3 perfiles y 311 respuestas de usabilidad no moderada en Maze sobre un prototipo clickeable — primer clic y éxito en los entry points, comprensión y deseabilidad. <b>Fase 3 — Validación post-lanzamiento (nov. 2024):</b> tras el lanzamiento del módulo, 6 entrevistas a profundidad y 99 respuestas de encuesta con early adopters reales de la función en vivo, divididos en usuarios de baja frecuencia (1–2×/día) y de alta frecuencia (hasta 12×/día).</span></p>
-            <div class="cs-figure">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
-              <div class="cs-fig-tag"><span class="en">Graphic</span><span class="es">Gráfico</span></div>
-              <div class="cs-fig-cap"><span class="en">Benchmark board, Maze heatmaps &amp; post-launch synthesis (customer data anonymized)</span><span class="es">Tablero de benchmark, heatmaps de Maze y síntesis post-lanzamiento (datos de cliente anonimizados)</span></div>
-            </div>
+         <figure class="cs-figure has-img">
+              <img src="assets/casos/admin/fase1.jpg" alt="Phase 1 — competitive benchmark and exploration">
+            </figure>
+            <div class="cs-cap"><span class="en"><b>Phase 1 · Exploration</b> — competitive benchmark &amp; workshop</span><span class="es"><b>Fase 1 · Exploración</b> — benchmark competitivo y workshop</span></div>
+
+            <figure class="cs-figure has-img is-vertical">
+              <img src="assets/casos/admin/fase2.jpg" alt="Phase 2 — prototype evaluation in Maze">
+            </figure>
+            <div class="cs-cap"><span class="en"><b>Phase 2 · Evaluation</b> — clickable prototype tested in Maze</span><span class="es"><b>Fase 2 · Evaluación</b> — prototipo clickeable evaluado en Maze</span></div>
+
+            <figure class="cs-figure has-img">
+              <img src="assets/casos/admin/fase3.jpg" alt="Phase 3 — post-launch validation synthesis">
+            </figure>
+            <div class="cs-cap"><span class="en"><b>Phase 3 · Post-launch</b> — validation with real early adopters</span><span class="es"><b>Fase 3 · Post-lanzamiento</b> — validación con early adopters reales</span></div>
           </div>
 
           <div class="cs-section">
