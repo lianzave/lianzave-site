@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Material complementario — Silia</title>
+<style>
+  @page { size: landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{ --lime:#D9ED3A; --ink:#15151a; --cream:#F4F3EE; --mut:#6b6b66; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; background:#3a3a3c; -webkit-print-color-adjust:exact; print-color-adjust:exact; color:var(--ink); }
+  .mono{ font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; letter-spacing:.04em; }
+  .deck{ display:flex; flex-direction:column; align-items:center; gap:22px; padding:22px; }
+  .slide{ position:relative; width:1160px; max-width:100%; aspect-ratio:16/9; overflow:hidden; border-radius:10px; box-shadow:0 10px 40px rgba(0,0,0,.35); padding:64px 72px; display:flex; flex-direction:column; }
+  .cover{ background:#0a0a0c; color:#fff;
+    background-image: radial-gradient(circle at 64% 46%, rgba(255,245,220,.95) 0%, rgba(255,196,130,.45) 9%, rgba(150,170,190,.18) 22%, rgba(10,10,12,0) 44%), radial-gradient(circle at 64% 46%, rgba(217,237,58,.10) 0%, rgba(10,10,12,0) 38%), #0a0a0c; }
+  .light{ background:var(--cream); }
+  .wm{ font-weight:700; font-size:20px; letter-spacing:.02em; display:flex; align-items:center; gap:8px; }
+  .wm .dot{ width:13px; height:13px; background:var(--lime); border-radius:3px; transform:rotate(45deg); display:inline-block; }
+  .cover .kicker{ margin-top:auto; font-size:14px; color:#cfcfcf; letter-spacing:.06em; text-transform:uppercase; }
+  .cover h1{ font-size:88px; line-height:.98; font-weight:700; margin:14px 0 10px; letter-spacing:-.02em; }
+  .cover .sub{ font-size:20px; color:#e8e8e8; }
+  .cover .name-hint{ color:var(--lime); }
+  .foot{ position:absolute; left:72px; right:72px; bottom:30px; display:flex; justify-content:space-between; font-size:12px; }
+  .cover .foot{ color:#9a9a9a; }
+  .kicker2{ font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--mut); }
+  .light h2{ font-size:46px; font-weight:700; letter-spacing:-.02em; margin:6px 0 26px; }
+  .plus{ color:#9bb800; font-weight:700; }
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px 20px; }
+  .step{ }
+  .step .n{ display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:8px; background:var(--lime); font-weight:700; font-size:15px; margin-bottom:9px; }
+  .step h3{ font-size:16px; font-weight:700; margin-bottom:3px; }
+  .step p{ font-size:13px; color:var(--mut); line-height:1.4; }
+  .step.opt h3{ color:#7a7a74; }
+  .dec{ display:flex; flex-direction:column; gap:11px; }
+  .dec-item{ display:grid; grid-template-columns:22px 1fr; gap:14px; }
+  .dec-item .plus{ font-size:18px; line-height:1.3; }
+  .dec-item h3{ font-size:16px; font-weight:700; margin-bottom:2px; }
+  .dec-item p{ font-size:13.5px; color:#3f3f3a; line-height:1.45; }
+  .dec-item .alt{ color:var(--mut); }
+  .uxr-intro{ font-size:16px; color:#3f3f3a; line-height:1.5; max-width:880px; margin-bottom:22px; }
+  .uxr-intro b{ color:var(--ink); }
+  .uxr{ display:grid; grid-template-columns:1fr 1fr; gap:14px 34px; }
+  .uxr-item{ display:grid; grid-template-columns:18px 1fr; gap:12px; }
+  .uxr-item h3{ font-size:15px; font-weight:700; margin-bottom:2px; }
+  .uxr-item p{ font-size:13px; color:var(--mut); line-height:1.42; }
+  .scal{ background:var(--lime); border-radius:14px; padding:34px 40px; font-size:18px; line-height:1.6; max-width:1000px; }
+  .scal b{ font-weight:700; }
+  .proto-link{ display:inline-flex; align-items:center; gap:8px; background:var(--lime); color:var(--ink); font-weight:700; font-size:14px; text-decoration:none; border-radius:999px; padding:9px 18px; margin-bottom:20px; width:fit-content; }
+  .map{ display:flex; gap:22px; height:330px; }
+  .map-main{ flex:1.55; display:flex; flex-direction:column; gap:10px; }
+  .map-side{ flex:1; background:#fff; border:1px solid #e6e4da; border-radius:12px; display:flex; flex-direction:column; overflow:hidden; }
+  .mz{ position:relative; background:#fff; border:1px solid #e6e4da; border-radius:10px; padding:10px 13px; }
+  .mz .pin{ position:absolute; top:-10px; left:-10px; width:22px; height:22px; border-radius:7px; background:var(--lime); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:11.5px; box-shadow:0 2px 6px rgba(0,0,0,.15); }
+  .mz-label{ font-size:11px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+  .mz-filters{ display:flex; gap:7px; }
+  .mz-chip{ font-size:10px; background:#f2f0e8; border:1px solid #e6e4da; border-radius:999px; padding:4px 10px; color:#5c5c56; }
+  .mz-chip.on{ background:#eef3d2; border-color:#d8e6a0; color:#5c6b1a; }
+  .mz-pinned{ background:#faf9f4; display:flex; gap:8px; }
+  .mz-pinned .mini{ background:#fff; border:1px solid #e6e4da; border-radius:8px; padding:7px 10px; font-size:10px; color:#3f3f3a; }
+  .mz-table{ flex:1; padding-top:2px; }
+  .mz-table .row{ height:8px; background:#eeece3; border-radius:3px; margin-bottom:6px; }
+  .mz-table .row:last-child{ width:65%; margin-bottom:0; }
+  .mz-outputs{ display:flex; gap:9px; }
+  .out-card{ flex:1; background:#fff; border:1px solid #e6e4da; border-radius:8px; padding:9px 10px; position:relative; }
+  .out-card .bars{ display:flex; align-items:flex-end; gap:4px; height:26px; margin-top:6px; }
+  .out-card .bars span{ width:7px; background:#b9b0e6; border-radius:2px; display:inline-block; }
+  .out-card .share{ position:absolute; top:8px; right:8px; width:15px; height:15px; border-radius:4px; background:#f2f0e8; }
+  .mz-dash{ display:flex; justify-content:flex-end; }
+  .dash-btn{ font-size:10px; font-weight:600; background:var(--ink); color:#fff; border-radius:999px; padding:5px 11px; }
+  .side-head{ display:flex; align-items:center; gap:8px; padding:9px 11px; border-bottom:1px solid #eee; position:relative; }
+  .side-head .avatar{ width:18px; height:18px; border-radius:6px; background:#ece7fb; }
+  .side-head .t{ font-size:10.5px; font-weight:700; color:var(--ink); }
+  .side-body{ flex:1; padding:11px; position:relative; }
+  .bubble{ max-width:82%; background:#f4f3ee; border-radius:10px 10px 10px 3px; padding:6px 9px; font-size:10px; color:#3f3f3a; margin-bottom:7px; }
+  .bubble.me{ margin-left:auto; background:var(--ink); color:#fff; border-radius:10px 10px 3px 10px; }
+  .side-input{ display:flex; gap:6px; padding:9px 11px; border-top:1px solid #eee; position:relative; }
+  .side-input .fld{ flex:1; height:20px; background:#f4f3ee; border-radius:8px; }
+  .side-input .snd{ width:20px; height:20px; border-radius:6px; background:var(--lime); }
+  .guide{ display:grid; grid-template-columns:1fr 1fr; gap:13px 32px; }
+  .guide-item .q{ display:inline-block; font-family:ui-monospace,"SFMono-Regular",Menlo,monospace; font-size:11px; background:#f2f0e8; border:1px solid #e6e4da; border-radius:6px; padding:3px 9px; color:#3f3f3a; }
+  .guide-item .r{ font-size:12px; color:var(--mut); line-height:1.4; margin-top:4px; }
+  .guide-note{ font-size:12.5px; color:#3f3f3a; line-height:1.5; margin-top:18px; max-width:1000px; }
+  .light .foot{ color:#9a9a92; }
+  .pbtn{ position:fixed; top:16px; right:16px; z-index:99; background:var(--ink); color:#fff; border:none; border-radius:10px; padding:11px 16px; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.3); }
+  @media print {
+    body{ background:#fff; }
+    .deck{ gap:0; padding:0; }
+    .slide{ width:100%; max-width:none; height:100vh; aspect-ratio:auto; border-radius:0; box-shadow:none; }
+    .noprint{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+<button class="pbtn noprint" onclick="window.print()">⤓ Descargar PDF</button>
+<div class="deck">
+
+  <!-- COVER -->
+  <section class="slide cover">
+    <div class="wm"><span class="dot"></span> Silia</div>
+    <div class="kicker">Product Design Challenge · Talk-to-Data Agent</div>
+    <h1>Lilián Zamora</h1>
+    <div class="sub">UX Researcher · Material complementario</div>
+    <div class="sub" style="font-size:15px; color:#bcbcbc; margin-top:8px">linkedin.com/in/lianzave</div>
+    <div class="foot mono"><span>Born from the spirit of discovery</span><span>Silia</span></div>
+  </section>
+
+  <!-- MAPA -->
+  <section class="slide light">
+    <div class="kicker2">01 · Recorrido del usuario</div>
+    <h2>Mapa de interacciones</h2>
+    <a href="https://lianzave.com/silia/" target="_blank" class="proto-link">↗ Prototipo en vivo — lianzave.com/silia/</a>
+
+    <div class="map">
+      <div class="map-main">
+        <div class="mz">
+          <span class="pin">3</span>
+          <div class="mz-label">Traducción nativa</div>
+          <div class="mz-filters">
+            <div class="mz-chip on">✦ Tipo de Camión: Pesado</div>
+            <div class="mz-chip">Filters · 1</div>
+          </div>
+        </div>
+        <div class="mz mz-pinned">
+          <span class="pin">5</span>
+          <div style="flex:1">
+            <div class="mz-label">Conservar</div>
+            <div style="display:flex; gap:8px;">
+              <div class="mini">Status summary</div>
+              <div class="mini">Monto by company</div>
+            </div>
+          </div>
+        </div>
+        <div class="mz mz-table">
+          <div class="row"></div><div class="row"></div><div class="row"></div><div class="row"></div>
+        </div>
+        <div class="mz">
+          <span class="pin">4</span>
+          <div class="mz-label">Output en la tabla</div>
+          <div class="mz-outputs">
+            <div class="out-card">
+              <div class="bars"><span style="height:60%"></span><span style="height:90%"></span><span style="height:40%"></span><span style="height:75%"></span></div>
+            </div>
+            <div class="out-card">
+              <span class="pin" style="left:auto; right:-10px;">7</span>
+              <div class="share"></div>
+              <div class="bars"><span style="height:80%"></span><span style="height:50%"></span><span style="height:65%"></span></div>
+            </div>
+          </div>
+          <div class="mz-dash"><span class="dash-btn">⊞ Open as dashboard</span></div>
+        </div>
+      </div>
+
+      <div class="map-side">
+        <div class="side-head">
+          <span class="pin">1</span>
+          <div class="avatar"></div>
+          <div class="t">Talk to Data</div>
+        </div>
+        <div class="side-body">
+          <span class="pin">6</span>
+          <div class="mz-label" style="margin-top:6px;">Interacción posterior</div>
+          <div class="bubble">Charted the amounts by company.</div>
+          <div class="bubble me">only heavy trucks</div>
+          <div class="bubble">Filtered to Camion Pesado — 2 of 8 rows.</div>
+        </div>
+        <div class="side-input">
+          <span class="pin">2</span>
+          <div style="width:100%">
+            <div class="mz-label" style="margin-bottom:5px;">Preguntar</div>
+            <div style="display:flex; gap:6px;">
+              <div class="fld"></div>
+              <div class="snd"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-note">8 · Dashboard (opcional) — junta los outputs sin sacar al usuario de la Data View; se abre desde el botón junto a la zona de outputs.</div>
+
+    <div class="foot" style="font-size:12px;">
+      <span class="mono" style="color:#9a9a92;">github.com/lianzave/Silia_Talk-to-data</span>
+      <span class="mono" style="color:#9a9a92;">Silia</span>
+    </div>
+  </section>
+
+  <!-- DECISIONES -->
+  <section class="slide light">
+    <div class="kicker2">02 · Decisiones clave y trade-offs</div>
+    <h2>Qué decidí, y qué descarté</h2>
+    <div class="dec">
+      <div class="dec-item"><span class="plus">+</span><div><h3>El agente habla el vocabulario de la tabla</h3><p>Sus acciones aparecen como filtros nativos, editables y reversibles. <span class="alt">Descarté el chatbot paralelo con respuestas en burbujas: duplicaba acciones y se sentía pegado, no integrado.</span></p></div></div>
+      <div class="dec-item"><span class="plus">+</span><div><h3>Los outputs viven en la Data View, no en el chat</h3><p>Se generan en vivo sobre la tabla; el widget solo los referencia. <span class="alt">Descarté dejarlos en la conversación: efímeros y desconectados de donde vive el dato.</span></p></div></div>
+      <div class="dec-item"><span class="plus">+</span><div><h3>Conservar lo generado; fijar da protagonismo</h3><p>Todo lo que el usuario genera se conserva en su Data View. Fijar le da protagonismo en la zona destacada, y eliminar lo quita si ya no lo necesita. Los outputs son fotos estables, tipo vista guardada. <span class="alt">Descarté el auto-refresh: volvía ambiguo qué output sigue a la tabla y cuál no.</span></p></div></div>
+      <div class="dec-item"><span class="plus">+</span><div><h3>El dashboard es opcional y vive dentro del workspace</h3><p>Junta los outputs sin una pantalla nueva. <span class="alt">Descarté una página de dashboard aparte: sacaría al usuario de la tabla.</span></p></div></div>
+      <div class="dec-item"><span class="plus">+</span><div><h3>Compartir lleva el contexto conversacional</h3><p>Tres niveles: output, set fijado o dashboard. <span class="alt">Descarté compartir solo un PNG estático, que llega como una foto congelada. El link lleva el output vivo y su conversación, así quien lo recibe puede seguir preguntando.</span></p></div></div>
+      <div class="dec-item"><span class="plus">+</span><div><h3>El agente distingue entre no entender y no poder</h3><p>Frente a preguntas ambiguas o fuera de las columnas disponibles, repregunta o lo dice en vez de adivinar. Y frente a cálculos que no son un filtro —como un promedio— los materializa como un objeto: una tarjeta de métrica en la Data View. <span class="alt">Descarté simular una respuesta o forzar todo a un chip: eso rompería la confianza que el resto del diseño construye.</span></p></div></div>
+    </div>
+    <div class="foot mono"><span>Talk-to-Data Agent</span><span>Silia</span></div>
+  </section>
+
+  <!-- UXR -->
+  <section class="slide light">
+    <div class="kicker2">03 · Mi diferenciador</div>
+    <h2>La investigación detrás de cada decisión</h2>
+    <p class="uxr-intro">Vengo de <b>UX Research</b>, y eso definió el producto más que cualquier patrón visual. Cada decisión de arriba responde a una hipótesis sobre cómo piensan y desconfían los usuarios de negocio:</p>
+    <div class="uxr">
+      <div class="uxr-item"><span class="plus">+</span><div><h3>Confianza por transparencia</h3><p>Los usuarios de negocio no adoptan automatización "mágica" que no pueden ver ni corregir. Por eso: caja de vidrio — cada acción es un chip nativo, visible y reversible.</p></div></div>
+      <div class="uxr-item"><span class="plus">+</span><div><h3>Respetar el modelo mental</h3><p>Ya entienden filtros y vistas. Inventar un sistema paralelo sube la curva de aprendizaje. Por eso reutilizo las primitivas que ya conocen.</p></div></div>
+      <div class="uxr-item"><span class="plus">+</span><div><h3>Costo de cambio de contexto</h3><p>Saltar a una herramienta de BI rompe el flujo y pierde el contexto de la pregunta. Por eso todo vive y se gestiona dentro de la Data View.</p></div></div>
+      <div class="uxr-item"><span class="plus">+</span><div><h3>Señal sobre ruido</h3><p>Conservar no es amontonar. Lo generado se guarda, pero fijar crea jerarquía: lo importante sube a primer plano y eliminar limpia lo que sobra. El usuario controla qué destaca.</p></div></div>
+      <div class="uxr-item"><span class="plus">+</span><div><h3>El gap real del BI</h3><p>Frente a un dashboard tradicional no puedes repreguntar: si quieres "y solo los confirmados", hay que rearmarlo. El output conversable deja preguntar ahí mismo y devuelve un gráfico refinado.</p></div></div>
+    </div>
+    <p style="font-size:13px; color:#3f3f3a; line-height:1.5; max-width:900px; margin-top:18px;">Estas cinco hipótesis son mi lectura inicial, no verdades cerradas. Antes de escalar el patrón las validaría con pruebas de usabilidad moderadas sobre las decisiones más costosas de revertir —vocabulario nativo, fijar vs. auto-refresh, niveles de compartir— y con un análisis de los mensajes que caen en el fallback, para saber primero dónde el agente necesita ampliar su vocabulario.</p>
+    <div class="foot mono"><span>Talk-to-Data Agent</span><span>Silia</span></div>
+  </section>
+
+  <!-- ESCALABILIDAD -->
+  <section class="slide light">
+    <div class="kicker2">04 · Nota de escalabilidad</div>
+    <h2>Cómo crece</h2>
+    <div class="scal">
+      El agente es <b>schema-aware</b> sobre las columnas tipadas, así que el mismo patrón sirve para cualquier Data View, industria o vertical sin rediseño. Opera sobre <b>filtros y queries</b>, no sobre filas cargadas en memoria, por lo que aguanta grandes volúmenes. Y como cada output se materializa como <b>objeto nativo</b> (vista, gráfico, dashboard) dentro de su propia Data View, la capa analítica <b>emerge del dato</b> en vez de mantenerse aparte. Con múltiples agentes, cada uno se especializa sobre esa misma mecánica compartida.
+    </div>
+    <p style="font-size:13px; color:var(--mut); line-height:1.5; max-width:900px; margin-top:16px;">En un entorno multiusuario, cada output y cada fijado llevarían <b style="color:var(--ink)">autoría y visibilidad</b> —individual o de equipo— y toda acción del agente sobre filtros u outputs quedaría en un <b style="color:var(--ink)">registro de auditoría</b>: quién generó, fijó, eliminó o compartió qué, y cuándo.</p>
+    <div class="foot mono"><span>Talk-to-Data Agent</span><span>Silia</span></div>
+  </section>
+
+  <!-- GUÍA DE NAVEGACIÓN -->
+  <section class="slide light">
+    <div class="kicker2">05 · Guía de navegación</div>
+    <h2>Cómo probar los escenarios ya preparados</h2>
+    <div class="guide">
+      <div class="guide-item"><span class="q">show only heavy and medium trucks</span><div class="r">Enciende el chip de filtro nativo — editable y con deshacer.</div></div>
+      <div class="guide-item"><span class="q">summarize the statuses</span><div class="r">Genera una tarjeta de resumen narrativo en la Data View.</div></div>
+      <div class="guide-item"><span class="q">chart amounts by company</span><div class="r">Genera el gráfico y activa el modo de drill-down conversacional.</div></div>
+      <div class="guide-item"><span class="q">confirmed only</span><div class="r">(con un gráfico activo) Refina el gráfico sin salir del contexto.</div></div>
+      <div class="guide-item"><span class="q">average monto / average trust</span><div class="r">Calcula un objeto — tarjeta de métrica, no un filtro.</div></div>
+      <div class="guide-item"><span class="q">top 5 by amount</span><div class="r">Gráfico de los 5 montos más altos, listo para drill-down.</div></div>
+      <div class="guide-item"><span class="q">top ones</span><div class="r">Ambiguo: repregunta "¿Top cuántos?" con opciones clicables.</div></div>
+      <div class="guide-item"><span class="q">show recent ones</span><div class="r">Ambiguo: pide la ventana de tiempo en vez de adivinar.</div></div>
+      <div class="guide-item"><span class="q">days between reception and shipping</span><div class="r">Fuera de alcance: dice qué columna faltaría para calcularlo.</div></div>
+      <div class="guide-item"><span class="q">correlation between trust and amount</span><div class="r">Fuera de alcance: lo dice en vez de simular un resultado.</div></div>
+    </div>
+    <p class="guide-note">Además: fija cualquier output para subirlo a la zona destacada; ábrelo como dashboard para reordenar por drag; comparte output, set fijado o dashboard —cada link lleva su contexto conversacional—; y exporta cualquier tarjeta a PDF, CSV o XML desde su menú de compartir.</p>
+    <div class="foot mono"><span>Talk-to-Data Agent</span><span>Silia</span></div>
+  </section>
+
+</div>
+</body>
+</html>
