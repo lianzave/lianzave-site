@@ -154,6 +154,7 @@ const TRUCKS = { heavy: "Camion Pesado", pesado: "Camion Pesado", medium: "Camio
 const STATUSES = { confirmed: "Confirmed", pending: "Pending", rejected: "Rejected", sent: "Sent Mail", mail: "Sent Mail" };
 
 const parseTrucks = (q) => [...new Set(Object.keys(TRUCKS).filter((k) => q.includes(k)).map((k) => TRUCKS[k]))];
+const parseStatuses = (q) => [...new Set(Object.keys(STATUSES).filter((k) => q.includes(k)).map((k) => STATUSES[k]))];
 const money = (n) => "$" + n.toLocaleString("en-US");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const csvCell = (v) => { const s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
@@ -361,18 +362,39 @@ function App() {
     addMsg({ role: "user", text });
     const q = text.toLowerCase();
 
-    setTimeout(() => {
+  setTimeout(() => {
       if (context && context.kind === "chart") {
         const r = refine(q, context.rows);
         if (r) {
+          // AMBIGUOUS SCOPE — refining an already-narrowed chart can silently intersect to zero
+          if (r.rows.length === 0) {
+            const full = refine(q, filtered);
+            if (full && full.rows.length > 0) {
+              addMsg({ role: "assistant", text: "On \u201c" + context.title + "\u201d that\u2019s 0 rows \u2014 the intersection is empty. Did you mean that across the whole table instead?", resetTo: text });
+              return;
+            }
+          }
+          const trucksHere = parseTrucks(q);
+          const statusesHere = parseStatuses(q);
+          const touched = [];
+          if (trucksHere.length) {
+            setFilters((prev) => [...prev.filter((f) => f.id !== "truck"), { id: "truck", label: "Tipo de Camión: " + trucksHere.join(", "), agent: true, test: (row) => trucksHere.includes(row.truck) }]);
+            touched.push("truck");
+          }
+          if (statusesHere.length) {
+            setFilters((prev) => [...prev.filter((f) => f.id !== "status"), { id: "status", label: "Status: " + statusesHere.join(", "), agent: true, test: (row) => statusesHere.includes(row.status) }]);
+            touched.push("status");
+          }
           const title = "Monto by company · " + r.label;
           const oid = addOutput({ kind: "chart", title, rows: r.rows });
-          addMsg({ role: "assistant", text: "Drilled into \u201c" + context.title + "\u201d \u2192 " + r.label + ". The new chart is in the table.", jump: true, oid });
+          const note = touched.length ? ", and the " + touched.map((t) => t === "truck" ? "Tipo de Camión" : "Status").join(" / ") + " filter above now reflects it too." : ".";
+          addMsg({ role: "assistant", kind: touched.length ? "filter" : undefined, filterIds: touched, text: "Drilled into \u201c" + context.title + "\u201d \u2192 " + r.label + ". The new chart is in the table" + note, jump: true, oid });
           setContext({ kind: "chart", title, rows: r.rows });
           return;
         }
       }
       const trucks = parseTrucks(q);
+      const statuses = parseStatuses(q);
       // OUT OF SCOPE — needs a column this view doesn't have
       if (/(days?\s+between|time\s+to\s+(ship|deliver|close)|d[ií]as?\s+entre|tiempo\s+de\s+env[ií]o|lead\s+time)/.test(q)) {
         addMsg({ role: "assistant", text: "I can\u2019t compute that \u2014 this view has one date per row (Fecha) plus Created at, but no separate shipment date, so there\u2019s no interval to measure. Adding a \u201cshipped at\u201d column would unlock it. Meanwhile I can summarize statuses, chart amounts by company, or average Monto / Trust." });
@@ -412,12 +434,19 @@ function App() {
       }
       // AMBIGUOUS — vague recency
       if (/(recent|latest|newest|reciente|recientes|[úu]ltim)/.test(q)) { addMsg({ role: "assistant", text: "\u201cRecent\u201d by which window? This view has Fecha and Created at \u2014 tell me a range, or I can chart / summarize what\u2019s visible now." }); return; }
-      if (/\b(filter|only|show|keep)\b/.test(q) && trucks.length) {
+
+      const wantsFilter = /\b(filter|only|show|keep)\b/.test(q);
+      if (wantsFilter && trucks.length) {
         setFilters((prev) => [...prev.filter((f) => f.id !== "truck"), { id: "truck", label: "Tipo de Camión: " + trucks.join(", "), agent: true, test: (r) => trucks.includes(r.truck) }]);
         const base = filters.filter((f) => f.id !== "truck");
         const count = ROWS.filter((r) => base.every((f) => f.test(r)) && trucks.includes(r.truck)).length;
-        addMsg({ role: "assistant", kind: "filter", text: "Filtered the table to " + trucks.join(", ") + " \u2014 showing " + count + " of " + ROWS.length + " rows. The chip is live and editable above the table." });
-      } else if (/(summar|status|recap)/.test(q)) {
+        addMsg({ role: "assistant", kind: "filter", filterIds: ["truck"], text: "Filtered the table to " + trucks.join(", ") + " \u2014 showing " + count + " of " + ROWS.length + " rows. The chip is live and editable above the table." });
+      } else if (wantsFilter && statuses.length) {
+        setFilters((prev) => [...prev.filter((f) => f.id !== "status"), { id: "status", label: "Status: " + statuses.join(", "), agent: true, test: (r) => statuses.includes(r.status) }]);
+        const base = filters.filter((f) => f.id !== "status");
+        const count = ROWS.filter((r) => base.every((f) => f.test(r)) && statuses.includes(r.status)).length;
+        addMsg({ role: "assistant", kind: "filter", filterIds: ["status"], text: "Filtered the table to " + statuses.join(", ") + " \u2014 showing " + count + " of " + ROWS.length + " rows. The chip is live and editable above the table." });
+      } else if (/(summar|recap)/.test(q)) {
         const oid = addOutput({ kind: "summary", title: "Status summary", narrative: narrate(filtered), rows: filtered.slice() });
         addMsg({ role: "assistant", text: "Added a status summary below the table, computed from the rows in view.", jump: true, oid });
       } else if (/(chart|graph|visual|bar|amount|monto|plot)/.test(q)) {
@@ -425,20 +454,30 @@ function App() {
         const oid = addOutput({ kind: "chart", title, rows: filtered.slice() });
         addMsg({ role: "assistant", text: "Charted the amounts by company \u2014 it\u2019s in the table. Tap the chat icon on it to drill in.", jump: true, oid });
         setContext({ kind: "chart", title, rows: filtered.slice() });
-   } else {
+      } else {
         // HONEST FALLBACK — didn't map, states the boundary
-        addMsg({ role: "assistant", text: "I couldn\u2019t map that to this view. I work over its typed columns: filter (Tipo de Camión), summarize (Status), average (Monto, Trust) or chart (Monto by company). If a question needs a column that isn\u2019t here, I\u2019ll say so rather than guess." });
+        addMsg({ role: "assistant", text: "I couldn\u2019t map that to this view. I work over its typed columns: filter (Tipo de Camión, Status), average (Monto, Trust) or chart (Monto by company). If a question needs a column that isn\u2019t here, I\u2019ll say so rather than guess." });
       }
     }, 260);
   }
 
-  function undoTruck() { setFilters((p) => p.filter((f) => f.id !== "truck")); addMsg({ role: "assistant", text: "Reverted the filter." }); }
+  function undoFilters(ids) { setFilters((p) => p.filter((f) => !ids.includes(f.id))); addMsg({ role: "assistant", text: "Reverted the filter." }); }
+  function retryFull(qText) {
+    const q = qText.toLowerCase();
+    const r = refine(q, filtered);
+    if (!r) { setContext(null); return; }
+    const title = "Monto by company · " + r.label;
+    const oid = addOutput({ kind: "chart", title, rows: r.rows });
+    addMsg({ role: "assistant", text: "Charted \u201c" + r.label + "\u201d across the whole table.", jump: true, oid });
+    setContext({ kind: "chart", title, rows: r.rows });
+  }
   function pinToggle(id) {
     const cur = outputs.find((o) => o.id === id);
     setOutputs((p) => p.map((o) => o.id === id ? { ...o, pinnedTop: !o.pinnedTop } : o));
     if (cur && !cur.pinnedTop) highlight(id);
   }
   function removeOut(id) { setOutputs((p) => p.filter((o) => o.id !== id)); }
+  function clearUnpinned() { setOutputs((p) => p.filter((o) => o.pinnedTop)); }
   function askAbout(out) {
     setOpen(true);
     if (out.kind === "chart") { setContext({ kind: "chart", title: out.title, rows: out.rows }); addMsg({ role: "assistant", text: "Sure \u2014 drilling into \u201c" + out.title + "\u201d. Pick a slice below or type your own." }); }
@@ -535,8 +574,11 @@ function App() {
             {pinnedBottom.length > 0 && (
               <div ref={sectionRef} className="mt-5 pt-5 border-t border-gray-200">
                 <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-sm font-semibold text-gray-700">Outputs in this view</h2>
-                  <button onClick={() => setDash(true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><LayoutGrid size={14} /> Open as dashboard</button>
+                  <h2 className="text-sm font-semibold text-gray-700">Outputs in this view · {pinnedBottom.length}</h2>
+                  <div className="flex items-center gap-2">
+                    <button onClick={clearUnpinned} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Trash2 size={14} /> Clear all</button>
+                    <button onClick={() => setDash(true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><LayoutGrid size={14} /> Open as dashboard</button>
+                  </div>
                 </div>
                 <Carousel scrollRef={bottomRef} items={pinnedBottom} render={(o) => <OutputCard out={o} highlighted={o.id === highlightId} onPin={pinToggle} onRemove={removeOut} onAsk={askAbout} onMenu={openMenu} />} />
               </div>
@@ -573,9 +615,10 @@ function App() {
                   : (
                     <div className="text-sm text-gray-600 leading-relaxed">
                       {m.text}
-                      {m.kind === "filter" && <div className="mt-2"><button onClick={undoTruck} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Undo2 size={13} /> Undo</button></div>}
+                      {m.kind === "filter" && <div className="mt-2"><button onClick={() => undoFilters(m.filterIds || [])} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Undo2 size={13} /> Undo</button></div>}
                       {m.jump && <div className="mt-2"><button onClick={() => jumpTo(m.oid)} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><ChevronDown size={13} /> Jump to it</button></div>}
                       {m.clarify && <div className="mt-2 flex gap-1.5 flex-wrap">{m.clarify.map((cl) => <button key={cl} onClick={() => send(cl)} className="px-2.5 py-1 text-xs border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50">{cl}</button>)}</div>}
+                      {m.resetTo && <div className="mt-2"><button onClick={() => retryFull(m.resetTo)} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-purple-200 bg-purple-50 rounded-lg text-purple-700 hover:bg-purple-100"><Undo2 size={13} /> Search the whole table instead</button></div>}
                     </div>
                   )}
               </div>
