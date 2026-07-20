@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Silia — Talk-to-Data</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>html,body,#root{height:100%;margin:0;background:#f9fafb}</style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "recharts": "https://esm.sh/recharts@2.12.7?deps=react@18.2.0,react-dom@18.2.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.383.0?deps=react@18.2.0"
+  }
+}
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-type="module" data-presets="react">
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { Sparkles, Search, Filter, X, Settings, Columns3, Send, Pin, PinOff, Trash2, Undo2, LayoutGrid, FileText, ChevronDown, ChevronLeft, ChevronRight, Plus, MessageSquare, Maximize2, Share2, Link2, Printer, FileSpreadsheet, FileCode, Type, Calendar, Link, List, Hash, File, GripVertical } from "lucide-react";
+
+const ROWS = [
+  { id: 1, file: "DF1.pdf", name: "Rafael Cano", company: "Farmacias YZA", fecha: "28/12/25 – 19:00", email: "rafael@farmaciasyza.com", truck: "Camion Pesado", from: "1040 Grayson Hwy, Lawrenceville GA", monto: 48500, status: "Sent Mail", trust: 90, created: "Today, 09:24 am" },
+  { id: 2, file: "DF3.pdf", name: "Julio Martínez", company: "Distribuciones ABC", fecha: "22/02/26 – 14:00", email: "julio@distribucionesabc.com", truck: "Furgón", from: "789 Elm St, Miami FL", monto: 22300, status: "Confirmed", trust: 88, created: "Today, 09:24 am" },
+  { id: 3, file: "DF5.pdf", name: "Mateo Pérez", company: "Electrodomésticos MX", fecha: "05/04/26 – 09:15", email: "mateo@electrodomesticosmx.com", truck: "Furgón", from: "123 Pine St, San Francisco CA", monto: 18750, status: "Pending", trust: 75, created: "Today, 09:24 am" },
+  { id: 4, file: "DF6.pdf", name: "Lucía Fernández", company: "Transporte Rápido", fecha: "20/05/26 – 11:00", email: "lucia@transporterapido.com", truck: "Camion Pesado", from: "321 Maple St, Chicago IL", monto: 51200, status: "Sent Mail", trust: 92, created: "Today, 09:24 am" },
+  { id: 5, file: "DF4.pdf", name: "Sofía López", company: "Logística Global", fecha: "10/03/26 – 16:45", email: "sofia@logisticaglobal.com", truck: "Camion Mediano", from: "456 Oak Ave, Seattle WA", monto: 34900, status: "Confirmed", trust: 95, created: "Today, 09:24 am" },
+  { id: 6, file: "DF7.pdf", name: "Carlos Vega", company: "Productos Innovadores", fecha: "12/06/26 – 15:30", email: "carlos@productosinnovadores.com", truck: "Camion Liviano", from: "654 Birch St, Boston MA", monto: 12600, status: "Pending", trust: 70, created: "Today, 09:24 am" },
+  { id: 7, file: "DF2.pdf", name: "Isabella Ruiz", company: "Tecnología Express", fecha: "15/01/26 – 10:30", email: "isabella@tecnologiaexpress.com", truck: "Camion Liviano", from: "2501 Main St, Dallas TX", monto: 9800, status: "Rejected", trust: 45, created: "Today, 09:24 am" },
+  { id: 8, file: "DF8.pdf", name: "Andrés Núñez", company: "Comercial Norte", fecha: "03/07/26 – 12:00", email: "andres@comercialnorte.com", truck: "Camion Mediano", from: "987 Cedar Rd, Portland OR", monto: 27450, status: "Sent Mail", trust: 82, created: "Today, 09:24 am" },
+];
+
+const LIME_SOFT = "#EFF5C9";
+const LIME_SOFT_TEXT = "#3F4A1C";
+const LIME_BTN = "#D6F24A";
+const PURPLE = "#5b4fd6";
+const BAR = "#7C6FE8";
+
+const COLS = [
+  { key: "id", label: "#", type: "idx" },
+  { key: "file", label: "File Received", type: "file" },
+  { key: "name", label: "Name", type: "text" },
+  { key: "company", label: "Company", type: "text" },
+  { key: "fecha", label: "Fecha", type: "date" },
+  { key: "email", label: "Email", type: "email" },
+  { key: "truck", label: "Tipo de Camión", type: "select" },
+  { key: "from", label: "From", type: "text" },
+  { key: "monto", label: "Monto", type: "num" },
+  { key: "status", label: "Status", type: "select" },
+  { key: "trust", label: "Trust", type: "num" },
+  { key: "created", label: "Created at", type: "date" },
+];
+
+const HEAD_ICON = { file: File, text: Type, date: Calendar, email: Link, select: List, num: Hash };
+
+const EXPORT_COLS = [["#", "id"], ["File Received", "file"], ["Name", "name"], ["Company", "company"], ["Fecha", "fecha"], ["Email", "email"], ["Tipo de Camion", "truck"], ["From", "from"], ["Monto", "monto"], ["Status", "status"], ["Trust", "trust"], ["Created at", "created"]];
+const XML_TAGS = { id: "id", file: "file", name: "name", company: "company", fecha: "fecha", email: "email", truck: "truck", from: "from", monto: "monto", status: "status", trust: "trust", created: "created" };
+
+const TRUCKS = { heavy: "Camion Pesado", pesado: "Camion Pesado", medium: "Camion Mediano", mediano: "Camion Mediano", light: "Camion Liviano", liviano: "Camion Liviano", van: "Furgón", "furgón": "Furgón", furgon: "Furgón" };
+const STATUSES = { confirmed: "Confirmed", pending: "Pending", rejected: "Rejected", sent: "Sent Mail", mail: "Sent Mail" };
+
+const parseTrucks = (q) => [...new Set(Object.keys(TRUCKS).filter((k) => q.includes(k)).map((k) => TRUCKS[k]))];
+const money = (n) => "$" + n.toLocaleString("en-US");
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const csvCell = (v) => { const s = String(v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+const fnameOf = (t) => (t || "output").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "output";
+
+function rowsCSV(rows) {
+  const head = EXPORT_COLS.map((c) => csvCell(c[0])).join(",");
+  const body = rows.map((r) => EXPORT_COLS.map((c) => csvCell(r[c[1]])).join(",")).join("\n");
+  return head + "\n" + body;
+}
+function rowsXML(rows) {
+  const body = rows.map((r) => "  <document>\n" + Object.keys(XML_TAGS).map((k) => "    <" + k + ">" + esc(r[k]) + "</" + k + ">").join("\n") + "\n  </document>").join("\n");
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<documents>\n' + body + "\n</documents>";
+}
+function downloadFile(name, text, mime) {
+  const blob = new Blob([text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function narrate(rows) {
+  const n = rows.length;
+  const c = (s) => rows.filter((r) => r.status === s).length;
+  const sent = c("Sent Mail"), conf = c("Confirmed"), pend = c("Pending"), rej = c("Rejected");
+  const total = rows.reduce((a, r) => a + r.monto, 0);
+  const trust = n ? Math.round(rows.reduce((a, r) => a + r.trust, 0) / n) : 0;
+  const motion = sent + pend;
+  return "Of " + n + " document" + (n === 1 ? "" : "s") + ", " + motion + " " + (motion === 1 ? "is" : "are") + " still in motion (" + sent + " sent, " + pend + " pending), " + conf + " confirmed, and " + rej + " rejected. Together they represent " + money(total) + ", with an average trust score of " + trust + "/100.";
+}
+
+function refine(q, base) {
+  for (const k of Object.keys(STATUSES)) if (q.includes(k)) { const s = STATUSES[k]; return { rows: base.filter((r) => r.status === s), label: s + " only" }; }
+  const t = parseTrucks(q); if (t.length) return { rows: base.filter((r) => t.includes(r.truck)), label: t.join(", ") };
+  const m = q.match(/top\s*(\d+)/); if (m) { const nn = +m[1]; return { rows: [...base].sort((a, b) => b.monto - a.monto).slice(0, nn), label: "Top " + nn + " by amount" }; }
+  return null;
+}
+
+function Pill({ children, tone = "purple" }) {
+  const t = tone === "gray" ? "bg-gray-100 text-gray-600" : "bg-purple-100 text-purple-700";
+  return <span className={"inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium " + t}>{children}</span>;
+}
+
+function MontoChart({ rows, height = 220 }) {
+  const data = useMemo(() => rows.map((r) => ({ company: r.company.length > 16 ? r.company.slice(0, 15) + "…" : r.company, monto: r.monto })).sort((a, b) => b.monto - a.monto), [rows]);
+  if (!data.length) return <div className="text-sm text-gray-400 py-6 text-center">No data for this slice.</div>;
+  return (
+    <div style={{ width: "100%", height }}>
+      <ResponsiveContainer>
+        <BarChart layout="vertical" data={data} margin={{ top: 4, right: 16, bottom: 4, left: 4 }}>
+          <XAxis type="number" tickFormatter={(v) => "$" + v / 1000 + "k"} tick={{ fontSize: 11, fill: "#6b7280" }} axisLine={false} tickLine={false} />
+          <YAxis type="category" dataKey="company" width={108} tick={{ fontSize: 11, fill: "#374151" }} axisLine={false} tickLine={false} />
+          <Tooltip formatter={(v) => money(v)} cursor={{ fill: "#f3f4f6" }} contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #e5e7eb" }} />
+          <Bar dataKey="monto" radius={[0, 4, 4, 0]} barSize={15}>{data.map((_, i) => <Cell key={i} fill={BAR} />)}</Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function OutputCard({ out, highlighted, onPin, onRemove, onAsk, onMenu }) {
+  return (
+    <div data-out={out.id} className="relative bg-white rounded-xl p-4 h-full border border-gray-200">
+      {highlighted && (
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" style={{ overflow: "visible" }} aria-hidden="true">
+          <rect x="0" y="0" width="100%" height="100%" rx="12" fill="none" stroke="#5b4fd6" strokeWidth="2.5" pathLength="100" style={{ strokeDasharray: "26 74", animation: "traceAround 1.4s ease-in-out forwards" }} />
+        </svg>
+      )}
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0">
+          {out.kind === "summary" ? <FileText size={14} /> : <LayoutGrid size={14} />}
+          <span className="truncate">{out.title}</span>
+        </div>
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button onClick={() => onAsk(out)} title="Ask about this" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><MessageSquare size={14} /></button>
+          <button onClick={(e) => onMenu(out, e.currentTarget.getBoundingClientRect())} title="Share or export" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><Share2 size={14} /></button>
+          <button onClick={() => onPin(out.id)} title={out.pinnedTop ? "Unpin" : "Pin to top"} className="p-1.5 rounded-md hover:bg-gray-100" style={{ color: out.pinnedTop ? PURPLE : "#6b7280" }}>
+            {out.pinnedTop ? <PinOff size={14} /> : <Pin size={14} />}
+          </button>
+          <button onClick={() => onRemove(out.id)} title="Remove" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><Trash2 size={14} /></button>
+        </div>
+      </div>
+      {out.kind === "summary"
+        ? <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: LIME_SOFT, color: LIME_SOFT_TEXT }}>{out.narrative}</div>
+        : <MontoChart rows={out.rows} />}
+    </div>
+  );
+}
+
+function Carousel({ items, render, scrollRef }) {
+  const local = useRef(null);
+  const ref = scrollRef || local;
+  const by = (d) => ref.current && ref.current.scrollBy({ left: d, behavior: "smooth" });
+  return (
+    <div className="relative">
+      {items.length > 1 && (
+        <>
+          <button onClick={() => by(-360)} className="absolute -left-2 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full p-1 shadow-sm text-gray-500 hover:bg-gray-50"><ChevronLeft size={16} /></button>
+          <button onClick={() => by(360)} className="absolute -right-2 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full p-1 shadow-sm text-gray-500 hover:bg-gray-50"><ChevronRight size={16} /></button>
+        </>
+      )}
+      <div ref={ref} className="flex gap-3 overflow-x-auto pb-1" style={{ scrollSnapType: "x proximity" }}>
+        {items.map((it) => <div key={it.id} className="shrink-0" style={{ width: 340, scrollSnapAlign: "start" }}>{render(it)}</div>)}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [filters, setFilters] = useState([]);
+  const [search, setSearch] = useState("");
+  const [outputs, setOutputs] = useState([]);
+  const [highlightId, setHighlightId] = useState(null);
+  const [dragId, setDragId] = useState(null);
+  const [msgs, setMsgs] = useState([{ role: "assistant", text: "Hi! I can act on the 8 rows in \u201cQuotes\u201d. Ask me to filter, summarize or visualize \u2014 the result lands right here in the table. I only reference it here." }]);
+  const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [dash, setDash] = useState(false);
+  const [context, setContext] = useState(null);
+  const [xmenu, setXmenu] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const chatRef = useRef(null);
+  const bottomRef = useRef(null);
+  const sectionRef = useRef(null);
+  const prevLen = useRef(0);
+
+  const filtered = useMemo(() => {
+    let r = ROWS.filter((row) => filters.every((f) => f.test(row)));
+    if (search.trim()) { const q = search.toLowerCase(); r = r.filter((row) => [row.name, row.company, row.email, row.from].some((v) => v.toLowerCase().includes(q))); }
+    return r;
+  }, [filters, search]);
+
+  const panelW = expanded ? 560 : 400;
+  const pinnedTop = outputs.filter((o) => o.pinnedTop);
+  const pinnedBottom = outputs.filter((o) => !o.pinnedTop);
+
+  useEffect(() => { if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight; }, [msgs, open]);
+  useEffect(() => {
+    if (outputs.length > prevLen.current) {
+      const t = setTimeout(() => {
+        if (sectionRef.current) sectionRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (bottomRef.current) bottomRef.current.scrollTo({ left: bottomRef.current.scrollWidth, behavior: "smooth" });
+      }, 90);
+      prevLen.current = outputs.length;
+      return () => clearTimeout(t);
+    }
+    prevLen.current = outputs.length;
+  }, [outputs.length]);
+
+  const addMsg = (m) => setMsgs((p) => [...p, m]);
+  function highlight(id) { setHighlightId(id); setTimeout(() => setHighlightId((c) => (c === id ? null : c)), 1600); }
+  function showToast(msg) { setToast(msg); setTimeout(() => setToast((c) => (c === msg ? null : c)), 2900); }
+  function addOutput(o) {
+    const id = "o" + Date.now() + "_" + Math.round(Math.random() * 1e6);
+    setOutputs((p) => [...p, { id, pinnedTop: false, ...o }]);
+    highlight(id);
+    return id;
+  }
+  function jumpTo(id) {
+    const el = document.querySelector('[data-out="' + id + '"]');
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    highlight(id);
+  }
+  function reorder(from, to) {
+    setOutputs((prev) => { const a = [...prev]; const i = a.findIndex((o) => o.id === from); const j = a.findIndex((o) => o.id === to); if (i < 0 || j < 0 || i === j) return prev; const [m] = a.splice(i, 1); a.splice(j, 0, m); return a; });
+  }
+
+  function openMenu(out, rect) { setXmenu({ out, x: rect.right, y: rect.bottom }); }
+  function shareOut() {
+    const out = xmenu.out; setXmenu(null);
+    const link = "https://silia.app/quotes/o/" + out.id.replace(/[^a-z0-9]/gi, "").slice(-8);
+    try { navigator.clipboard.writeText(link); } catch (e) {}
+    showToast("Link copied \u2014 it opens this output with the conversation that built it.");
+  }
+  function sharePinned() {
+    try { navigator.clipboard.writeText("https://silia.app/quotes/pinned"); } catch (e) {}
+    showToast("Pinned set link copied \u2014 " + pinnedTop.length + " output" + (pinnedTop.length === 1 ? "" : "s") + ", with their conversation.");
+  }
+  function shareDashboard() {
+    try { navigator.clipboard.writeText("https://silia.app/quotes/dashboard"); } catch (e) {}
+    showToast("Dashboard link copied \u2014 " + outputs.length + " output" + (outputs.length === 1 ? "" : "s") + ", interactive and with context.");
+  }
+  function exportOut(fmt) {
+    const out = xmenu.out; setXmenu(null);
+    const rows = out.rows || [];
+    const base = fnameOf(out.title);
+    if (fmt === "csv") { downloadFile(base + ".csv", rowsCSV(rows), "text/csv;charset=utf-8"); showToast("Exported " + base + ".csv"); }
+    else if (fmt === "xml") { downloadFile(base + ".xml", rowsXML(rows), "application/xml;charset=utf-8"); showToast("Exported " + base + ".xml"); }
+    else if (fmt === "pdf") { showToast("Opening print dialog \u2014 choose \u201cSave as PDF\u201d."); setTimeout(() => window.print(), 350); }
+  }
+
+  function send(textRaw) {
+    const text = (textRaw ?? input).trim();
+    if (!text) return;
+    setInput("");
+    addMsg({ role: "user", text });
+    const q = text.toLowerCase();
+
+    setTimeout(() => {
+      if (context && context.kind === "chart") {
+        const r = refine(q, context.rows);
+        if (r) {
+          const title = "Monto by company · " + r.label;
+          const oid = addOutput({ kind: "chart", title, rows: r.rows });
+          addMsg({ role: "assistant", text: "Drilled into \u201c" + context.title + "\u201d \u2192 " + r.label + ". The new chart is in the table.", jump: true, oid });
+          setContext({ kind: "chart", title, rows: r.rows });
+          return;
+        }
+      }
+      const trucks = parseTrucks(q);
+      if (/\b(filter|only|show|keep)\b/.test(q) && trucks.length) {
+        setFilters((prev) => [...prev.filter((f) => f.id !== "truck"), { id: "truck", label: "Tipo de Camión: " + trucks.join(", "), agent: true, test: (r) => trucks.includes(r.truck) }]);
+        const base = filters.filter((f) => f.id !== "truck");
+        const count = ROWS.filter((r) => base.every((f) => f.test(r)) && trucks.includes(r.truck)).length;
+        addMsg({ role: "assistant", kind: "filter", text: "Filtered the table to " + trucks.join(", ") + " \u2014 showing " + count + " of " + ROWS.length + " rows. The chip is live and editable above the table." });
+      } else if (/(summar|status|recap)/.test(q)) {
+        const oid = addOutput({ kind: "summary", title: "Status summary", narrative: narrate(filtered), rows: filtered.slice() });
+        addMsg({ role: "assistant", text: "Added a status summary below the table, computed from the rows in view.", jump: true, oid });
+      } else if (/(chart|graph|visual|bar|amount|monto|plot)/.test(q)) {
+        const title = "Monto by company";
+        const oid = addOutput({ kind: "chart", title, rows: filtered.slice() });
+        addMsg({ role: "assistant", text: "Charted the amounts by company \u2014 it\u2019s in the table. Tap the chat icon on it to drill in.", jump: true, oid });
+        setContext({ kind: "chart", title, rows: filtered.slice() });
+      } else {
+        addMsg({ role: "assistant", text: "I can\u2019t do that one yet. Try: \u201cShow only heavy and medium trucks\u201d, \u201cSummarize the statuses\u201d, or \u201cChart amounts by company\u201d." });
+      }
+    }, 260);
+  }
+
+  function undoTruck() { setFilters((p) => p.filter((f) => f.id !== "truck")); addMsg({ role: "assistant", text: "Reverted the filter." }); }
+  function pinToggle(id) {
+    const cur = outputs.find((o) => o.id === id);
+    setOutputs((p) => p.map((o) => o.id === id ? { ...o, pinnedTop: !o.pinnedTop } : o));
+    if (cur && !cur.pinnedTop) highlight(id);
+  }
+  function removeOut(id) { setOutputs((p) => p.filter((o) => o.id !== id)); }
+  function askAbout(out) {
+    setOpen(true);
+    if (out.kind === "chart") { setContext({ kind: "chart", title: out.title, rows: out.rows }); addMsg({ role: "assistant", text: "Sure \u2014 drilling into \u201c" + out.title + "\u201d. Pick a slice below or type your own." }); }
+    else { setContext(null); addMsg({ role: "assistant", text: "What would you like to know about \u201c" + out.title + "\u201d?" }); }
+  }
+  function newChat() { setMsgs([{ role: "assistant", text: "New chat. Ask me to filter, summarize or visualize \u201cQuotes\u201d." }]); setContext(null); }
+
+  const drillChips = [
+    { label: "Confirmed only", type: "status", inTitle: "Confirmed" },
+    { label: "Pending only", type: "status", inTitle: "Pending" },
+    { label: "Heavy trucks only", type: "truck", inTitle: "Camion Pesado" },
+    { label: "Top 3 by amount", type: "top", inTitle: "Top 3" },
+  ];
+  const ctxTitle = (context && context.title) || "";
+  const hasStatus = /Confirmed|Pending|Rejected|Sent Mail/.test(ctxTitle);
+  const chips = context && context.kind === "chart"
+    ? drillChips.filter((c) => !((c.type === "status" && hasStatus) || ctxTitle.includes(c.inTitle))).map((c) => c.label)
+    : ["Show only heavy and medium trucks", "Summarize the statuses", "Chart amounts by company"];
+
+  return (
+    <div className="h-screen overflow-y-auto bg-gray-50 text-gray-900" style={{ fontFamily: "ui-sans-serif, system-ui, sans-serif" }}>
+      <style>{"@keyframes traceAround{0%{stroke-dashoffset:100;opacity:1}82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}@media print{.no-print{display:none!important}}"}</style>
+      <div style={{ marginRight: open ? panelW + 24 : 0, transition: "margin-right .25s ease" }}>
+        <div className="max-w-6xl mx-auto p-6">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-5">
+            <div className="mb-4">
+              <h1 className="text-lg font-semibold text-gray-900">Quotes</h1>
+              <p className="text-xs text-gray-400">Silia — One Source · Data View</p>
+            </div>
+
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <div className="relative flex-1 min-w-52">
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar documentos" className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-200" />
+              </div>
+              <button className="inline-flex items-center gap-1.5 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><Filter size={15} /> Filters · {filters.length}</button>
+              <button className="inline-flex items-center gap-1.5 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><Columns3 size={15} /> Configure view</button>
+              <button className="inline-flex items-center gap-1.5 px-3 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><Settings size={15} /> Settings</button>
+            </div>
+
+            {filters.length > 0 && (
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                {filters.map((f) => (
+                  <span key={f.id} className={"inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-sm border " + (f.agent ? "border-purple-200 bg-purple-50 text-purple-700" : "border-gray-200 text-gray-600")}>
+                    {f.agent && <Sparkles size={13} />} {f.label}
+                    <button onClick={() => setFilters((p) => p.filter((x) => x.id !== f.id))} className="p-0.5 rounded hover:bg-black/5"><X size={13} /></button>
+                  </span>
+                ))}
+                <button onClick={() => setFilters([])} className="ml-auto text-xs text-gray-400 hover:text-gray-600">Clear all filters</button>
+              </div>
+            )}
+
+            {pinnedTop.length > 0 && (
+              <div className="mb-3 rounded-xl border border-purple-200 bg-purple-50 p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: PURPLE }}><Pin size={13} /> Pinned</div>
+                  <button onClick={sharePinned} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg text-purple-700 hover:bg-purple-100"><Share2 size={13} /> Share pinned</button>
+                </div>
+                <Carousel items={pinnedTop} render={(o) => <OutputCard out={o} highlighted={o.id === highlightId} onPin={pinToggle} onRemove={removeOut} onAsk={askAbout} onMenu={openMenu} />} />
+              </div>
+            )}
+
+            <div className="border border-gray-200 rounded-xl overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200">{COLS.map((c) => { const Ic = HEAD_ICON[c.type]; return (<th key={c.key} className="text-left font-medium text-gray-600 text-xs px-3 py-2.5 whitespace-nowrap bg-gray-50"><span className="inline-flex items-center gap-1.5">{Ic && <Ic size={13} className="text-gray-400" />}{c.label}</span></th>); })}</tr>
+                </thead>
+                <tbody>
+                  {filtered.map((r) => (
+                    <tr key={r.id} className="border-b border-gray-100 hover:bg-gray-50">
+                      {COLS.map((c) => (
+                        <td key={c.key} className={"px-3 py-2.5 whitespace-nowrap text-gray-700" + (c.type === "idx" ? " bg-gray-50" : "")}>
+                          {c.type === "idx" ? <span className="text-gray-300">{r.id}</span>
+                            : c.type === "file" ? <Pill><FileText size={12} /> {r.file}</Pill>
+                            : c.type === "select" ? <Pill>{r[c.key]}</Pill>
+                            : c.type === "email" ? <a className="text-indigo-500 underline underline-offset-2">{r.email}</a>
+                            : c.type === "num" ? (c.key === "monto" ? money(r.monto) : r[c.key])
+                            : c.type === "date" ? <span className="text-gray-500">{r[c.key]}</span>
+                            : r[c.key]}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  {filtered.length === 0 && <tr><td colSpan={COLS.length} className="px-3 py-8 text-center text-gray-400 text-sm">No rows match the current filters.</td></tr>}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="flex items-center justify-between mt-3 text-sm text-gray-400">
+              <span className="inline-flex items-center gap-1.5 cursor-pointer hover:text-gray-600"><Plus size={15} /> New row</span>
+              <span>Total results {filtered.length}</span>
+            </div>
+
+            {pinnedBottom.length > 0 && (
+              <div ref={sectionRef} className="mt-5 pt-5 border-t border-gray-200">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-sm font-semibold text-gray-700">Outputs in this view</h2>
+                  <button onClick={() => setDash(true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><LayoutGrid size={14} /> Open as dashboard</button>
+                </div>
+                <Carousel scrollRef={bottomRef} items={pinnedBottom} render={(o) => <OutputCard out={o} highlighted={o.id === highlightId} onPin={pinToggle} onRemove={removeOut} onAsk={askAbout} onMenu={openMenu} />} />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {!open && (
+        <button onClick={() => setOpen(true)} className="no-print fixed bottom-6 right-6 inline-flex items-center gap-2 px-4 py-3 rounded-full text-sm font-medium text-white shadow-lg" style={{ background: PURPLE }}>
+          <Sparkles size={18} /> Ask your data
+        </button>
+      )}
+
+      {open && (
+        <div className="no-print fixed top-4 bottom-4 right-4 bg-white border border-gray-200 rounded-2xl shadow-2xl flex flex-col" style={{ width: panelW, maxWidth: "calc(100vw - 2rem)" }}>
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#ede9fe" }}><Sparkles size={16} style={{ color: PURPLE }} /></div>
+              <div className="min-w-0"><div className="text-sm font-semibold text-gray-800 leading-tight">Talk to Data</div><div className="text-xs text-gray-400 leading-tight">Quotes</div></div>
+            </div>
+            <div className="flex items-center gap-1">
+              <button onClick={newChat} className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Plus size={13} /> New chat</button>
+              <button onClick={() => setExpanded((v) => !v)} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-400"><Maximize2 size={16} /></button>
+              <button onClick={() => setOpen(false)} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-400"><X size={18} /></button>
+            </div>
+          </div>
+
+          <div ref={chatRef} className="flex-1 overflow-y-auto px-4 pt-6 pb-3 space-y-4">
+            {msgs.map((m, i) => (
+              <div key={i} className={m.role === "user" ? "flex justify-end" : ""}>
+                {m.role === "user"
+                  ? <div className="text-white text-sm rounded-2xl rounded-br-sm px-3 py-2 max-w-[85%]" style={{ background: PURPLE }}>{m.text}</div>
+                  : (
+                    <div className="text-sm text-gray-600 leading-relaxed">
+                      {m.text}
+                      {m.kind === "filter" && <div className="mt-2"><button onClick={undoTruck} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Undo2 size={13} /> Undo</button></div>}
+                      {m.jump && <div className="mt-2"><button onClick={() => jumpTo(m.oid)} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><ChevronDown size={13} /> Jump to it</button></div>}
+                    </div>
+                  )}
+              </div>
+            ))}
+          </div>
+
+          <div className="px-3 pt-2 pb-2 flex gap-2 flex-wrap">
+            {chips.map((s) => <button key={s} onClick={() => send(s)} className="px-3.5 py-2 text-sm border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50">{s}</button>)}
+          </div>
+
+          <div className="px-3 pb-1 flex items-center gap-2">
+            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && send()} placeholder="Ask about your data…" className="flex-1 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-200" />
+            <button onClick={() => send()} className="p-2.5 rounded-xl" style={{ background: LIME_BTN, color: "#374516" }}><Send size={16} /></button>
+          </div>
+          <div className="flex items-center justify-between px-4 py-2 text-xs text-gray-400 border-t border-gray-100">
+            <span>Read-only · computed live from this table</span><span>1,840 / 5,000 credits</span>
+          </div>
+        </div>
+      )}
+
+      {xmenu && (
+        <>
+          <div className="no-print fixed inset-0 z-40" onClick={() => setXmenu(null)} />
+          <div className="no-print fixed z-50 w-52 bg-white border border-gray-200 rounded-xl shadow-xl py-1 text-sm" style={{ top: xmenu.y + 6, left: Math.max(8, xmenu.x - 208) }}>
+            <button onClick={shareOut} className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 text-gray-700"><Link2 size={15} /> Share link</button>
+            <div className="my-1 border-t border-gray-100" />
+            <div className="px-3 pt-1 pb-1 text-xs text-gray-400">Export</div>
+            <button onClick={() => exportOut("pdf")} className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 text-gray-700"><Printer size={15} /> PDF</button>
+            <button onClick={() => exportOut("csv")} className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 text-gray-700"><FileSpreadsheet size={15} /> CSV</button>
+            <button onClick={() => exportOut("xml")} className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 text-gray-700"><FileCode size={15} /> XML</button>
+          </div>
+        </>
+      )}
+
+      {toast && (
+        <div className="no-print fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm text-white shadow-lg max-w-md text-center" style={{ background: "#1f2937" }}>{toast}</div>
+      )}
+
+      {dash && (
+        <div className="no-print fixed inset-0 bg-black/40 flex items-center justify-center p-6 z-50" onClick={() => setDash(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <div><h2 className="text-lg font-semibold">Dashboard — Quotes</h2><p className="text-xs text-gray-400">Drag cards to reorder. Nothing left your Data View.</p></div>
+              <div className="flex items-center gap-2">
+                <button onClick={shareDashboard} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"><Share2 size={15} /> Share dashboard</button>
+                <button onClick={() => setDash(false)} className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><X size={18} /></button>
+              </div>
+            </div>
+            <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+              {outputs.map((o) => (
+                <div key={o.id} draggable onDragStart={() => setDragId(o.id)} onDragEnd={() => setDragId(null)} onDragOver={(e) => e.preventDefault()} onDrop={() => { reorder(dragId, o.id); setDragId(null); }} className={"bg-white border rounded-xl p-4 transition-opacity " + (dragId === o.id ? "opacity-40 border-purple-300" : "border-gray-200")}>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0">{o.kind === "summary" ? <FileText size={14} /> : <LayoutGrid size={14} />}<span className="truncate">{o.title}</span></div>
+                    <span className="text-gray-300 cursor-grab active:cursor-grabbing" title="Drag to reorder"><GripVertical size={16} /></span>
+                  </div>
+                  {o.kind === "summary" ? <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: LIME_SOFT, color: LIME_SOFT_TEXT }}>{o.narrative}</div> : <MontoChart rows={o.rows} />}
+                </div>
+              ))}
+              {outputs.length === 0 && <p className="text-sm text-gray-400">Generate a summary or chart first.</p>}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
