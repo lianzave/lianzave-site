@@ -4,7 +4,93 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Silia — Talk-to-Data</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}
+html,body,#root{height:100%}
+body{margin:0;line-height:1.5;background:#f9fafb;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#111827}
+button{background:transparent;cursor:pointer;padding:0}
+button,input{font:inherit;color:inherit;margin:0}
+input::placeholder{color:#9ca3af}
+a{color:inherit;text-decoration:inherit}
+svg{display:block;vertical-align:middle}
+h1,h2,p{margin:0}
+table{border-collapse:collapse}
+
+.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.block{display:block}
+.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}
+.items-start{align-items:flex-start}.items-center{align-items:center}.items-end{align-items:flex-end}
+.justify-center{justify-content:center}.justify-between{justify-content:space-between}.justify-end{justify-content:flex-end}
+.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}
+.inset-0{top:0;right:0;bottom:0;left:0}
+.top-4{top:1rem}.bottom-4{bottom:1rem}.right-4{right:1rem}.left-3{left:.75rem}.right-6{right:1.5rem}.bottom-6{bottom:1.5rem}
+.top-1\/2{top:50%}.-left-2{left:-.5rem}.-right-2{right:-.5rem}
+.-translate-y-1\/2{transform:translateY(-50%)}.-translate-x-1\/2{transform:translateX(-50%)}
+.z-10{z-index:10}.z-20{z-index:20}.z-40{z-index:40}.z-50{z-index:50}
+.overflow-y-auto{overflow-y:auto}.overflow-x-auto{overflow-x:auto}
+.h-screen{height:100vh}.h-full{height:100%}.w-full{width:100%}
+.w-8{width:2rem}.h-8{height:2rem}.w-52{width:13rem}.min-w-0{min-width:0}.min-w-52{min-width:13rem}
+.max-w-6xl{max-width:72rem}.max-w-4xl{max-width:56rem}.max-w-md{max-width:28rem}
+.max-w-\[85\%\]{max-width:85%}.max-h-\[85vh\]{max-height:85vh}
+.mx-auto{margin-left:auto;margin-right:auto}.ml-auto{margin-left:auto}
+.cursor-pointer{cursor:pointer}.cursor-grab{cursor:grab}.active\:cursor-grabbing:active{cursor:grabbing}
+.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.whitespace-nowrap{white-space:nowrap}
+.pointer-events-none{pointer-events:none}
+
+.gap-0\.5{gap:.125rem}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-2\.5{gap:.625rem}.gap-3{gap:.75rem}
+
+.p-1{padding:.25rem}.p-1\.5{padding:.375rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}
+.px-2\.5{padding-left:.625rem;padding-right:.625rem}.px-3{padding-left:.75rem;padding-right:.75rem}
+.px-3\.5{padding-left:.875rem;padding-right:.875rem}.px-4{padding-left:1rem;padding-right:1rem}
+.pl-2\.5{padding-left:.625rem}.pl-3{padding-left:.75rem}.pl-9{padding-left:2.25rem}
+.pr-1\.5{padding-right:.375rem}.pr-3{padding-right:.75rem}
+.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}
+.py-1\.5{padding-top:.375rem;padding-bottom:.375rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}
+.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}
+.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-8{padding-top:2rem;padding-bottom:2rem}
+.pt-1{padding-top:.25rem}.pt-2{padding-top:.5rem}.pt-5{padding-top:1.25rem}.pt-6{padding-top:1.5rem}
+.pb-1{padding-bottom:.25rem}.pb-2{padding-bottom:.5rem}.pb-3{padding-bottom:.75rem}
+
+.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}
+.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.mt-5{margin-top:1.25rem}
+
+.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}
+.border-gray-100{border-color:#f3f4f6}.border-gray-200{border-color:#e5e7eb}
+.border-purple-200{border-color:#e9d5ff}.border-purple-300{border-color:#d8b4fe}
+.rounded{border-radius:.25rem}.rounded-md{border-radius:.375rem}.rounded-lg{border-radius:.5rem}
+.rounded-xl{border-radius:.75rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}
+.rounded-br-sm{border-bottom-right-radius:.125rem}
+
+.shadow-sm{box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
+.shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+.shadow-xl{box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1)}
+.shadow-2xl{box-shadow:0 25px 50px -12px rgba(0,0,0,.25)}
+
+.bg-white{background-color:#fff}.bg-gray-50{background-color:#f9fafb}.bg-gray-100{background-color:#f3f4f6}
+.bg-purple-50{background-color:#faf5ff}.bg-purple-100{background-color:#f3e8ff}
+.bg-black\/40{background-color:rgba(0,0,0,.4)}
+.hover\:bg-gray-50:hover{background-color:#f9fafb}.hover\:bg-gray-100:hover{background-color:#f3f4f6}
+.hover\:bg-purple-100:hover{background-color:#f3e8ff}.hover\:bg-black\/5:hover{background-color:rgba(0,0,0,.05)}
+
+.text-white{color:#fff}
+.text-gray-300{color:#d1d5db}.text-gray-400{color:#9ca3af}.text-gray-500{color:#6b7280}
+.text-gray-600{color:#4b5563}.text-gray-700{color:#374151}.text-gray-800{color:#1f2937}.text-gray-900{color:#111827}
+.text-purple-700{color:#7e22ce}.text-indigo-500{color:#6366f1}
+.hover\:text-gray-600:hover{color:#4b5563}
+
+.text-xs{font-size:.75rem;line-height:1rem}.text-sm{font-size:.875rem;line-height:1.25rem}
+.text-lg{font-size:1.125rem;line-height:1.75rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}
+.font-medium{font-weight:500}.font-semibold{font-weight:600}.font-bold{font-weight:700}
+.leading-tight{line-height:1.25}.leading-relaxed{line-height:1.625}
+.underline{text-decoration-line:underline}.underline-offset-2{text-underline-offset:2px}
+.text-center{text-align:center}.text-left{text-align:left}
+
+.space-y-4>*+*{margin-top:1rem}
+.transition-opacity{transition-property:opacity;transition-duration:.15s}
+.opacity-40{opacity:.4}
+.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}
+.focus\:ring-2:focus,.focus\:ring-purple-200:focus{box-shadow:0 0 0 2px #e9d5ff}
+</style>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <style>html,body,#root{height:100%;margin:0;background:#f9fafb}</style>
 <script type="importmap">
@@ -129,6 +215,17 @@ function MontoChart({ rows, height = 220 }) {
   );
 }
 
+  function CardBody({ out }) {
+  if (out.kind === "summary") return <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: LIME_SOFT, color: LIME_SOFT_TEXT }}>{out.narrative}</div>;
+  if (out.kind === "metric") return <div className="py-3"><div className="text-3xl font-bold" style={{ color: PURPLE }}>{out.value}</div><div className="text-xs text-gray-400 mt-1">{out.caption}</div></div>;
+  return <MontoChart rows={out.rows} />;
+}
+function CardIcon({ kind }) {
+  if (kind === "summary") return <FileText size={14} />;
+  if (kind === "metric") return <Hash size={14} />;
+  return <LayoutGrid size={14} />;
+}
+  
 function OutputCard({ out, highlighted, onPin, onRemove, onAsk, onMenu }) {
   return (
     <div data-out={out.id} className="relative bg-white rounded-xl p-4 h-full border border-gray-200">
@@ -138,10 +235,7 @@ function OutputCard({ out, highlighted, onPin, onRemove, onAsk, onMenu }) {
         </svg>
       )}
       <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0">
-          {out.kind === "summary" ? <FileText size={14} /> : <LayoutGrid size={14} />}
-          <span className="truncate">{out.title}</span>
-        </div>
+        <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0"><CardIcon kind={out.kind} /><span className="truncate">{out.title}</span></div>
         <div className="flex items-center gap-0.5 shrink-0">
           <button onClick={() => onAsk(out)} title="Ask about this" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><MessageSquare size={14} /></button>
           <button onClick={(e) => onMenu(out, e.currentTarget.getBoundingClientRect())} title="Share or export" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><Share2 size={14} /></button>
@@ -151,9 +245,7 @@ function OutputCard({ out, highlighted, onPin, onRemove, onAsk, onMenu }) {
           <button onClick={() => onRemove(out.id)} title="Remove" className="p-1.5 rounded-md hover:bg-gray-100 text-gray-500"><Trash2 size={14} /></button>
         </div>
       </div>
-      {out.kind === "summary"
-        ? <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: LIME_SOFT, color: LIME_SOFT_TEXT }}>{out.narrative}</div>
-        : <MontoChart rows={out.rows} />}
+   <CardBody out={out} />
     </div>
   );
 }
@@ -183,7 +275,7 @@ function App() {
   const [outputs, setOutputs] = useState([]);
   const [highlightId, setHighlightId] = useState(null);
   const [dragId, setDragId] = useState(null);
-  const [msgs, setMsgs] = useState([{ role: "assistant", text: "Hi! I can act on the 8 rows in \u201cQuotes\u201d. Ask me to filter, summarize or visualize \u2014 the result lands right here in the table. I only reference it here." }]);
+ const [msgs, setMsgs] = useState([{ role: "assistant", text: "Hi! I work over the typed columns in \u201cQuotes\u201d. I can filter, summarize, chart or average \u2014 results land right here in the table. If a question needs a column that isn\u2019t here, I\u2019ll tell you instead of guessing." }]);
   const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -281,6 +373,45 @@ function App() {
         }
       }
       const trucks = parseTrucks(q);
+      // OUT OF SCOPE — needs a column this view doesn't have
+      if (/(days?\s+between|time\s+to\s+(ship|deliver|close)|d[ií]as?\s+entre|tiempo\s+de\s+env[ií]o|lead\s+time)/.test(q)) {
+        addMsg({ role: "assistant", text: "I can\u2019t compute that \u2014 this view has one date per row (Fecha) plus Created at, but no separate shipment date, so there\u2019s no interval to measure. Adding a \u201cshipped at\u201d column would unlock it. Meanwhile I can summarize statuses, chart amounts by company, or average Monto / Trust." });
+        return;
+      }
+      // OUT OF SCOPE — analysis not supported yet
+      if (/(correlaci|correlation|regres|forecast|predic|pron[óo]stico)/.test(q)) {
+        addMsg({ role: "assistant", text: "That\u2019s beyond what I do in this view yet \u2014 I don\u2019t run correlations or forecasts. What I can do is distributions and breakdowns: try charting amounts by company or summarizing the statuses." });
+        return;
+      }
+
+      // ANALYZE — a computed result object, not a filter chip
+      if (/(average|avg|mean|promedio|media)/.test(q)) {
+        const col = /(trust|confianza)/.test(q) ? "trust" : /(monto|amount|amounts|montos)/.test(q) ? "monto" : null;
+        if (!col) { addMsg({ role: "assistant", text: "Average of which column? I can compute Monto or Trust.", clarify: ["Average Monto", "Average Trust"] }); return; }
+        const vals = filtered.map((r) => r[col]);
+        const mean = vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 0;
+        const label = col === "monto" ? "Average Monto" : "Average Trust";
+        const value = col === "monto" ? money(mean) : mean + "/100";
+        const oid = addOutput({ kind: "metric", title: label, value, caption: "across " + filtered.length + " row" + (filtered.length === 1 ? "" : "s") + " in view", rows: filtered.slice() });
+        addMsg({ role: "assistant", text: "Computed " + label.toLowerCase() + " \u2014 it\u2019s a result object (not a filter), so it lives in the table.", jump: true, oid });
+        return;
+      }
+
+      // AMBIGUOUS — "top" without a number
+      if (/\btop\b/.test(q) && !/\d/.test(q)) { addMsg({ role: "assistant", text: "Top how many, by amount?", clarify: ["Top 3 by amount", "Top 5 by amount"] }); return; }
+      // Top N (explicit)
+      const topm = q.match(/top\s*(\d+)/);
+      if (topm) {
+        const nn = +topm[1];
+        const rows = [...filtered].sort((a, b) => b.monto - a.monto).slice(0, nn);
+        const title = "Monto by company · Top " + nn;
+        const oid = addOutput({ kind: "chart", title, rows });
+        addMsg({ role: "assistant", text: "Charted the top " + nn + " by amount.", jump: true, oid });
+        setContext({ kind: "chart", title, rows });
+        return;
+      }
+      // AMBIGUOUS — vague recency
+      if (/(recent|latest|newest|reciente|recientes|[úu]ltim)/.test(q)) { addMsg({ role: "assistant", text: "\u201cRecent\u201d by which window? This view has Fecha and Created at \u2014 tell me a range, or I can chart / summarize what\u2019s visible now." }); return; }
       if (/\b(filter|only|show|keep)\b/.test(q) && trucks.length) {
         setFilters((prev) => [...prev.filter((f) => f.id !== "truck"), { id: "truck", label: "Tipo de Camión: " + trucks.join(", "), agent: true, test: (r) => trucks.includes(r.truck) }]);
         const base = filters.filter((f) => f.id !== "truck");
@@ -294,8 +425,9 @@ function App() {
         const oid = addOutput({ kind: "chart", title, rows: filtered.slice() });
         addMsg({ role: "assistant", text: "Charted the amounts by company \u2014 it\u2019s in the table. Tap the chat icon on it to drill in.", jump: true, oid });
         setContext({ kind: "chart", title, rows: filtered.slice() });
-      } else {
-        addMsg({ role: "assistant", text: "I can\u2019t do that one yet. Try: \u201cShow only heavy and medium trucks\u201d, \u201cSummarize the statuses\u201d, or \u201cChart amounts by company\u201d." });
+   } else {
+        // HONEST FALLBACK — didn't map, states the boundary
+        addMsg({ role: "assistant", text: "I couldn\u2019t map that to this view. I work over its typed columns: filter (Tipo de Camión), summarize (Status), average (Monto, Trust) or chart (Monto by company). If a question needs a column that isn\u2019t here, I\u2019ll say so rather than guess." });
       }
     }, 260);
   }
@@ -324,7 +456,7 @@ function App() {
   const hasStatus = /Confirmed|Pending|Rejected|Sent Mail/.test(ctxTitle);
   const chips = context && context.kind === "chart"
     ? drillChips.filter((c) => !((c.type === "status" && hasStatus) || ctxTitle.includes(c.inTitle))).map((c) => c.label)
-    : ["Show only heavy and medium trucks", "Summarize the statuses", "Chart amounts by company"];
+    : ["Show only heavy and medium trucks", "Summarize the statuses", "Chart amounts by company", "Average Monto"];
 
   return (
     <div className="h-screen overflow-y-auto bg-gray-50 text-gray-900" style={{ fontFamily: "ui-sans-serif, system-ui, sans-serif" }}>
@@ -443,6 +575,7 @@ function App() {
                       {m.text}
                       {m.kind === "filter" && <div className="mt-2"><button onClick={undoTruck} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><Undo2 size={13} /> Undo</button></div>}
                       {m.jump && <div className="mt-2"><button onClick={() => jumpTo(m.oid)} className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"><ChevronDown size={13} /> Jump to it</button></div>}
+                      {m.clarify && <div className="mt-2 flex gap-1.5 flex-wrap">{m.clarify.map((cl) => <button key={cl} onClick={() => send(cl)} className="px-2.5 py-1 text-xs border border-gray-200 rounded-full text-gray-600 hover:bg-gray-50">{cl}</button>)}</div>}
                     </div>
                   )}
               </div>
@@ -495,10 +628,10 @@ function App() {
               {outputs.map((o) => (
                 <div key={o.id} draggable onDragStart={() => setDragId(o.id)} onDragEnd={() => setDragId(null)} onDragOver={(e) => e.preventDefault()} onDrop={() => { reorder(dragId, o.id); setDragId(null); }} className={"bg-white border rounded-xl p-4 transition-opacity " + (dragId === o.id ? "opacity-40 border-purple-300" : "border-gray-200")}>
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0">{o.kind === "summary" ? <FileText size={14} /> : <LayoutGrid size={14} />}<span className="truncate">{o.title}</span></div>
+                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500 min-w-0"><CardIcon kind={o.kind} /><span className="truncate">{o.title}</span></div>
                     <span className="text-gray-300 cursor-grab active:cursor-grabbing" title="Drag to reorder"><GripVertical size={16} /></span>
                   </div>
-                  {o.kind === "summary" ? <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: LIME_SOFT, color: LIME_SOFT_TEXT }}>{o.narrative}</div> : <MontoChart rows={o.rows} />}
+                  <CardBody out={o} />
                 </div>
               ))}
               {outputs.length === 0 && <p className="text-sm text-gray-400">Generate a summary or chart first.</p>}
