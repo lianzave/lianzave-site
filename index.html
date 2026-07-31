@@ -4,29 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lilián A. Zamora Vega — UX Researcher & Service Designer</title>
-
-/* ══════════════════ RESPONSIVE — AJUSTES MOBILE ══════════════════ */
-
-/* Nav: activa la hamburguesa y oculta el menú de escritorio */
-@media (max-width:900px){
-  .nav-links{ display:none; }
-  .hamburger{ display:block; }
-  .nav-inner{ height:auto; padding:10px 0; }
-  .brand{ white-space:nowrap; }
-}
-
-/* Grids y carrusel: colapsan a 1 columna en pantallas chicas */
-@media (max-width:720px){
-  .about-grid{ grid-template-columns:1fr; gap:32px; }
-  .edu-skills{ grid-template-columns:1fr; gap:32px; }
-  .cases{ grid-template-columns:1fr; gap:18px; }
-  .pubs{ grid-template-columns:1fr; gap:18px; }
-  .rec{ flex:0 0 100%; }
-
-  .hero{ padding:64px 0 48px; }
-  section{ padding:56px 0; }
-  .contact{ padding:64px 0; }
-}
   
 <style>
   :root{
@@ -470,6 +447,29 @@
     .cv-row b{color:#1e1b2e}
   }
 
+/* ══════════════════ RESPONSIVE — AJUSTES MOBILE ══════════════════ */
+
+/* Nav: activa la hamburguesa y oculta el menú de escritorio */
+@media (max-width:900px){
+  .nav-links{ display:none; }
+  .hamburger{ display:block; }
+  .nav-inner{ height:auto; padding:10px 0; }
+  .brand{ white-space:nowrap; }
+}
+
+/* Grids y carrusel: colapsan a 1 columna en pantallas chicas */
+@media (max-width:720px){
+  .about-grid{ grid-template-columns:1fr; gap:32px; }
+  .edu-skills{ grid-template-columns:1fr; gap:32px; }
+  .cases{ grid-template-columns:1fr; gap:18px; }
+  .pubs{ grid-template-columns:1fr; gap:18px; }
+  .rec{ flex:0 0 100%; }
+
+  .hero{ padding:64px 0 48px; }
+  section{ padding:56px 0; }
+  .contact{ padding:64px 0; }
+}
+  
 </style>
 </head>
 <body>
