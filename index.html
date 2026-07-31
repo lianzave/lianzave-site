@@ -246,7 +246,12 @@
     .cs-stats{grid-template-columns:1fr 1fr}
     .cs-hero-fig{aspect-ratio:16/9}
     .edu-item .nm a{ display:inline; }
-  .edu-item .nm a svg{ display:inline-block; vertical-align:-2px; margin-left:4px; }
+  .edu-item .nm a svg{ display:inline-block; vertical-align:-2px; margin-left:4px; 
+
+  /* Título de "Sobre mí" en una sola línea en escritorio */
+@media (min-width:721px){
+  #sobre .sec-head h2{ white-space:nowrap; }
+}
   }
 
   /* recommendations carousel */
