@@ -453,8 +453,23 @@
 @media (max-width:900px){
   .nav-links{ display:none; }
   .hamburger{ display:block; }
-  .nav-inner{ height:auto; padding:10px 0; }
-  .brand{ white-space:nowrap; }
+  .nav-inner{ height:auto; padding:14px 0; }
+  header.nav .wrap{ padding:0 28px; }
+  .brand{ white-space:nowrap; padding-right:14px; }
+
+  /* Menú desplegado: más aire y jerarquía visual */
+  .mobile-menu{ gap:0; padding:4px 0 20px; }
+  .mobile-menu a{
+    padding:16px 6px;
+    font-size:1.05rem;
+    font-weight:600;
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-menu a:last-of-type{ border-bottom:none; }
+  .mobile-menu a:active{ color:var(--purple); }
+  .mobile-menu .lang-toggle{ margin:18px 6px 14px; }
+  .mobile-menu .btn{ margin:0 6px; width:calc(100% - 12px); justify-content:center; }
 }
 
 /* Grids y carrusel: colapsan a 1 columna en pantallas chicas */
