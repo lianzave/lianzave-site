@@ -245,6 +245,8 @@
     .cs-body{padding:28px 24px 34px}
     .cs-stats{grid-template-columns:1fr 1fr}
     .cs-hero-fig{aspect-ratio:16/9}
+    .edu-item .nm a{ display:inline; }
+  .edu-item .nm a svg{ display:inline-block; vertical-align:-2px; margin-left:4px; }
   }
 
   /* recommendations carousel */
@@ -468,13 +470,15 @@
   }
   .mobile-menu a:last-of-type{ border-bottom:none; }
   .mobile-menu a:active{ color:var(--purple); }
-  .mobile-menu .lang-toggle{ margin:18px 6px 14px; }
+  .mobile-menu .lang-toggle{ display:flex; margin:18px 6px 14px; }
+  .mobile-menu .lang-toggle button{ flex:1; text-align:center; }
   .mobile-menu .btn{ margin:0 6px; width:calc(100% - 12px); justify-content:center; }
 }
 
 /* Grids y carrusel: colapsan a 1 columna en pantallas chicas */
 @media (max-width:720px){
   .about-grid{ grid-template-columns:1fr; gap:32px; }
+  .about-grid > .about-card{ order:2; }
   .edu-skills{ grid-template-columns:1fr; gap:32px; }
   .cases{ grid-template-columns:1fr; gap:18px; }
   .pubs{ grid-template-columns:1fr; gap:18px; }
@@ -1714,6 +1718,10 @@
   
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+  // Colapsa toda la experiencia por defecto en mobile, para ahorrar espacio
+  if (window.matchMedia('(max-width:720px)').matches) {
+    document.querySelectorAll('.tl-item details[open]').forEach(d => d.removeAttribute('open'));
+  }
 
   // ── Internal data lock ──────────────────────────────────────────────
   // Confidential figures are hidden by default. To share an "all-access"
