@@ -20,13 +20,23 @@
     height:100%;
     object-fit:cover;
     display:block;
+    filter:grayscale(0%) brightness(1) contrast(1);
+    transition:filter .35s ease;
   }
-  /* Velo oscuro permanente sobre la imagen, para que el texto se lea */
+  .case-card:hover .case-cover.has-img img{
+    filter:grayscale(55%) brightness(.6) contrast(1.1);
+  }
+  /* Velo oscuro solo al pasar el mouse, para que el texto resalte */
   .case-card .case-cover.has-img::after{
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(to top,rgba(34,24,58,.85) 0%,rgba(34,24,58,.35) 45%,rgba(34,24,58,.05) 100%);
+    background:linear-gradient(to top,rgba(34,24,58,.92) 0%,rgba(34,24,58,.55) 45%,rgba(34,24,58,.1) 100%);
+    opacity:0;
+    transition:opacity .35s ease;
+  }
+  .case-card:hover .case-cover.has-img::after{
+    opacity:1;
   }
      
 /* ── MODO "SOLO CASOS" · se activa con ?view=casos ───────────── */
@@ -182,8 +192,7 @@
   .cover-2{background:linear-gradient(135deg,#e7e3fb,#efe9fc)}
   .cover-3{background:linear-gradient(135deg,#ece7fe,#e6ecfb)}
   .case-card:hover .case-cover{transform:scale(1.05)}
-  .case-badge{position:absolute;top:14px;left:14px;z-index:2;background:rgba(255,255,255,.92);color:var(--purple-deep);font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:999px;text-transform:uppercase;transition:opacity .3s}
-  .case-card:hover .case-badge{opacity:0}
+  .case-badge{display:none}
   .case-overlay{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;color:#fff;opacity:0;transition:opacity .35s ease;background:linear-gradient(to top,rgba(34,24,58,.95) 0%,rgba(34,24,58,.6) 48%,rgba(34,24,58,0) 100%)}
   .case-card:hover .case-overlay{opacity:1}
   .case-overlay .kind{color:#c4b5fd;font-weight:600;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px}
